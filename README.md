@@ -2,13 +2,19 @@
 
 ## 启动方式
 
-在 Windows x64 或 ARM64 上，下载并解压完整项目，然后双击 `启动MapDesigner.cmd`。无需安装 Python、pip、Node.js 或 pnpm。
+在 Windows x64 或 ARM64 上下载并解压完整项目，然后任选一种方式启动：
 
-```bat
-"%SystemRoot%\System32\WindowsPowerShell\v1.0\powershell.exe" -NoProfile -ExecutionPolicy Bypass -File "%~dp0scripts\launch-windows.ps1"
-```
+1. 双击项目目录中的 `启动MapDesigner.cmd`。
+2. 在项目目录打开 PowerShell，执行与 `.cmd` 等效的命令：
 
-PowerShell 脚本检查本地 Electron，缺失时用 `curl.exe`（或 `Invoke-WebRequest`）从 GitHub 下载约 150 MB 的运行环境，校验 SHA-256 后解压到 `.cache/electron/`。随后在项目目录运行 `electron.exe .`。使用 `curl.exe` 下载中断时，再次双击可以续传。安装完成后可离线启动。
+   ```powershell
+   & "$env:SystemRoot\System32\WindowsPowerShell\v1.0\powershell.exe" -NoProfile -ExecutionPolicy Bypass -File ".\scripts\launch-windows.ps1"
+   ```
+
+`.cmd` 会自动调用 PowerShell 脚本。两种启动方式都会自动完成下面的步骤，无需手动执行，也无需安装 Python、pip、Node.js 或 pnpm。
+
+1. 检查本地 Electron。缺失时从 GitHub 下载约 150 MB 的运行环境，校验 SHA-256 后解压到 `.cache/electron/`。
+2. 在项目目录运行 `electron.exe .`，打开 MapDesigner。配置完成后可离线启动。
 
 ## 功能简介
 
