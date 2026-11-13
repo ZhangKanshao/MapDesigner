@@ -16,27 +16,46 @@ function Test-ElectronRuntime($directory) {
     return ($installed -eq $version -or $installed -eq "v$version")
 }
 
+function Test-ArchiveHash($archive, $checksum) {
+    if (-not [IO.File]::Exists($archive)) { return $false }
+    $sha256 = [Security.Cryptography.SHA256]::Create()
+    $stream = [IO.File]::OpenRead($archive)
+    try {
+        return ([BitConverter]::ToString($sha256.ComputeHash($stream)).Replace('-', '') -eq $checksum)
+    } finally {
+        $stream.Dispose()
+        $sha256.Dispose()
+    }
+}
+
 function Install-ElectronRuntime($cache, $asset, $checksum, $runtime) {
     $temporary = Join-Path $cache ([Guid]::NewGuid().ToString('N'))
     New-Item -ItemType Directory -Path $temporary | Out-Null
     try {
         $archive = Join-Path $cache "$asset.zip"
-        if (-not (Test-Path -LiteralPath $archive -PathType Leaf) -or
-            (Get-FileHash -LiteralPath $archive -Algorithm SHA256).Hash -ne $checksum) {
-            $archive = Join-Path $temporary "$asset.zip"
+        if (-not (Test-ArchiveHash $archive $checksum)) {
+            $partial = Join-Path $cache "$asset.zip.part"
             $url = "https://github.com/electron/electron/releases/download/v$version/$asset.zip"
             Write-Host "Downloading Electron $version from GitHub (about 150 MB)..."
             $curl = Join-Path ([Environment]::SystemDirectory) 'curl.exe'
             if (Test-Path -LiteralPath $curl -PathType Leaf) {
-                & $curl --fail --location --retry 1 --connect-timeout 15 --max-time 240 --progress-bar --output $archive $url
-                if ($LASTEXITCODE -ne 0) { throw 'Electron download failed. Check your GitHub connection and try again.' }
+                if (-not (Test-ArchiveHash $partial $checksum)) {
+                    & $curl --fail --location --continue-at - --connect-timeout 15 --max-time 300 --progress-bar --output $partial $url
+                    if ($LASTEXITCODE -in 33, 36) {
+                        Remove-Item -LiteralPath $partial -Force -ErrorAction SilentlyContinue
+                        throw 'The previous download could not be resumed. Run the launcher to download again.'
+                    }
+                    if ($LASTEXITCODE -ne 0) { throw 'Electron download interrupted. Run the launcher again to resume.' }
+                }
             } else {
                 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
-                Invoke-WebRequest -Uri $url -UseBasicParsing -OutFile $archive -TimeoutSec 300
+                Invoke-WebRequest -Uri $url -UseBasicParsing -OutFile $partial -TimeoutSec 300
             }
-            if ((Get-FileHash -LiteralPath $archive -Algorithm SHA256).Hash -ne $checksum) {
+            if (-not (Test-ArchiveHash $partial $checksum)) {
+                Remove-Item -LiteralPath $partial -Force
                 throw 'The downloaded Electron archive failed SHA-256 verification.'
             }
+            Move-Item -LiteralPath $partial -Destination $archive -Force
         }
 
         Write-Host 'Extracting the verified Electron runtime...'
