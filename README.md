@@ -4,6 +4,10 @@ Windows 离线地图软件。支持 Europa Universalis V 与 Crusader Kings III 
 
 ## 运行
 
+在 Windows x64 或 ARM64 上，下载并解压完整项目，然后双击 `启动MapDesigner.cmd`。首次缺少 Electron 时，脚本会从 GitHub 下载约 150 MB 的运行环境、校验文件并解压到项目的 `.cache/electron/`，后续可离线启动。无需安装 Python、pip、Node.js 或 pnpm。
+
+### 从源码启动
+
 安装 Node.js 和 pnpm 后，在项目目录执行：
 
 ```powershell
@@ -11,7 +15,7 @@ pnpm install
 pnpm start
 ```
 
-Electron 42 的 Windows 运行文件需在首次安装后执行 `node node_modules/electron/install.js` 下载。准备好依赖后，可双击根目录的 `启动MapDesigner.cmd` 打开桌面窗口。
+使用 `pnpm start` 开发时，如需补装 Electron 运行文件，执行 `node node_modules/electron/install.js`。
 
 也可以直接用浏览器打开 `index.html`，查看同样的页面流程，或执行 `pnpm preview` 后打开 http://127.0.0.1:4173。
 
