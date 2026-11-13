@@ -1,0 +1,41 @@
+{
+  "size": [
+    16384,
+    8192
+  ],
+  "stroke_width_source_pixels": 2,
+  "coastlines_outlined": false,
+  "locations_without_hierarchy": [
+    "bul_toha",
+    "kaurareg",
+    "north_pacific_high_sea",
+    "nw_ktunaxa_ranges",
+    "okanagan_range",
+    "quasmigdo",
+    "sierra_nevada_n",
+    "the_outback",
+    "very_south_pacific_high_sea"
+  ],
+  "levels": {
+    "province": {
+      "groups": 4309,
+      "boundary_pixels_before_thickening": 996536
+    },
+    "area": {
+      "groups": 805,
+      "boundary_pixels_before_thickening": 440266
+    },
+    "region": {
+      "groups": 82,
+      "boundary_pixels_before_thickening": 133213
+    },
+    "subcontinent": {
+      "groups": 23,
+      "boundary_pixels_before_thickening": 48508
+    },
+    "continent": {
+      "groups": 9,
+      "boundary_pixels_before_thickening": 6513
+    }
+  }
+}

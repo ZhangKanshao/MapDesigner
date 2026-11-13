@@ -1,0 +1,1 @@
+window.EU5ProjectMeta={"id":"ck3","scenario":"867.1.1","sourceFingerprint":"7073dc1a29b57438ddc14db4635fe6459a66936af79d80bbeeb043ae8741dc18"};

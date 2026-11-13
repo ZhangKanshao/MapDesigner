@@ -1,0 +1,12 @@
+{
+  "locations": 28582,
+  "runs": 2096408,
+  "samples": {
+    "stockholm": {
+      "x": 8526,
+      "y": 1239,
+      "run_length": 32
+    }
+  },
+  "location_labels_without_translation": 1343
+}

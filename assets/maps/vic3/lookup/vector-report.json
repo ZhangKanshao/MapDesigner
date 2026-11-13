@@ -1,0 +1,9 @@
+{
+  "arcs": 123657,
+  "locations": 40718,
+  "input_points": 1896929,
+  "vector_points": 737081,
+  "json_bytes": 10916416,
+  "gzip_bytes": 3662916,
+  "simplification_tolerance": 0.65
+}

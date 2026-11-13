@@ -1,0 +1,335 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' blob:; style-src 'self'; script-src 'self'; worker-src 'self' blob:; object-src 'none'; base-uri 'none'">
+  <title>MapDesigner</title>
+  <link rel="stylesheet" href="src/styles.css">
+  <link rel="stylesheet" href="src/map.css">
+  <link rel="stylesheet" href="src/countries.css">
+  <link rel="stylesheet" href="src/save-load.css">
+  <link rel="stylesheet" href="src/settings.css">
+  <link rel="stylesheet" href="src/ai.css">
+  <script src="assets/maps/eu5/project-meta.js" defer></script>
+  <script src="assets/maps/ck3/templates.js" defer></script>
+  <script src="assets/maps/hoi4/templates.js" defer></script>
+  <script src="src/map-template.js" defer></script>
+  <script src="src/settings-defaults.js" defer></script>
+  <script src="src/settings.js" defer></script>
+  <script src="src/map-styles.js" defer></script>
+  <script src="src/map-appearance.js" defer></script>
+  <script src="src/app.js" defer></script>
+  <script src="src/map-tools.js" defer></script>
+  <script src="src/countries.js" defer></script>
+  <script src="src/groups.js" defer></script>
+  <script src="src/vector-map.js" defer></script>
+  <script src="src/painting.js" defer></script>
+  <script src="src/country-capitals.js" defer></script>
+  <script src="src/country-label-layout.js" defer></script>
+  <script src="src/country-labels.js" defer></script>
+  <script src="src/png-encoder.js" defer></script>
+  <script src="src/ai-messages.js" defer></script>
+  <script src="src/ai-prompts.js" defer></script>
+  <script src="src/ai-map-context.js" defer></script>
+  <script src="src/ai.js" defer></script>
+  <script src="src/save-load.js" defer></script>
+</head>
+<body>
+  <main>
+    <header class="topbar"><nav id="breadcrumb" aria-label="页面路径"></nav></header>
+    <section id="home" class="page">
+      <div class="home-actions">
+        <button id="create-map" class="home-action"><span class="home-action-icon" aria-hidden="true">＋</span><div class="home-action-copy"><h3>创建地图</h3><p>选择空白底图，开始新的地图</p></div></button>
+        <button id="open-snapshot" class="home-action"><span class="home-action-icon" aria-hidden="true">▤</span><div class="home-action-copy"><h3>加载地图</h3><p>从默认文件夹加载 snapshot</p></div></button>
+        <button id="import-snapshot" class="home-action"><span class="home-action-icon" aria-hidden="true">↓</span><div class="home-action-copy"><h3>导入地图</h3><p>将 snapshot 复制到默认文件夹</p></div></button>
+        <button id="open-settings" class="home-action"><span class="home-action-icon" aria-hidden="true">⚙</span><div class="home-action-copy"><h3>设置</h3><p>快捷键、文件路径与程序外观</p></div></button>
+      </div>
+      <p id="project-open-status" role="status"></p>
+    </section>
+    <section id="settings" class="page" hidden>
+      <h1>设置</h1>
+      <div class="settings-tabs" role="tablist" aria-label="设置分类">
+        <button id="tab-operations" role="tab" aria-selected="true" aria-controls="settings-operations" tabindex="0">操作设置</button>
+        <button id="tab-files" role="tab" aria-selected="false" aria-controls="settings-files" tabindex="-1">文件设置</button>
+        <button id="tab-appearance" role="tab" aria-selected="false" aria-controls="settings-appearance" tabindex="-1">外观设置</button>
+        <button id="tab-ai" role="tab" aria-selected="false" aria-controls="settings-ai" tabindex="-1">AI 设置</button>
+      </div>
+      <form id="settings-form">
+      <div class="settings-card">
+        <section id="settings-operations" role="tabpanel" aria-labelledby="tab-operations">
+          <h2>快捷键</h2><p class="settings-help">点击铅笔修改快捷键，点击删除图标清空。仅在地图编辑时生效，输入文字时不会触发。</p>
+          <div id="shortcut-fields"></div>
+          <div class="settings-option-row"><label for="settings-wheel">滚轮功能</label><select id="settings-wheel"><option value="zoom">缩放地图</option><option value="scroll">滚动窗口</option></select></div>
+        </section>
+        <section id="settings-files" role="tabpanel" aria-labelledby="tab-files" hidden>
+          <h2>默认保存文件夹</h2><p class="settings-help">加载、导入地图和保存 snapshot 共用快照文件夹。修改路径不会移动已有文件。</p>
+          <label class="settings-field" for="settings-snapshot">Snapshot</label>
+          <div class="settings-path"><input id="settings-snapshot" autocomplete="off" required><button type="button" data-choose-path="snapshot" class="map-tool-button">选择…</button></div>
+          <label class="settings-field" for="settings-png">PNG</label>
+          <div class="settings-path"><input id="settings-png" autocomplete="off" required><button type="button" data-choose-path="png" class="map-tool-button">选择…</button></div>
+          <p id="settings-file-help" class="settings-help"></p>
+        </section>
+        <section id="settings-appearance" role="tabpanel" aria-labelledby="tab-appearance" hidden>
+          <h2>程序外观</h2><p class="settings-help">主题与字体应用于整个程序，地图颜色保持当前设置。</p>
+          <div class="settings-option-row"><label for="settings-theme">主题</label><select id="settings-theme"><option value="system">跟随系统</option><option value="light">浅色</option><option value="dark">深色</option></select></div>
+          <div class="settings-option-row"><label for="settings-font">字体</label><select id="settings-font"><option value="system">系统默认</option><option value="yahei">微软雅黑</option><option value="sans">等线 / 无衬线</option><option value="serif">宋体 / 衬线</option><option value="kaiti">楷体</option><option value="heiti">黑体</option><option value="fangsong">仿宋</option><option value="arial">Arial</option><option value="times">Times New Roman</option><option value="mono">Consolas / 等宽</option></select>
+          </div><div class="settings-preview">地图创作工作台 · MapDesigner 0123456789</div>
+        </section>
+      </div>
+        <div class="settings-footer"><div class="settings-footer-buttons"><button id="save-settings" class="primary" type="submit">保存设置</button><button id="reset-settings" class="map-tool-button" type="button">恢复默认设置</button></div><p id="settings-status" role="status"></p></div>
+      </form>
+      <section id="settings-ai" class="settings-card" role="tabpanel" aria-labelledby="tab-ai" hidden>
+        <h2>AI 连接</h2>
+        <p id="ai-settings-help" class="settings-help">填写兼容 Chat Completions 的 API 地址和模型。配置和密钥加密保存在本机。</p>
+        <form id="ai-profile-form" autocomplete="off">
+          <div class="settings-option-row"><label for="ai-profile-select">连接配置</label><select id="ai-profile-select"></select></div>
+          <label class="settings-field" for="ai-profile-name">配置名称</label>
+          <input id="ai-profile-name" maxlength="80" placeholder="例如本地模型" required>
+          <label class="settings-field" for="ai-profile-endpoint">API 地址</label>
+          <input id="ai-profile-endpoint" type="url" maxlength="2048" placeholder="https://example.com/v1" required>
+          <label class="settings-field" for="ai-profile-model">模型名称</label>
+          <input id="ai-profile-model" maxlength="160" placeholder="填写接口提供方的模型名称" required>
+          <label class="settings-field" for="ai-profile-key">API 密钥</label>
+          <input id="ai-profile-key" type="password" autocomplete="new-password" maxlength="4096" placeholder="接口无需密钥时可留空">
+          <label id="ai-clear-key-row" class="ai-clear-key" hidden><input id="ai-clear-key" type="checkbox">删除此配置已保存的密钥</label>
+          <div class="ai-profile-actions">
+            <button type="submit" class="primary">保存配置</button>
+            <button id="ai-use-profile" type="button" class="map-tool-button">设为当前使用</button>
+            <button id="ai-delete-profile" type="button" class="map-tool-button">删除配置</button>
+          </div>
+        </form>
+        <p id="ai-profile-status" class="settings-help" role="status"></p>
+      </section>
+    </section>
+    <section id="templates" class="page" hidden>
+      <h1>选择底图</h1>
+      <div class="template-grid">
+      <button class="template-card" id="choose-ck3"><div class="template-image ck3-preview" aria-hidden="true"></div><div class="template-copy"><h2>Crusader Kings III</h2></div></button>
+      <button class="template-card" id="choose-eu5">
+        <div class="template-image" aria-hidden="true"></div>
+        <div class="template-copy"><h2>Europa Universalis V</h2></div>
+      </button>
+      <button class="template-card" id="choose-vic3"><div class="template-image vic3-preview" aria-hidden="true"></div><div class="template-copy"><h2>Victoria III</h2></div></button>
+      <button class="template-card" id="choose-hoi4"><div class="template-image hoi4-preview" aria-hidden="true"></div><div class="template-copy"><h2>Hearts of Iron IV</h2></div></button>
+      </div>
+    </section>
+    <section id="map" class="map-page" hidden>
+      <div class="map-toolbar"><div><button class="text-button" id="back-templates">← 选择底图</button><span class="toolbar-divider"></span><strong>Europa Universalis V</strong><span class="subtle">地图编辑</span></div><div class="map-toolbar-actions"><button id="open-ai-chat" type="button" class="map-tool-button icon-tool" aria-label="AI 对话" title="AI 对话"><svg width="19" height="19" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h14a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-9l-5 3v-3a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2zM7 9h10M7 13h7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button><button id="open-map-settings" class="map-tool-button icon-tool" aria-label="当前地图设置" title="当前地图设置"><svg width="19" height="19" viewBox="0 0 24 24" aria-hidden="true"><polygon points="18.837,9.168 19.288,10.715 21.651,10.298 21.651,13.702 19.288,13.285 18.837,14.832 18.062,16.244 20.028,17.621 17.621,20.028 16.244,18.062 14.832,18.837 13.285,19.288 13.702,21.651 10.298,21.651 10.715,19.288 9.168,18.837 7.756,18.062 6.379,20.028 3.972,17.621 5.938,16.244 5.163,14.832 4.712,13.285 2.349,13.702 2.349,10.298 4.712,10.715 5.163,9.168 5.938,7.756 3.972,6.379 6.379,3.972 7.756,5.938 9.168,5.163 10.715,4.712 10.298,2.349 13.702,2.349 13.285,4.712 14.832,5.163 16.244,5.938 17.621,3.972 20.028,6.379 18.062,7.756" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="12" cy="12" r="3.2" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></button></div></div>
+      <div class="map-tools" role="toolbar" aria-label="地图显示工具">
+        <div class="toolbar-group granularity-controls" role="group" aria-label="地图粒度"><span class="toolbar-group-label">粒度</span><label class="admin-control" for="admin-level">区划<select id="admin-level"><option value="location">地块</option><option value="province">省份</option><option value="area">区域</option><option value="region">地区</option><option value="subcontinent">次大陆</option><option value="continent">大洲</option></select></label><label class="admin-control" for="paint-level">着色<select id="paint-level"><option value="location">地块</option><option value="province">省份</option><option value="area">区域</option><option value="region">地区</option><option value="subcontinent">次大陆</option><option value="continent">大洲</option></select></label></div>
+        <div class="toolbar-group settings-group" role="group" aria-label="地图外观">
+          <span class="toolbar-group-label">外观</span>
+          <label class="admin-control" for="toggle-boundaries">边界显示<select id="toggle-boundaries"><option value="plots">显示地块边界</option><option value="countries">显示政治边界</option><option value="hidden">隐藏边界</option></select></label>
+          <label class="setting-switch-label" for="toggle-country-labels"><span>隐藏国名</span><button id="toggle-country-labels" type="button" class="setting-switch" role="switch" aria-label="隐藏国名" aria-checked="false"><span class="switch-thumb"></span></button></label>
+          <label class="setting-switch-label" for="toggle-wasteland"><span>荒地着色</span><button id="toggle-wasteland" type="button" class="setting-switch" role="switch" aria-label="荒地着色" aria-checked="false"><span class="switch-thumb"></span></button></label>
+        </div>
+        <div class="toolbar-group operations-group" role="group" aria-label="地图操作">
+          <span class="toolbar-group-label">操作</span>
+          <button id="toggle-names" class="map-tool-button icon-tool" aria-label="显示名称" title="显示名称" aria-pressed="false"><span class="name-tool-icon" aria-hidden="true">A</span></button>
+          <button id="pick-country" type="button" class="map-tool-button icon-tool" aria-pressed="false" aria-label="选择国家" title="选择国家"><svg width="19" height="19" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="7" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M12 2v6m0 8v6M2 12h6m8 0h6" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><circle cx="12" cy="12" r="1" fill="currentColor"/></svg></button>
+          <button id="erase-map" class="map-tool-button icon-tool" aria-pressed="false" aria-label="擦除" title="擦除"><svg width="19" height="19" viewBox="0 0 24 24" aria-hidden="true"><path d="m14 3 7 7-10 11H6l-4-4zM7 12l7 7M11 21h11" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+          <button id="undo-map" class="map-tool-button icon-tool" aria-label="撤销" title="撤销上一步" disabled><svg width="19" height="19" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 10a8 8 0 1 1 1 8M4 4v6h6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+          <button id="save-map" class="map-tool-button icon-tool" aria-label="保存" title="保存 snapshot / PNG"><svg width="19" height="19" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 3h13l4 4v14H3V3zM7 3v6h10V3M7 21v-8h10v8M14 5v2" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        </div>
+        <span id="paint-status" role="status"></span>
+        <span id="name-mode-hint" role="status" hidden>移动鼠标查看当前等级的名称</span>
+      </div>
+      <div class="map-stage" id="map-stage">
+        <div class="map-lists">
+        <aside class="country-panel" aria-label="国家列表">
+          <div class="country-panel-heading">
+            <h2>国家列表</h2>
+            <div class="country-panel-actions">
+              <button id="toggle-country-list" type="button" aria-expanded="true" aria-controls="country-panel-scroll" aria-label="收起国家列表" title="收起国家列表"><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 15 6-6 6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+              <button id="create-country" type="button" aria-label="创建国家" title="创建国家">＋</button>
+            </div>
+          </div>
+          <div id="country-panel-scroll" class="country-panel-scroll"><div class="country-panel-content">
+            <p id="countries-empty">还没有国家，点击右上角 ＋ 创建。</p>
+            <ul id="country-list"></ul>
+            <p id="country-storage-status" role="status" hidden></p>
+          </div></div>
+        </aside>
+        <aside id="group-panel" class="country-panel" aria-label="集团列表">
+          <div class="country-panel-heading">
+            <h2>集团列表</h2>
+            <div class="country-panel-actions">
+              <button id="toggle-group-list" type="button" aria-expanded="true" aria-controls="group-panel-scroll" aria-label="收起集团列表" title="收起集团列表"><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+              <button id="create-group" type="button" aria-label="创建集团" title="创建集团">＋</button>
+            </div>
+          </div>
+          <p id="group-pick-status" role="status" hidden></p>
+          <div id="group-panel-scroll" class="country-panel-scroll"><div class="country-panel-content">
+            <p id="groups-empty">还没有集团，点击 ＋ 创建。</p>
+            <ul id="group-list"></ul>
+          </div></div>
+        </aside>
+        </div>
+        <div class="map-viewport" id="map-viewport" tabindex="0" aria-label="地图视口，按住鼠标左键拖动地图，或使用滚动条查看">
+          <div class="map-surface" id="map-surface"><img id="basemap" alt="Europa Universalis V 地图：水域、荒地、地块及行政边界" draggable="false"></div>
+        </div>
+        <canvas id="paint-layer" aria-hidden="true"></canvas>
+        <canvas id="country-name-layer" aria-hidden="true"></canvas>
+        <canvas id="capital-layer" aria-hidden="true"></canvas>
+        <div id="map-message" class="map-message" role="status">正在加载完整底图…</div>
+        <div id="name-tooltip" class="name-tooltip" role="status" hidden><span id="name-tooltip-level"></span><strong id="name-tooltip-label"></strong></div>
+        <div class="zoom-control" aria-label="地图缩放">
+          <button id="zoom-out" aria-label="缩小 5%" title="缩小 5%">−</button>
+          <input id="map-zoom" type="range" min="100" max="2000" step="5" value="100" aria-label="地图缩放比例" aria-valuetext="100%">
+          <button id="zoom-in" aria-label="放大 5%" title="放大 5%">＋</button>
+          <output id="zoom-value" for="map-zoom">100%</output>
+        </div>
+      </div>
+      <footer class="map-footer"><div class="legend"><span><i class="water"></i>海洋 / 河流</span><span><i class="wasteland"></i>荒地</span><span><i class="land"></i>地块</span><span id="location-legend"><i class="boundary"></i>Location 分界</span><span id="admin-legend" hidden><i class="admin-boundary"></i><span id="admin-legend-label">行政区划分界</span></span></div><span>单击着色 · 拖动平移</span></footer>
+    </section>
+  </main>
+  <dialog id="ai-chat-dialog" aria-labelledby="ai-chat-title">
+    <div class="ai-chat-content">
+      <div class="country-dialog-heading">
+        <h2 id="ai-chat-title">AI 对话</h2>
+        <div class="ai-chat-actions"><button id="reset-ai-chat" type="button" class="map-tool-button">重置对话</button><button id="close-ai-chat" type="button" class="dialog-close" aria-label="关闭 AI 对话">×</button></div>
+      </div>
+      <p id="ai-chat-model" class="settings-help"></p>
+      <div class="ai-chat-prompts"><label for="ai-prompt-select">提示词</label><select id="ai-prompt-select"></select><button id="open-ai-prompts" type="button" class="map-tool-button">管理提示词</button></div>
+      <p class="settings-help ai-map-context-note">每次发送会附上当前地图资料。自定义提示词可与默认地图约束一起使用。</p>
+      <div id="ai-chat-history" role="log" aria-label="当前地图的对话历史" tabindex="0"></div>
+      <form id="ai-chat-form">
+        <label class="country-field" for="ai-chat-input">消息</label>
+        <textarea id="ai-chat-input" maxlength="12000" rows="3" placeholder="输入要发送的消息"></textarea>
+        <div class="ai-compose-actions"><p id="ai-chat-status" role="status"></p><button id="send-ai-chat" type="submit" class="primary">发送</button></div>
+      </form>
+    </div>
+  </dialog>
+  <dialog id="ai-prompts-dialog" aria-labelledby="ai-prompts-title">
+    <form id="ai-prompt-form" class="dialog-scroll" autocomplete="off">
+      <div class="country-dialog-heading"><h2 id="ai-prompts-title">提示词管理</h2><button id="close-ai-prompts" type="button" class="dialog-close" aria-label="关闭提示词管理">×</button></div>
+      <details><summary>查看默认地图约束</summary><p id="ai-default-prompt"></p></details>
+      <label class="settings-field" for="ai-prompt-edit-select">自定义提示词</label>
+      <select id="ai-prompt-edit-select"></select>
+      <label class="settings-field" for="ai-prompt-name">名称</label>
+      <input id="ai-prompt-name" maxlength="80" required>
+      <label class="settings-field" for="ai-prompt-content">内容</label>
+      <textarea id="ai-prompt-content" rows="7" maxlength="8000" required></textarea>
+      <div class="ai-profile-actions"><button type="submit" class="primary">保存提示词</button><button id="delete-ai-prompt" type="button" class="map-tool-button">删除提示词</button></div>
+      <p id="ai-prompt-status" class="settings-help" role="status"></p>
+    </form>
+  </dialog>
+  <dialog id="map-settings-dialog" aria-labelledby="map-settings-title">
+    <form id="map-settings-form" novalidate>
+      <header class="map-settings-header">
+        <div class="country-dialog-heading"><h2 id="map-settings-title">当前地图设置</h2><button id="close-map-settings" type="button" class="dialog-close" aria-label="关闭当前地图设置">×</button></div>
+        <p class="settings-help">仅应用于当前地图，保存 snapshot 后可随文件恢复。</p>
+      </header>
+      <div class="map-settings-body dialog-scroll">
+      <div class="map-color-row"><label for="map-style">地图风格</label><select id="map-style"></select></div>
+      <div id="map-color-fields"></div>
+      <section class="map-settings-section" aria-labelledby="vassal-settings-title">
+        <h3 id="vassal-settings-title">宗主-附庸</h3>
+        <p class="settings-help">在国家列表把国名拖到另一国名上，即可设为对方的附庸。对方已有宗主时，直接归最上层宗主。把附庸拖出列表即可解除，拖到行间可排序。也可在「国家信息」中修改宗主国。</p>
+        <div class="map-color-row"><label for="vassal-color-mode">附庸着色设置</label><select id="vassal-color-mode"><option value="free">自由着色</option><option value="same">宗主同色</option><option value="lighter">近似颜色</option></select></div>
+      </section>
+      <section class="map-settings-section" aria-labelledby="country-label-settings-title">
+        <h3 id="country-label-settings-title">国家名称</h3>
+        <p class="settings-help">按国土自动排版并描边，主体优先位于本国陆地；相近的主要国土可跨海联合排版。过小国土暂不显示。</p>
+        <div class="map-color-row"><label for="enclave-naming">飞地命名</label><button id="enclave-naming" type="button" class="setting-switch" role="switch" aria-label="飞地命名" aria-checked="true"><span class="switch-thumb"></span></button></div>
+        <div class="map-color-row"><label for="country-label-font">字体</label><select id="country-label-font"></select></div>
+        <div class="map-color-row"><label for="country-label-color">颜色</label><div class="map-color-controls"><input id="country-label-color" type="color" value="#263747" aria-label="选择国家名称颜色"><input id="country-label-color-hex" type="text" maxlength="7" value="#263747" aria-label="国家名称颜色十六进制值"></div></div>
+        <div class="map-color-row"><label for="country-label-opacity">不透明度</label><div class="country-label-opacity"><input id="country-label-opacity" type="range" min="0" max="100" step="1" value="75" aria-label="国家名称不透明度"><output id="country-label-opacity-value" for="country-label-opacity">75%</output></div></div>
+        <p id="country-label-status" role="status"></p>
+      </section>
+      <div class="settings-footer"><div class="settings-footer-buttons"><button id="save-map-settings" type="submit" class="primary">保存设置</button><button id="reset-map-settings" type="button" class="map-tool-button">恢复默认设置</button></div><p id="map-settings-status" role="status"></p></div>
+      </div>
+    </form>
+  </dialog>
+  <dialog id="shortcut-dialog" aria-labelledby="shortcut-dialog-title">
+    <div class="shortcut-dialog-content dialog-scroll"><h2 id="shortcut-dialog-title">修改快捷键</h2><p id="shortcut-prompt" tabindex="-1">请输入新快捷键或组合键</p><p id="shortcut-record-error" role="alert"></p><button id="cancel-shortcut" type="button" class="map-tool-button">取消</button></div>
+  </dialog>
+  <dialog id="ck3-date-dialog" aria-labelledby="ck3-date-title"><div class="load-dialog-content dialog-scroll">
+    <div class="country-dialog-heading"><h2 id="ck3-date-title">选择法理日期</h2><button id="close-ck3-date" class="dialog-close" aria-label="关闭日期选择">×</button></div>
+    <label class="country-field" for="ck3-scenario">Crusader Kings III</label><select id="ck3-scenario"><option value="ck3-867">867 年 · 1 月 1 日</option><option value="ck3-1066">1066 年 · 9 月 15 日</option><option value="ck3-1178">1178 年 · 10 月 1 日</option></select>
+    <p class="settings-help">按所选日期的法理归属划分，创建空白地图。</p><div class="country-dialog-footer centered-dialog-actions"><button id="create-ck3-map" class="primary">创建地图</button></div>
+  </div></dialog>
+  <dialog id="group-dialog" aria-labelledby="group-dialog-title">
+    <form id="group-form">
+      <div class="country-dialog-heading"><h2 id="group-dialog-title">创建集团</h2><button id="close-group-dialog" class="dialog-close" type="button" aria-label="关闭">×</button></div>
+      <label class="country-field" for="group-name">集团名称</label>
+      <input id="group-name" type="text" maxlength="100" required autofocus>
+      <label class="country-field" for="group-description">简介</label>
+      <textarea id="group-description" maxlength="2000"></textarea>
+      <div class="country-color-row"><label class="country-field" for="group-color">集团颜色</label><input id="group-color" type="color" value="#42667f"></div>
+      <fieldset id="group-members-field">
+        <legend>成员国家</legend>
+        <div id="group-members"></div>
+      </fieldset>
+      <p id="group-error" class="field-error" role="alert" hidden></p>
+      <div class="country-dialog-footer">
+        <button id="delete-group" class="delete-country" type="button" hidden>删除集团</button>
+        <button id="cancel-group" class="map-tool-button" type="button">取消</button>
+        <button class="primary" type="submit">确认</button>
+      </div>
+    </form>
+  </dialog>
+  <dialog id="country-dialog" aria-labelledby="country-dialog-title">
+    <form id="country-form" class="dialog-scroll" novalidate>
+      <div class="country-dialog-heading"><div><span class="eyebrow">NEW COUNTRY</span><h2 id="country-dialog-title">创建国家</h2></div><button type="button" id="close-country-dialog" class="dialog-close" aria-label="关闭创建国家">×</button></div>
+      <div class="country-name-fields">
+        <div><label class="country-field" for="country-name">国家名称 <span>选填</span></label><input id="country-name" type="text" maxlength="100" placeholder="例如西班牙" autocomplete="off" aria-describedby="country-name-error"></div>
+        <div><label class="country-field" for="country-type">国家类型 <span>选填</span></label><input id="country-type" type="text" maxlength="100" placeholder="例如帝国" autocomplete="off" aria-describedby="country-name-error"></div>
+      </div>
+      <p class="field-error" id="country-name-error" role="alert" hidden></p>
+      <label class="country-field" for="country-description">介绍 <span>选填</span></label>
+      <textarea id="country-description" rows="3" maxlength="2000" placeholder="写下这个国家的介绍"></textarea>
+      <label class="country-field" for="country-suzerain">宗主国</label>
+      <select id="country-suzerain" aria-describedby="country-suzerain-error"></select>
+      <p class="field-error" id="country-suzerain-error" role="alert" hidden></p>
+      <fieldset id="country-groups-field">
+        <legend>所属集团</legend>
+        <div id="country-groups"></div>
+      </fieldset>
+      <div class="country-color-row">
+        <label class="country-field" for="country-color-swatch">国家原色</label>
+        <div class="country-color-actions">
+          <button type="button" id="country-color-swatch" aria-label="选择国家地图颜色" aria-expanded="false" aria-controls="country-color-picker"></button>
+          <button type="button" id="country-info-brush" class="map-tool-button icon-tool" aria-label="使用该国着色" title="使用该国着色" aria-pressed="false" hidden></button>
+        </div>
+      </div>
+      <p class="field-error" id="country-color-error" role="alert" hidden></p>
+      <section id="country-capital-settings" hidden>
+        <div class="country-capital-heading"><span>首都</span><span id="country-capital-name">未指定</span></div>
+        <div class="country-capital-actions"><button type="button" id="select-country-capital" class="map-tool-button">选择首都</button><button type="button" id="delete-country-capital" class="map-tool-button">删除首都</button></div>
+        <p>选择首都将保存当前编辑，并进入地图选点。</p>
+      </section>
+      <section id="country-color-picker" aria-label="国家颜色调色盘" hidden>
+        <div class="picker-heading">调色盘<button type="button" id="close-color-picker" aria-label="收起调色盘">×</button></div>
+        <canvas id="country-sv" width="360" height="160" tabindex="0" aria-label="选择饱和度和明度，可点击或使用方向键"></canvas>
+        <label class="hue-label" for="country-hue">色相</label><input id="country-hue" type="range" min="0" max="359" value="0" aria-label="色相">
+        <div id="country-color-presets" aria-label="预设颜色"></div>
+        <div class="rgb-fields"><label for="country-red">R<input id="country-red" type="number" min="0" max="255" step="1" inputmode="numeric"></label><label for="country-green">G<input id="country-green" type="number" min="0" max="255" step="1" inputmode="numeric"></label><label for="country-blue">B<input id="country-blue" type="number" min="0" max="255" step="1" inputmode="numeric"></label></div>
+      </section>
+      <div class="country-dialog-footer"><button type="button" id="delete-country" class="delete-country" hidden>删除国家</button><button type="button" id="cancel-country" class="map-tool-button">取消</button><button type="submit" id="confirm-country" class="primary">确认</button></div>
+    </form>
+  </dialog>
+  <input type="file" id="snapshot-input" accept=".mapdesign,.json" hidden>
+  <dialog id="load-dialog" aria-labelledby="load-dialog-title">
+    <div class="load-dialog-content dialog-scroll">
+      <div class="country-dialog-heading"><h2 id="load-dialog-title">加载地图</h2><button id="close-load-dialog" class="dialog-close" aria-label="关闭加载地图">×</button></div>
+      <p id="snapshot-folder" class="snapshot-folder"></p>
+      <p id="snapshot-library-status" role="status"></p>
+      <div id="snapshot-library"></div>
+      <div class="country-dialog-footer centered-dialog-actions"><button id="load-selected-snapshot" class="primary" disabled>加载</button><button id="delete-selected-snapshot" class="map-tool-button" disabled>删除</button></div>
+    </div>
+  </dialog>
+  <dialog id="save-dialog" aria-labelledby="save-dialog-title">
+    <form id="save-form" class="dialog-scroll" novalidate>
+      <div class="country-dialog-heading"><div><span class="eyebrow">SAVE YOUR WORLD</span><h2 id="save-dialog-title">保存地图</h2></div><button type="button" id="close-save-dialog" class="dialog-close" aria-label="关闭保存">×</button></div>
+      <div class="save-types" role="group" aria-label="保存类型"><label><input type="radio" name="save-type" value="snapshot" checked>Snapshot</label><label><input type="radio" name="save-type" value="png">PNG</label></div>
+      <p id="save-type-description" class="save-description">保存国家、领土和视图设置，下次可加载并继续编辑。</p>
+      <label class="country-field" for="save-name">名称</label><div class="save-name-row"><input id="save-name" type="text" maxlength="160" autocomplete="off" required><span id="save-extension">.mapdesign</span></div>
+      <label class="country-field" for="save-directory">保存文件夹</label><div class="save-path-row"><input id="save-directory" type="text" autocomplete="off" placeholder="选择或填写完整文件夹路径" required><button id="choose-save-directory" type="button" class="map-tool-button">选择…</button></div>
+      <p id="save-status" class="save-status" role="status" hidden></p>
+      <div class="country-dialog-footer centered-dialog-actions"><button id="confirm-save" type="submit" class="primary">保存 snapshot</button></div>
+    </form>
+  </dialog>
+</body>
+</html>

@@ -1,0 +1,1 @@
+window.GrandStrategyTemplates={"hoi4":{"width":5632,"height":2048,"project":{"id":"hoi4","sourceFingerprint":"9be675354fc42db9a23b3d3e323aaf26827d481a9d478cb0b9115ee6a74fd684"}},"vic3":{"width":8192,"height":3616,"project":{"id":"vic3","sourceFingerprint":"a2013e723fb64738c25824012348f221d06f06eadbc3551cd26638f4a20095ff"}}};

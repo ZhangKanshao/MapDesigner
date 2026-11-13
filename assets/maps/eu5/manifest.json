@@ -1,0 +1,32 @@
+[
+  {
+    "file": "locations.png",
+    "bytes": 8737202,
+    "sha256": "BFBB8840343560367240F2B29E1E0621292AAA81616C06827C7FE566E2EC2B83"
+  },
+  {
+    "file": "rivers.png",
+    "bytes": 1472618,
+    "sha256": "9E7B04A87AEBD8862683CB035B7A88DE26C98C5708F8E950AEA0CBDA79C650E0"
+  },
+  {
+    "file": "definitions.txt",
+    "bytes": 491179,
+    "sha256": "A976C5A86C6456D84DC761BB91EE134F4F97BF03363B6B05761A501BB3C5AF3F"
+  },
+  {
+    "file": "default.map",
+    "bytes": 181443,
+    "sha256": "69530759CC2C511983109F144DEEB31E6B1E583AA76488CD500FCC2E3C731499"
+  },
+  {
+    "file": "location_templates.txt",
+    "bytes": 3731059,
+    "sha256": "CFFEFB6FD02EB8FF5CED9A8A9F1CE5DAB5084D82DE790C29ACF7413E3354AB91"
+  },
+  {
+    "file": "named_locations\\00_default.txt",
+    "bytes": 939131,
+    "sha256": "C58A53355CF167AE6A1ADF1353E228CBD725EEE00272FAAD5B07DA81E59AF707"
+  }
+]

@@ -1,0 +1,23 @@
+{
+  "867": {
+    "date": "867.1.1",
+    "applied_history_changes": 30,
+    "d_poitou_parent": "k_aquitaine",
+    "d_cilicia_parent": "k_anatolia",
+    "baronies": 11297
+  },
+  "1066": {
+    "date": "1066.9.15",
+    "applied_history_changes": 54,
+    "d_poitou_parent": "k_france",
+    "d_cilicia_parent": "k_anatolia",
+    "baronies": 11297
+  },
+  "1178": {
+    "date": "1178.10.1",
+    "applied_history_changes": 76,
+    "d_poitou_parent": "k_france",
+    "d_cilicia_parent": "k_anatolia",
+    "baronies": 11297
+  }
+}

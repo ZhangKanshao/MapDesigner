@@ -1,0 +1,1 @@
+window.EU5ProjectMeta={"id":"vic3","sourceFingerprint":"a2013e723fb64738c25824012348f221d06f06eadbc3551cd26638f4a20095ff"};

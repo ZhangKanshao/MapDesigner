@@ -1,0 +1,14 @@
+{
+  "name": "map-designer",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Windows 离线地图编辑器",
+  "main": "electron/main.cjs",
+  "scripts": {
+    "start": "electron .",
+    "preview": "node scripts/preview.cjs"
+  },
+  "devDependencies": {
+    "electron": "^42.0.0"
+  }
+}

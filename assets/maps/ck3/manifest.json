@@ -1,0 +1,1027 @@
+[
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\common\\landed_titles\\00_landed_titles.txt",
+    "bytes": 1315675,
+    "sha256": "898418b5270583d226191764b2e4b872c0f017a99eab5ed0655e377d708eee53"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\common\\landed_titles\\01_japan.txt",
+    "bytes": 30815,
+    "sha256": "770d6913716d44f2ef25f336a32c1616df1ede5f71946bd17eae9c1ca104db39"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\common\\landed_titles\\01_japan_noble_family.txt",
+    "bytes": 67185,
+    "sha256": "ec165455683237400a19f45d863fd0288a5effcdba1369997d7e940f02efc0f7"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\common\\landed_titles\\01_korea_noble_family.txt",
+    "bytes": 32942,
+    "sha256": "ff61efe4be890c9fb116229450064fdf4e5d3292160ebd9b9e63a666b8e435d0"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\common\\landed_titles\\01_other_noble_family.txt",
+    "bytes": 72851,
+    "sha256": "dde5ebf4007e1c57567f8d66aad404e4f9fc396049562059d9b2d1a51cc2f8df"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\common\\landed_titles\\02_china.txt",
+    "bytes": 144819,
+    "sha256": "6d31002969b3d12d0fcdf09a1e7eb163cbd9e6dcd4b660acc588698581859ba1"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\common\\landed_titles\\03_seasia.txt",
+    "bytes": 34149,
+    "sha256": "1715dec12cf4835d2efc328a7c7ba26e237da80547eec41ce9ede63f0b66034c"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\common\\landed_titles\\04_china_noble_families.txt",
+    "bytes": 302342,
+    "sha256": "81283d1dd865eced9f31ddb65ed4de3630db905cbea95e96a3529365e568ff07"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\common\\landed_titles\\05_goryeo.txt",
+    "bytes": 20648,
+    "sha256": "c6c1d46941b22f00e0daee33abacd3e3ed3c5bfa85c07d809e0ca38d2ff74f57"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\common\\landed_titles\\06_philippines.txt",
+    "bytes": 31432,
+    "sha256": "334ae828ccfd93f5d310f668c93995028021c5bebd0cecd1683e8d1721e8b855"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\common\\landed_titles\\07_pam_ecclesiastical_titles.txt",
+    "bytes": 29296,
+    "sha256": "4f7f348a32292fc1f8b89d3f2e6100465a3c5803c00e16845ee56e598c18fe51"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\common\\landed_titles\\07_pam_hegemony_titles.txt",
+    "bytes": 519,
+    "sha256": "0381ae23e5de04f7598c58136395e4a782d1de2d9131cf952bde93d10d35cb4f"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\00_other_titles.txt",
+    "bytes": 90807,
+    "sha256": "da859be2795690016e818b6c82072bba1d5c8062e3d778ce1b250c999f56caf5"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\01_admin_titles.txt",
+    "bytes": 18171,
+    "sha256": "944b89ea37cb70967ce50497a9535b96ad60b6f5fc8931f8ca36d867b2621fe7"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\01_admin_titles_tgp.txt",
+    "bytes": 170622,
+    "sha256": "cd71c2009b84e07fd0057bedcc1164d1684d37f422709e5ffec59854ba82bfb1"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\01_laamp_titles.txt",
+    "bytes": 27649,
+    "sha256": "34267ca6015bb19686be3d788ec07a68bcd08bb2860b3296934676baf3273cb5"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\02_japan_noble_family.txt",
+    "bytes": 49703,
+    "sha256": "7657329e1d1c9859a33083128d58d7942c6744ae9cb4522972cbecfce528b42e"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\02_korea_noble_family.txt",
+    "bytes": 23062,
+    "sha256": "32c9c3abfbd4505bfefbe392066848aa3789d9bbbea8e76c12952ce17dc87eb5"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\02_other_noble_family.txt",
+    "bytes": 43267,
+    "sha256": "931e524d54402aa38aa9d436d5050c2c4d787c38d812f093585be3e6cd7ebb12"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\ce3\\00_ecclesiastical_titles.txt",
+    "bytes": 135561,
+    "sha256": "bb1ec457b5fd5a0f1cb97a7b5832c23cc0597624e8a3759174f2d63575d860fd"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\e_china.txt",
+    "bytes": 167421,
+    "sha256": "391005ff3ef1d44e9283a940bec9b6545de079c8466129b3a4c06f20a5f13c59"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\e_goryeo.txt",
+    "bytes": 38663,
+    "sha256": "1463b5c9f0cf523345088f313b5d9a96b440666561bd9d38388129f0f51a918b"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\e_japan.txt",
+    "bytes": 88617,
+    "sha256": "4b41347e5d49b623d552eeded1983819bb61804c1bf6e2bb752359d84e8a35d7"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\e_khmer.txt",
+    "bytes": 34888,
+    "sha256": "16f21e104c8929eaf2f0a08c490cb7c0096929723f4a86d1a0f14be113e3fc35"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\e_seasia.txt",
+    "bytes": 18403,
+    "sha256": "8abe1ed6ff16b4db21477208b5ed3967c3a6736d7283c66efe599c68eac700af"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_abyssinia.txt",
+    "bytes": 23024,
+    "sha256": "189f2bea10e04827befd9b4682c1d4c5047ceaa1d7b209848ed8ed07a42270da"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_adal.txt",
+    "bytes": 17258,
+    "sha256": "7b8519834fb88fe52827e62793b07408c899e6118ba7486673de12fe49370802"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_africa.txt",
+    "bytes": 32955,
+    "sha256": "6efe5a8d0dba02cfa87a846e5effab44c506a99cb6d1ec54b3aae9096cdfa37a"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_ajuraan.txt",
+    "bytes": 9354,
+    "sha256": "4cb88c4e5e0c33dcea967cb5225cf8d147d4b51a67138c73e4ae26266434486c"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_akan.txt",
+    "bytes": 11075,
+    "sha256": "37ca1ea4cfe101b6009fb24cc8f23673712c8b46a46d21eb40a06f6c52dad51f"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_amdo.txt",
+    "bytes": 44962,
+    "sha256": "bb80bc50b7db4d3d8a013826c5cb1e638077eae15b950153f319cd888f90f1b7"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_amur.txt",
+    "bytes": 5572,
+    "sha256": "bb5fed58e2ed431c59395de53fd86629ae6280b9a4ce8f6c9a8420b892a18164"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_anatolia.txt",
+    "bytes": 26306,
+    "sha256": "bb62602df89a941f5ddab602b3f385e8ce855d0739a6913dd68494f324b7cd07"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_anbiya.txt",
+    "bytes": 9377,
+    "sha256": "28b9dfe69300797d94c3fc85253f2332b03f79e5c476da20156e83c02a3e54b4"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_andalusia.txt",
+    "bytes": 56673,
+    "sha256": "edbd92d5334f5d005b3d74695f7fc22cde4e71314f11ee1a6de8e17d754ce8e5"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_andhra.txt",
+    "bytes": 8653,
+    "sha256": "5353bb347b54ffc11f0e3056c83003bb9ba9e08b403eb840687fbfc6ac9e9a4e"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_angara.txt",
+    "bytes": 10915,
+    "sha256": "fa0ff082f10325327dc8c1fd4b8037124bd15663ba10b00d650bd6c523cf90a1"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_aquitaine.txt",
+    "bytes": 67167,
+    "sha256": "368b9ab83b30daf3dd157850cb01b6b645ebb402cddd42218b31d10ca30f943f"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_arabia.txt",
+    "bytes": 49114,
+    "sha256": "84723e3d45e907ee345dfb3a3a9c2fa232e535a8f94fbb3be8df66aff3bc077d"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_aragon.txt",
+    "bytes": 48590,
+    "sha256": "99ff8080dcb1b2a86047ddff5ac235385e51e922276ffa87f400eb54ecf6afe0"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_armenia.txt",
+    "bytes": 23748,
+    "sha256": "c2b0ca73df80ffb8f8da86d8e0ddb42f2b861a379c3da24ae49151efb13ec9e1"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_aynumosir.txt",
+    "bytes": 3444,
+    "sha256": "626a52dec8d08341937368038595a3a0c0c4117e9d427eaceaa5747d67bb7382"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_badajoz.txt",
+    "bytes": 27179,
+    "sha256": "5e9b697262fadd7dbf9b144fdd36ce3699703764241c94f6ac93b0170164484b"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_bale.txt",
+    "bytes": 7208,
+    "sha256": "289a60752517775d0160a3a4302fe5eff94d398fd7cc4fdfef7f5f84f61d9976"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_balhae.txt",
+    "bytes": 13782,
+    "sha256": "6e42a888b43dd3852120a99e01c4fe4ce6098d56c611193980c30eb6225ba0bb"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_bashkiria.txt",
+    "bytes": 11917,
+    "sha256": "feb96495ae6e3be4ce7005cf2ce32720feef962dbdf611419cb8db0131c80ebb"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_bavaria.txt",
+    "bytes": 83231,
+    "sha256": "9e1c74954ca060b9c8d4ccc4befb56dfab464a89004863ec19c8969e386e95c8"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_bengal.txt",
+    "bytes": 50417,
+    "sha256": "3889b52aac582a42486cb805d0904715696d216c8daa2aca1c09df3d7072f7e5"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_bihar.txt",
+    "bytes": 34324,
+    "sha256": "6e10749963d9744f7be5df85adb48d118daa1e8702716d6a9eec4c80cb91d138"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_bjarmaland.txt",
+    "bytes": 9154,
+    "sha256": "78a94acb37e0e341798f40c00c7fff547390d38c2c8b87d6a48c497a9f115628"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_blemmyia.txt",
+    "bytes": 9627,
+    "sha256": "bc32f442344336f3dcf2355974af4e98cc7bfc1b9c9e463b5ba44fae7aaf33db"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_bohemia.txt",
+    "bytes": 28448,
+    "sha256": "4dd5c84868a712e607838847c863ef0a9a58684ae0a04ed93e9ba638ec831dcb"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_borgu.txt",
+    "bytes": 5688,
+    "sha256": "c7bbfcd7e393596bd1fe50b2d888620d75b144d15408e1e96d31721b87609acc"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_borneo.txt",
+    "bytes": 13721,
+    "sha256": "edb4411deee1807e55dcaaac874f2105f04c64a44f9d293736998f202e8c7c3d"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_brittany.txt",
+    "bytes": 10762,
+    "sha256": "a06bb210ba374510be28f1709961e96975fbe229715eb6cda28b36c48e2dc126"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_bulgaria.txt",
+    "bytes": 55539,
+    "sha256": "e4a3e32373185536f81bcb14c490cb7064bf273c4e31e9afa9c89602d5933aba"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_burgundy.txt",
+    "bytes": 30440,
+    "sha256": "d34857f2b75bf0501e7c716cbd86372c41d6ae3511477bb5939a8eb2a668a44e"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_buryatia.txt",
+    "bytes": 11358,
+    "sha256": "ae4079e3492d6c10b09f2771f30506ed8f70b5e48f6ea89206c42572c467c561"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_caspian_steppe.txt",
+    "bytes": 22244,
+    "sha256": "46bb6afc8c89afa25e5a0fa39e2e17b2f5ac914e869aa43ffa13e742f77b3d9c"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_castille.txt",
+    "bytes": 17349,
+    "sha256": "ef97d248fa0462b05f66c563cc52297d60bbd95e50cebc0d628a3a9aa29b0208"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_caucasus.txt",
+    "bytes": 22947,
+    "sha256": "1685e74b3729fa57c94244f4082d58f5b7d29ecc02c0c4a96295ec53175a3e5c"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_croatia.txt",
+    "bytes": 31761,
+    "sha256": "a5e92c2d6916bcd3e481df26d7f753d2feb5f3e4de0f3ef7d3b42b9e82cd2588"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_cuman.txt",
+    "bytes": 11687,
+    "sha256": "04c98a493a24207fe03b8287225920bea5d06dcc4a6cd28decdbf504e15a8ccd"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_cyprus.txt",
+    "bytes": 6268,
+    "sha256": "9639075c81d09bf3e3fcb0a402b6d32c9d4b9da1132fddb87cbae9ba831581f3"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_dacia.txt",
+    "bytes": 12572,
+    "sha256": "5834e84cad71aa75a4b0d7dc6066789de6aa5ea60dd5665ce3c47c26a46aec3b"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_damot.txt",
+    "bytes": 8679,
+    "sha256": "0a8712b276042c8efd415f7ba8c0f9db2a2ea1f211ec215c37c3b07e533391c6"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_darfur.txt",
+    "bytes": 9358,
+    "sha256": "01de0a0e6394a08a7b281f9c8119dfb5fce3f2d5bad2f086928ca6bd733dad52"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_daylam.txt",
+    "bytes": 29539,
+    "sha256": "e7e75b26ab17b93c1f76e3cb6355b6238b874b95075008f86471fde43aae8b35"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_delhi.txt",
+    "bytes": 29709,
+    "sha256": "6bce3a3d0578ffb9607e9d83f5a85ec111126d801de1345be4ceecf146d8e219"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_denmark.txt",
+    "bytes": 29030,
+    "sha256": "609a73cfb32277fa73feb079a93e1aa6f32594faa703f4639ed20fcd41a31264"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_dvaravati.txt",
+    "bytes": 18404,
+    "sha256": "91ecdb26dc128c678e62edc509881280aab706a605fbe544444d779aee0e2bc6"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_dzungaria.txt",
+    "bytes": 31404,
+    "sha256": "90cf23e1fb49186f1f4c9b6592977cc86cae56ce5dcb455d99009d139bcbee90"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_east_francia.txt",
+    "bytes": 115889,
+    "sha256": "9c43fbe35a306fe7e809a796de88549f250b85f2270ab144f37aa7792206edf8"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_egypt.txt",
+    "bytes": 40951,
+    "sha256": "2c0c1b0dc058737e147bfda6612b2aaca247bdac5b8edf9496a2fef9014dd56b"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_england.txt",
+    "bytes": 62040,
+    "sha256": "f1b400595601fe7512cbc24570f2690fd50a5f5630c4d153cee9667d4c46ba06"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_epirus.txt",
+    "bytes": 17453,
+    "sha256": "e1de0502d1f2237efa87c9495e684fcf5bf6a27444cec6fa1f0d20ac994728ce"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_esthonia.txt",
+    "bytes": 10024,
+    "sha256": "85572f4553a6d55758536d0fb814493395850b8db5e19a81ba03a3edaf56628b"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_finland.txt",
+    "bytes": 32971,
+    "sha256": "7722214a5e5334c3bdf6346b38ed77f301ed71b3a1433f89f772641eec8fcef3"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_france.txt",
+    "bytes": 76315,
+    "sha256": "e03afaa687edbd720b612d27c4e2d806ca8f2dc728f954803f685876a033b4e9"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_frisia.txt",
+    "bytes": 18975,
+    "sha256": "e02b63e0ac15e48108252e56bd90c47f0929bb36496b9cfe572a9bb5e09d3f3e"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_galicia-volhynia.txt",
+    "bytes": 27063,
+    "sha256": "11869894c5ed3c3c5c8e785e4405de68ea73a66af952b179cf39f61ef4a7bc0f"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_georgia.txt",
+    "bytes": 22525,
+    "sha256": "4d8f75aabcf50087fafb43667a7e97e58daa3367a262920961ab2623fc552819"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_ghana.txt",
+    "bytes": 19916,
+    "sha256": "cbfd6312cfea80f2ef919e1154dd748826e66e3327777023ceb4689d0d1acf6e"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_gobi.txt",
+    "bytes": 4260,
+    "sha256": "5413d373585be4fb935f9f59e8cfa75d45f5d44cdf8bf70e172837c2ce2cbe5b"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_gondwana.txt",
+    "bytes": 11796,
+    "sha256": "88801f4d81c40b6f858dc1ad083706339e29bf16871498f0d7265e5976341f9d"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_guge.txt",
+    "bytes": 28407,
+    "sha256": "befe082944719876011e7aee9edadbf1dba59ed11ff839f7034a91297b9d5a41"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_guinea.txt",
+    "bytes": 10374,
+    "sha256": "5eec46849376ce42191c0ae5085c8632d652f0b8081beefa9c4277e1992b3ae6"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_gujarat.txt",
+    "bytes": 33234,
+    "sha256": "293a08f560a23c231d766d734c839de721129021fad751b88b406592b51ac5be"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_gur.txt",
+    "bytes": 5290,
+    "sha256": "a45ab394639f2ec1cbb503e530bcfb5304dcb51f7a173719272f0bd920dd018a"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_gurma.txt",
+    "bytes": 9046,
+    "sha256": "05bb328888534c5200a261930c6fd8d920fed0c8987d591c42ad773b4f3b486a"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_gyalrong.txt",
+    "bytes": 34035,
+    "sha256": "c499f43c29ec315c2e9d529809eb3af8a385c0ba5b1637b337fbd3930d215577"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_hausaland.txt",
+    "bytes": 8575,
+    "sha256": "c48f820f4b2be6b7d3090ea737271314cecbfdf811f36465a59e2a1953575734"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_hellas.txt",
+    "bytes": 12771,
+    "sha256": "6f467f31eac9967b5e245886d2354757604f281df86379a5e5b68170cbb81c7b"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_himalaya.txt",
+    "bytes": 45122,
+    "sha256": "1b204b87c33bfab20c30ebb992fd2c761bb7855ac977dce5dc66c3815ea3e0fe"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_hujung_medini.txt",
+    "bytes": 5085,
+    "sha256": "7eabe0679176734644b3dcd5db7a02e90be24137576f5222ca4b9e530375e75d"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_hungary.txt",
+    "bytes": 69453,
+    "sha256": "aced69137423f056754c1fbf0b4a77edffb9431090f49af631767eda0a64d643"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_igbo-benue.txt",
+    "bytes": 6577,
+    "sha256": "773ab96b229eabf0093bfc400bcc3dad87b4729e5c7c00f6b917b1e5e3a23996"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_ireland.txt",
+    "bytes": 48853,
+    "sha256": "aea59baf57cd0f2567ff380134c0f9f6dbb1ba49c4edeb52b08f810cec422055"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_italy.txt",
+    "bytes": 90963,
+    "sha256": "87d7630b258d2e0cdc348a89ccc6099fa62978e43bd82900b36e1a2d0596e32e"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_jazira.txt",
+    "bytes": 30468,
+    "sha256": "1fe0cf9b2de711982c5750b65cff0fc79b845975385adbe9c89dc247f056ffe6"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_jenne.txt",
+    "bytes": 4203,
+    "sha256": "25139b97bc608ee25c623e73e184f2d2044acbe1b4d00b4f13816024b6dd207d"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_jerusalem.txt",
+    "bytes": 19235,
+    "sha256": "c7f0c95b57dbfc70468d376e2c91e1439bf6eb3c6cbb2f49bb911b36e4af3c6f"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_kaabu.txt",
+    "bytes": 4654,
+    "sha256": "1b85813a427f5fd0a513a8a02bf57fb2f4775655928aad31230bcafedd19aa62"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_kabulistan.txt",
+    "bytes": 18161,
+    "sha256": "d0300a5c4b269f69600f127f3adfc73d19f193f06a1d92274ee62cb78dee7a78"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_kamarupa.txt",
+    "bytes": 29410,
+    "sha256": "ce81a65829456d96bba206b393900bcfc79c711623b6f5faaf3a586b9b7e0eb7"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_kanem.txt",
+    "bytes": 9036,
+    "sha256": "8516797983f5a1d7190a49c5f44259b27f4d9ca1c73788f9543dbd3d93c9c057"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_karnata.txt",
+    "bytes": 25184,
+    "sha256": "550215f2d2e841e0f312005f8d5370ca16c14004dffb03132f0a8cb482b063be"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_kashmir.txt",
+    "bytes": 16954,
+    "sha256": "2eff206a5ca05f876cea2a378c409fc04344a04f9b6a5c22933c3c904b72756c"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_khakassia.txt",
+    "bytes": 12799,
+    "sha256": "79146ac534df7f513d213b9e38f27f694f91763401efba4ddcaca1c4a37b896b"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_kham.txt",
+    "bytes": 47759,
+    "sha256": "bc2e60340693b828356c1f51a674f19453694fb6f55dec7129185089d0be72e5"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_khitan.txt",
+    "bytes": 10334,
+    "sha256": "9585163a8ec9a47be44666ddae1755b7c7923b95e69438abd20846deb895c491"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_khorasan.txt",
+    "bytes": 37654,
+    "sha256": "113d7ce72a550711acde47e0685377316a43469b5f3bd3234b9b90f37da2cff9"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_khotan.txt",
+    "bytes": 43757,
+    "sha256": "ffd62cf1bd6b425c92d0158df916e28a585cdad04353800971b799774416d705"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_kipchak.txt",
+    "bytes": 9219,
+    "sha256": "27fd4f99fdae181c47344c9785b3f8dce3869ff580c2e231b4692cc414508a93"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_kong.txt",
+    "bytes": 7610,
+    "sha256": "a0f5c22866fab52096e51723a57c615106e28c6e782845a5908117cd3f7d3f1e"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_kosala.txt",
+    "bytes": 35816,
+    "sha256": "94eeded40e6e7674aca3678f2a67616899c6b214f881f63ea697a468074e2409"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_krete.txt",
+    "bytes": 5145,
+    "sha256": "09020273f37b2872af76ca378a733b267655cbed60f9efe4b6724db9b2c77292"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_lanka.txt",
+    "bytes": 20533,
+    "sha256": "de9a9ee5c94c5ed585300a3eef223c4e18785bf938a43151a3283131b36955c4"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_leon.txt",
+    "bytes": 19606,
+    "sha256": "34ef1271ac0726c1bc5289163ce88638f9548ef3ae7e8adf630bf0f62504d493"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_lhomon.txt",
+    "bytes": 23516,
+    "sha256": "fb10a3907070f937203bdb1e608b174540b2abf33931b9e0bc008c9e6b10a5c6"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_lithuania.txt",
+    "bytes": 39886,
+    "sha256": "c4724790f27895c9808714e48a26bb217b906d0420e01a7f277ba585fc4c5c6b"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_lotharingia.txt",
+    "bytes": 44459,
+    "sha256": "c44adfef188b9c22c9516b100f57e1b5c1f2a0d98e4b96047c3eb3e64c52d353"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_luzhen.txt",
+    "bytes": 8657,
+    "sha256": "5c8a2de24022ea8df34cf8e49dcd88e4b86e483a1a5f1309264243e87bbbcb30"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_maghreb.txt",
+    "bytes": 33200,
+    "sha256": "2fe8015e8d587634ad25ec46488e3330e5721d140cabaf72b64d42eb529e3594"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_maharastra.txt",
+    "bytes": 28172,
+    "sha256": "ddbeb776da00ea203b6e024f0f64a73e944063da53e1f7eb4ff696c055588098"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_makran.txt",
+    "bytes": 20598,
+    "sha256": "c983155c50fc5a9bc09502565d61472fa56bb8d3bc25436f716497a9656e45cc"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_malayadvipa.txt",
+    "bytes": 18505,
+    "sha256": "70ef702e2b3e90291f0b97307fcc5836cffa7b32eb44705a3485d4e129e010b9"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_mali.txt",
+    "bytes": 15019,
+    "sha256": "825441fb8c9d190f2869fb7138915ce9e135b7640f9e39233e0de9fad180c66b"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_maluku.txt",
+    "bytes": 6489,
+    "sha256": "da02c4feeaeea56073d95aa657fb0b25a52a974b8cd212a0fbf3b54e857834b5"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_malwa.txt",
+    "bytes": 22386,
+    "sha256": "e275db30ab7926147fc74e755ef5f5d75ed4ffc33369dc236e166a6bdebd75aa"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_maryul.txt",
+    "bytes": 24096,
+    "sha256": "4b2cbb8ae6b2b3835b09a91b678f99f6cca1bb1aef37b68a196754b043f97b43"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_mesopotamia.txt",
+    "bytes": 26537,
+    "sha256": "4dc2a31504ae0d9fe8e9b218ba094c2a38b37b37f414cf28d2d60b769d4d8a49"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_moldavia.txt",
+    "bytes": 7298,
+    "sha256": "e79267cb6864a1e5d54688d29a1b5315d9c99f224471c9d9d1644d73ae7cd7a2"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_mordvinia.txt",
+    "bytes": 21824,
+    "sha256": "b5a78ce39d4e89f918c94bc20f05bfa2f5d640b2f3042a0e8df689d2a1004e8d"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_naimania.txt",
+    "bytes": 17969,
+    "sha256": "43032d28d4cb6ca415b472941d2edbb867dd57a94c49109b512f8f60ab02fdc3"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_navarra.txt",
+    "bytes": 15269,
+    "sha256": "7cbc2b6fa4dd54d85a3e5dad401d217003b4ac762a65dff8d660258304e28f71"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_nikaea.txt",
+    "bytes": 18034,
+    "sha256": "67e2e756c562cc8605fdb281d70332bacd58d48c46b7ac8e8373c1829e6c07a2"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_norway.txt",
+    "bytes": 48371,
+    "sha256": "97edd2bbefc53c931e73b4fa43acd4dfc1ebac46612ecdc402b9bff25b132f02"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_novgorod.txt",
+    "bytes": 30879,
+    "sha256": "5ea374551b7c2e97b2ee72bef9b5d0b3e315891ac4bc90edc360f239b4bd681d"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_nubia.txt",
+    "bytes": 33193,
+    "sha256": "ae187c001fad759e4f75b2f12f77416794e61a64484b87fecfdce8448e051fa8"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_ob.txt",
+    "bytes": 21088,
+    "sha256": "74a00bc976d9b5c8e43b9e7c71a1b39b936233ac3c110f21bfc6b8cd629bcc72"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_oghuz_il.txt",
+    "bytes": 22174,
+    "sha256": "62dfa2a90bcbe53a5a362cd4cc363b1cbf68ccbcf7b77d517d3bb3c3199633c8"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_opolye.txt",
+    "bytes": 20699,
+    "sha256": "04ea45a5f6380ed73aef4f1122d813569ba476f2533518ec6b321a70256479e7"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_orissa.txt",
+    "bytes": 35215,
+    "sha256": "1ba0711e5355729629ee915de3ca95627ad93e5d86f2c3a3b41c3270881e594f"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_otuken.txt",
+    "bytes": 18913,
+    "sha256": "85a81c263f6d3f1c8e5c4f5ad58c0e0c0bbca7c6c6cbd22d2c4ee106452dcb49"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_pagan.txt",
+    "bytes": 18063,
+    "sha256": "52b0ad9296bd2553ee955422dd98f84e21e566628b9c1ac3a36bf4d61ce4271e"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_permia.txt",
+    "bytes": 5811,
+    "sha256": "c66fc342d95194a11d43dfe48e4526ea02f48ad4216e94adb23dddce921bafc5"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_persia.txt",
+    "bytes": 50890,
+    "sha256": "a1d3ce0ef1c8934931b6561ffbe19be122fdb0d4f05dc05a9d2ffac8778f1d88"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_philippines.txt",
+    "bytes": 12140,
+    "sha256": "8c03d965ce08cb7c55a2e75f3fe0c1e1fed066b9d796f60f8f68a581fbaf2699"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_poland.txt",
+    "bytes": 42529,
+    "sha256": "42932a2363f8fdc3ea2c852a9f44e07d2bdd511b2dc38a62b3cf2b249c8837bc"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_pomerania.txt",
+    "bytes": 27940,
+    "sha256": "d5b6a33625ffb99708c723d9e2ad99dd50dfca1a886027c7ca4802b694fc5dfe"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_pontic_steppe.txt",
+    "bytes": 29188,
+    "sha256": "d1145df31ca649135ef0ef29c769f667f9c7cba3b1314f4aa9b8b8ef9ec99034"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_pontus.txt",
+    "bytes": 24392,
+    "sha256": "64bdb003758094f3bf1ec24b999d3d19a6d6b3c7510b54fd1165bd58db5e3d47"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_punjab.txt",
+    "bytes": 38294,
+    "sha256": "e12ad96fe64c7c2025ff7f31e3350e902f8b432766179ffc8a2723bf0c45a3e1"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_qara_dala.txt",
+    "bytes": 7773,
+    "sha256": "d90882031c6e01baa6d71b672814b009b2f12f68cc350a731b61adb57867a705"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_rajputana.txt",
+    "bytes": 45774,
+    "sha256": "e6782a60eab8d33d6ea5f7e998a80b118b97a15d8eba8ce99afec520f1c187ac"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_romagna.txt",
+    "bytes": 49913,
+    "sha256": "71b77106d31da7d11e4a97e284be6c5ce40ddc3638745dd352e4382867cf20bc"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_ruthenia.txt",
+    "bytes": 59657,
+    "sha256": "d01d09455ac2805db0f83c0f52a2b5d8fb82821f9d3c6c38ae1fb5520e9e1c35"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_sahara.txt",
+    "bytes": 14397,
+    "sha256": "869cb5f5392f0be339ed147fb92c42608ef712090e2cfc27df0a2118c663e29c"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_sao.txt",
+    "bytes": 7702,
+    "sha256": "6a914b96e0777f1a7db96b0f3179079c95f3f481d4192d0ff800c229d2db7724"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_sapmi.txt",
+    "bytes": 20502,
+    "sha256": "12ca92794e0272f7841948a90c67fdc48a6a8156454674f829407d13e6c72f0b"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_sardinia.txt",
+    "bytes": 17696,
+    "sha256": "769ae3781d7888ebc429f8965487d9e54966d88002369c5a5081f0835db6bf24"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_saryarka.txt",
+    "bytes": 7771,
+    "sha256": "4f656fa94e57f047d8746960250746f78f730becd4df7ee78d144138078d413c"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_scotland.txt",
+    "bytes": 49875,
+    "sha256": "394bee969288f57d7d1572b6e16d78baa35907f1086e8ae75d15a96eaa293dfc"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_serbia.txt",
+    "bytes": 16036,
+    "sha256": "e0fc7fbded80a13837e3f677b798b5c4c37290bd879fceb57856c9ec1eb04853"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_shiwei.txt",
+    "bytes": 8816,
+    "sha256": "b5eb96bc70d83f45908fe7b8b9cbd51765386e120b60f41a14f27764ad56457a"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_sibir.txt",
+    "bytes": 8776,
+    "sha256": "eec0d164f42f5e14ca79c2fff4afd1bd8e063c4898ad833d4d5b222b239b69fa"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_sicily.txt",
+    "bytes": 58314,
+    "sha256": "62aba587c746c3b85f6e9b4346c89dd3d77d9a110d1989e335e669e7b0995b36"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_sindh.txt",
+    "bytes": 18599,
+    "sha256": "a007cb6fec14bf918f76d1766ae76a9c48fd0d6c2e5e6ddaa2543fe45dd9ab88"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_songhay.txt",
+    "bytes": 9777,
+    "sha256": "efbc2134f18b41aed6606418da9893c3c5b1db99c10b95c8b9feb5f0cced50ba"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_spanish_galicia.txt",
+    "bytes": 25944,
+    "sha256": "ff0e554fb3cfc389cf605923050d8945d5b649031d2fb624320aa2ad987de5f2"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_sulawesi.txt",
+    "bytes": 8185,
+    "sha256": "01a08dd14b347751340243062d5a8c03201510a7d49f59b7287761d66cb67fd3"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_sweden.txt",
+    "bytes": 33111,
+    "sha256": "3fc9a3220ea0228e4b097fe5a42f0f7ebda5603a14761cd8568f3798d03c0f5e"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_syr_darya.txt",
+    "bytes": 28860,
+    "sha256": "17421e2808e334fc1c1b4c50b756bf174b8a975e90e826833116e825be17cd23"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_syria.txt",
+    "bytes": 43521,
+    "sha256": "2cf8da718682e2599db497a54763eb57c8ac8beae37079b4e0dc3d9f31021a42"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_tahert.txt",
+    "bytes": 26003,
+    "sha256": "4955df9c5aca0dea744891c6a88ef44b6140a93f840c334b8f493715e8bea781"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_takrur.txt",
+    "bytes": 7077,
+    "sha256": "6d32c0a091e7188f5af0fee9c16c43c0d5bdcc20cef9654894d92ec52d70fd82"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_tamilakam.txt",
+    "bytes": 23411,
+    "sha256": "4aa3ab71fc74e72b7d9e9f8521416e1fa12a02f1dc5ffc2806bf0ac7d265d971"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_telingana.txt",
+    "bytes": 9510,
+    "sha256": "ecdd67c9b0241b4fc6dd1e5cb5aaf3b4ae296dbc77a33b470f8fcc98c8120e33"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_thessalonika.txt",
+    "bytes": 32179,
+    "sha256": "f34added4067a3c95fa06c190257145384e67190de04b253a0fea2367f3acd4a"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_transoxiana.txt",
+    "bytes": 49358,
+    "sha256": "9e21ba804ba8a86435e7903bff7bc4912d1f50dc1c95f746808724f89bbc89ff"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_tsang.txt",
+    "bytes": 23414,
+    "sha256": "1df220dd894d4cc6e4e6cf32557f31827ce8b1aec8ed03578d7f1fc6b021b954"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_tuva.txt",
+    "bytes": 9490,
+    "sha256": "586cf2563a21ac4a81027192614260d2840f305cbb3445cfb42b224ad5ff4745"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_u.txt",
+    "bytes": 30314,
+    "sha256": "c2ced0fa2d0ff30588b8351cdabd63e62252f14b900edfa0fcd3d1ee4acc17b0"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_valencia.txt",
+    "bytes": 34733,
+    "sha256": "976cb5ba52561ba540aa18a1ee9758af0ce86d1066d738982c31cd54206154d3"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_venice.txt",
+    "bytes": 9589,
+    "sha256": "4787c4c2f79c0330cd0c42e11110934282ac597205eaccb71d037d20038876e0"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_volga_bulgaria.txt",
+    "bytes": 23071,
+    "sha256": "076467444a0332939dbc28355003689764f5ebab6bf18a2db21240124a103b31"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_wales.txt",
+    "bytes": 20840,
+    "sha256": "1e1f04620af513376328426ee60fc926104ec229b6b4c17f1bd60122fddcc571"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_white_rus.txt",
+    "bytes": 30374,
+    "sha256": "dbe1ecd4285b54e4bb0748f644ebff9260e952f9a9339c61c01b80d98cb71035"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_xia.txt",
+    "bytes": 37893,
+    "sha256": "9140d1eaba86b1de3f55656aa6b64ad47c5e83640d287996b63b1b9624e39ca8"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_yavakadvipa.txt",
+    "bytes": 20103,
+    "sha256": "249ab5351b657e7d4ab841f79c2ab6e16408f4d903014f087a8f33d4155510bd"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_yemen.txt",
+    "bytes": 20788,
+    "sha256": "e51ad7d60cf59e68640d5f8fe1aa04bdf0217f5bf115e7adad07d9b0eebd7a5f"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_yorubaland.txt",
+    "bytes": 10279,
+    "sha256": "60817947ed54b490094352279116f0e14bbcdd74521c176c6335886e959cdb98"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_yugra.txt",
+    "bytes": 9003,
+    "sha256": "2d3f8b43133c5118af6392f1e3b31e7bed460b98f958e1158343c93cdb0e01eb"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_zanj.txt",
+    "bytes": 9483,
+    "sha256": "49c628209be53f545785c2fcd9f5231a66a141b9e85cd3186c775b192d316ad6"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\history\\titles\\k_zhetysu.txt",
+    "bytes": 28347,
+    "sha256": "032d938b9b21f425f7ca65b52a543070f97e40fcddb86f9c097cef07e26ec5c5"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\localization\\simp_chinese\\dlc\\pam\\pam_ecclesiastical_titles_l_simp_chinese.yml",
+    "bytes": 6277,
+    "sha256": "98a2338c4fab0b8363431bd2a564159c9e61454973d4fb9dbc162503ad4c606c"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\localization\\simp_chinese\\dlc\\tgp\\dlc_tgp_japan_titles_l_simp_chinese.yml",
+    "bytes": 21683,
+    "sha256": "8e070716ea3303497035783e5dcb820b34a66328c8ad6eba1659bdbb78d7f086"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\localization\\simp_chinese\\dlc\\tgp\\dlc_tgp_korea_titles_l_simp_chinese.yml",
+    "bytes": 10188,
+    "sha256": "59cf92d940ce82b872035de3ab61c3952a8768e87ca09ede2b7941c729274b16"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\localization\\simp_chinese\\dlc\\tgp\\dlc_tgp_other_titles_l_simp_chinese.yml",
+    "bytes": 68906,
+    "sha256": "64c5cb8d23de6f101ddec7b97d51633efcb8e8bbf0f0d876fd200261f880d301"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\localization\\simp_chinese\\titles_l_simp_chinese.yml",
+    "bytes": 862782,
+    "sha256": "02007f6ae10dc4c6417cfd0577b801696b95ab4d9bfdbfe7e0ba0e086ee5b6ab"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\map_data\\provinces.png",
+    "bytes": 2488311,
+    "sha256": "f67b80dbc535d80925bf4601059529e4e8e7485fdc2db46d71928e65897dea10"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\map_data\\rivers.png",
+    "bytes": 601095,
+    "sha256": "0f6a42cea507998843d278934dda8b35349d489cb1aed7925ee769135da3e0e8"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\map_data\\definition.csv",
+    "bytes": 432072,
+    "sha256": "28a6793b3560145770a2a93c75cec8a7d7a82cf2bf7c9a877d076ca65fc65101"
+  },
+  {
+    "path": "D:\\Steam\\steamapps\\common\\Crusader Kings III\\game\\map_data\\default.map",
+    "bytes": 16084,
+    "sha256": "bd13123017e53ea9a1cb7e4d8fe3279dbe02b4415ba4cafee1730cc4d91ce2b1"
+  }
+]
