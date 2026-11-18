@@ -77,6 +77,65 @@ function Install-ElectronRuntime($cache, $asset, $checksum, $runtime) {
     }
 }
 
+function Start-MapDesigner($executable, $directory) {
+    if (-not ('MapDesigner.DetachedLauncher' -as [type])) {
+        Add-Type -TypeDefinition @'
+using System;
+using System.ComponentModel;
+using System.Runtime.InteropServices;
+using System.Text;
+
+namespace MapDesigner {
+    public static class DetachedLauncher {
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+        private struct StartupInfo {
+            public int cb;
+            public string reserved, desktop, title;
+            public int x, y, width, height, columns, rows, fillAttribute, flags;
+            public short showWindow, reservedSize;
+            public IntPtr reservedData, standardInput, standardOutput, standardError;
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        private struct ProcessInfo {
+            public IntPtr process, thread;
+            public int processId, threadId;
+        }
+
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static extern bool CreateProcessW(
+            string application, StringBuilder command, IntPtr processAttributes,
+            IntPtr threadAttributes, bool inheritHandles, uint flags,
+            IntPtr environment, string directory, ref StartupInfo startup,
+            out ProcessInfo process);
+
+        [DllImport("kernel32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static extern bool CloseHandle(IntPtr handle);
+
+        public static void Start(string executable, string directory) {
+            var startup = new StartupInfo();
+            startup.cb = Marshal.SizeOf(typeof(StartupInfo));
+            ProcessInfo process;
+            const uint DetachedProcess = 0x00000008;
+            const uint NewProcessGroup = 0x00000200;
+            // Keep Electron independent of the launcher's console and I/O handles.
+            if (!CreateProcessW(executable, new StringBuilder("\"" + executable + "\" ."),
+                IntPtr.Zero, IntPtr.Zero, false, DetachedProcess | NewProcessGroup,
+                IntPtr.Zero, directory, ref startup, out process)) {
+                throw new Win32Exception(Marshal.GetLastWin32Error());
+            }
+            CloseHandle(process.thread);
+            CloseHandle(process.process);
+        }
+    }
+}
+'@
+    }
+    [MapDesigner.DetachedLauncher]::Start($executable, $directory)
+}
+
 try {
     if (-not (Test-Path -LiteralPath (Join-Path $project 'index.html') -PathType Leaf) -or
         -not (Test-Path -LiteralPath (Join-Path $project 'electron/main.cjs') -PathType Leaf)) {
@@ -115,7 +174,7 @@ try {
         }
     }
 
-    Start-Process -FilePath (Join-Path $runtime 'electron.exe') -ArgumentList '.' -WorkingDirectory $project
+    Start-MapDesigner (Join-Path $runtime 'electron.exe') $project
 } catch {
     Write-Host "MapDesigner could not start. $($_.Exception.Message)" -ForegroundColor Red
     exit 1
