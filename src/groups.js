@@ -10,12 +10,15 @@
   const deleteButton = document.getElementById('delete-group');
   const error = document.getElementById('group-error');
   const list = document.getElementById('group-list');
+  const scroll = document.getElementById('group-panel-scroll');
   const empty = document.getElementById('groups-empty');
   const pickStatus = document.getElementById('group-pick-status');
   let groups = [];
   let editingId = null;
   let outlineRevision = 0;
   let memberPick = null;
+  let groupDrag = null;
+  let dragFrame = 0;
   const defaultColor = '#42667f';
 
   function availableColor(color, used) {
@@ -153,12 +156,15 @@
   }
 
   function render() {
+    const scrollTop = scroll.scrollTop;
     const rows = groups.map(group => {
       const row = document.createElement('li');
       row.className = 'group-list-item';
+      row.dataset.groupId = group.id;
       const button = document.createElement('button');
       button.type = 'button';
       button.className = 'group-select';
+      button.draggable = true;
       button.addEventListener('click', () => open(group));
       const swatch = document.createElement('span');
       swatch.className = 'country-list-swatch';
@@ -184,6 +190,7 @@
       return row;
     });
     list.replaceChildren(...rows);
+    scroll.scrollTop = scrollTop;
     empty.hidden = groups.length !== 0;
     updateMemberPick(pickStatus.textContent);
   }
@@ -195,6 +202,7 @@
     render();
     outlineRevision++;
     window.MapPainting?.redraw();
+    window.dispatchEvent(new Event('group-labels-changed'));
   }
 
   function commit(entries, label) {
@@ -221,6 +229,78 @@
 
   try { groups = validate(JSON.parse(localStorage.getItem(storageKey) ?? '[]')); } catch {}
   render();
+  function updateDropTarget(y) {
+    list.querySelector('.group-drop-before,.group-drop-after')?.classList.remove('group-drop-before', 'group-drop-after');
+    if (y === undefined) return;
+    const rows = [...list.children].filter(row => row.dataset.groupId !== groupDrag.id);
+    const next = rows.find(row => {
+      const bounds = row.getBoundingClientRect();
+      return y < bounds.top + bounds.height / 2;
+    });
+    if (next) next.classList.add('group-drop-before');
+    else rows.at(-1)?.classList.add('group-drop-after');
+    return next?.dataset.groupId;
+  }
+  function scrollWhileDragging() {
+    if (!groupDrag) return;
+    const { top, bottom, height } = scroll.getBoundingClientRect();
+    const edge = Math.min(36, height / 3);
+    const y = groupDrag.y;
+    if (y >= top && y <= bottom && edge > 0) {
+      const speed = y < top + edge ? -10 * (1 - (y - top) / edge) :
+        y > bottom - edge ? 10 * (1 - (bottom - y) / edge) : 0;
+      if (speed) {
+        scroll.scrollTop += speed;
+        updateDropTarget(y);
+      }
+    }
+    dragFrame = requestAnimationFrame(scrollWhileDragging);
+  }
+  function stopGroupDrag() {
+    cancelAnimationFrame(dragFrame);
+    groupDrag = null;
+    updateDropTarget();
+    list.querySelector('.group-dragging')?.classList.remove('group-dragging');
+  }
+  list.addEventListener('dragstart', event => {
+    const row = event.target.closest('.group-select')?.closest('.group-list-item');
+    if (!row) return;
+    stopGroupDrag();
+    groupDrag = { id: row.dataset.groupId };
+    event.dataTransfer.effectAllowed = 'move';
+    event.dataTransfer.setData('text/plain', groupDrag.id);
+    row.classList.add('group-dragging');
+    dragFrame = requestAnimationFrame(scrollWhileDragging);
+  });
+  scroll.addEventListener('dragover', event => {
+    if (!groupDrag) return;
+    event.preventDefault();
+    event.dataTransfer.dropEffect = 'move';
+    groupDrag.y = event.clientY;
+    updateDropTarget(groupDrag.y);
+  });
+  scroll.addEventListener('dragleave', event => {
+    if (!groupDrag || scroll.contains(event.relatedTarget)) return;
+    groupDrag.y = undefined;
+    updateDropTarget();
+  });
+  scroll.addEventListener('drop', event => {
+    if (!groupDrag) return;
+    event.preventDefault();
+    const beforeId = updateDropTarget(event.clientY);
+    const index = groups.findIndex(group => group.id === groupDrag.id);
+    stopGroupDrag();
+    if (index < 0) return;
+    const next = [...groups];
+    const [moved] = next.splice(index, 1);
+    const position = beforeId ? next.findIndex(group => group.id === beforeId) : next.length;
+    if (position !== index) {
+      next.splice(position, 0, moved);
+      commit(next, '集团排序');
+    }
+  });
+  list.addEventListener('dragend', stopGroupDrag);
+  window.addEventListener('hashchange', stopGroupDrag);
   document.getElementById('create-group').addEventListener('click', () => open());
   for (const id of ['close-group-dialog', 'cancel-group']) {
     document.getElementById(id).addEventListener('click', () => dialog.close());

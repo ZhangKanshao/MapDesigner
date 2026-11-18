@@ -14,14 +14,15 @@
 :is(.country-select,.group-select){display:flex;align-items:center;gap:10px;flex:1;min-width:0;padding:5px 3px;border:0;background:transparent;text-align:left;font:inherit;color:inherit;border-radius:4px}
 :is(.country-select,.group-select) .country-name{overflow-wrap:anywhere;min-width:0}
 :is(.country-select,.group-select):hover{background:#ffffff55}
-.country-select[draggable="true"]{cursor:grab}
-.country-select[draggable="true"]:active{cursor:grabbing}
-.country-dragging{opacity:.4}
+:is(.country-select,.group-select)[draggable="true"]{cursor:grab}
+:is(.country-select,.group-select)[draggable="true"]:active{cursor:grabbing}
+:is(.country-dragging,.group-dragging){opacity:.4}
 .country-vassal .country-select{margin-inline-start:14px}
 .country-drop-suzerain .country-select{outline:2px solid #42667f;outline-offset:1px;background:#d6e5f0bb}
-.country-list-item{position:relative}
-.country-drop-before::before,.country-drop-after::after{content:"";position:absolute;left:0;right:0;height:2px;background:#42667f;border-radius:2px;pointer-events:none}
-.country-drop-before::before{top:0}.country-drop-after::after{bottom:0}
+:is(.country-list-item,.group-list-item){position:relative}
+:is(.country-drop-before,.group-drop-before)::before,:is(.country-drop-after,.group-drop-after)::after{content:"";position:absolute;left:0;right:0;height:2px;background:#42667f;border-radius:2px;pointer-events:none}
+:is(.country-drop-before,.group-drop-before)::before{top:0}
+:is(.country-drop-after,.group-drop-after)::after{bottom:0}
 .country-select[aria-pressed="true"]{background:#d6e5f0bb;box-shadow:inset 2px 0 #344f67}
 :is(.country-brush,.group-member-action){display:grid;place-items:center;width:26px;height:26px;flex-shrink:0;border:0;border-radius:4px;background:transparent;color:#526c84;padding:0}
 :is(.country-brush,.group-member-action):hover{background:#ffffff88}

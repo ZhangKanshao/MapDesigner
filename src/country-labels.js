@@ -1,5 +1,5 @@
 (() => {
-  const defaults={enabled:true,font:'kaiti',color:'#263747',opacity:75,enclaveNaming:true};
+  const defaults={enabled:true,font:'kaiti',color:'#263747',opacity:75,groupOpacity:50,enclaveNaming:true};
   const storageKey=`mapdesigner.${window.MapTemplate.key}.country-labels.v1`;
   const fonts=window.MapSettingsDefaults.fonts;
   const toggle=document.getElementById('toggle-country-labels');
@@ -7,38 +7,48 @@
   const buffer=document.createElement('canvas');
   const fontInput=document.getElementById('country-label-font'),colorInput=document.getElementById('country-label-color'),hexInput=document.getElementById('country-label-color-hex');
   const opacityInput=document.getElementById('country-label-opacity'),opacityValue=document.getElementById('country-label-opacity-value');
+  const groupOpacityInput=document.getElementById('group-label-opacity'),groupOpacityValue=document.getElementById('group-label-opacity-value');
   const enclaveToggle=document.getElementById('enclave-naming');
   const status=document.getElementById('country-label-status');
   let state={...defaults},revision=0,placements=[],busy=false,failure=null,timer=0,frame=0,geometryPromise=null,worker=null,lastJob=null;
   function validate(value) {
     if(!value || typeof value!=='object' || typeof value.enabled!=='boolean' || !Object.hasOwn(fonts,value.font) || typeof value.color!=='string' || !/^#[0-9a-f]{6}$/i.test(value.color) || !Number.isInteger(value.opacity) || value.opacity<0 || value.opacity>100) throw new Error('国家名称设置无效。');
     if(value.enclaveNaming!==undefined && typeof value.enclaveNaming!=='boolean') throw new Error('飞地命名设置无效。');
-    return {enabled:value.enabled,font:value.font,color:value.color.toLowerCase(),opacity:value.opacity,enclaveNaming:value.enclaveNaming??defaults.enclaveNaming};
+    const groupOpacity = value.groupOpacity === undefined ? defaults.groupOpacity : value.groupOpacity;
+    if (!Number.isInteger(groupOpacity) || groupOpacity < 0 || groupOpacity > 100) throw new Error('集团名称不透明度无效。');
+    return {enabled:value.enabled,font:value.font,color:value.color.toLowerCase(),opacity:value.opacity,groupOpacity,enclaveNaming:value.enclaveNaming??defaults.enclaveNaming};
   }
   try{const saved=localStorage.getItem(storageKey);if(saved)state=validate(JSON.parse(saved));}catch{}
   for(const option of document.getElementById('settings-font').options)fontInput.append(option.cloneNode(true));
-  function fillSettings(value=state) {fontInput.value=value.font;colorInput.value=hexInput.value=value.color;opacityInput.value=value.opacity;opacityValue.value=`${value.opacity}%`;enclaveToggle.setAttribute('aria-checked',String(value.enclaveNaming));}
-  function readSettings(){return validate({...state,font:fontInput.value,color:hexInput.value.trim(),opacity:Number(opacityInput.value),enclaveNaming:enclaveToggle.getAttribute('aria-checked')==='true'});}
+  function fillSettings(value=state) {
+    fontInput.value=value.font;colorInput.value=hexInput.value=value.color;
+    opacityInput.value=value.opacity;opacityValue.value=`${value.opacity}%`;
+    groupOpacityInput.value=value.groupOpacity;groupOpacityValue.value=`${value.groupOpacity}%`;
+    enclaveToggle.setAttribute('aria-checked',String(value.enclaveNaming));
+  }
+  function readSettings(){return validate({...state,font:fontInput.value,color:hexInput.value.trim(),opacity:Number(opacityInput.value),groupOpacity:Number(groupOpacityInput.value),enclaveNaming:enclaveToggle.getAttribute('aria-checked')==='true'});}
   enclaveToggle.addEventListener('click',()=>enclaveToggle.setAttribute('aria-checked',String(enclaveToggle.getAttribute('aria-checked')!=='true')));
   colorInput.addEventListener('input',()=>{hexInput.value=colorInput.value;});
   hexInput.addEventListener('input',()=>{if(/^#[0-9a-f]{6}$/i.test(hexInput.value))colorInput.value=hexInput.value;});
   opacityInput.addEventListener('input',()=>{opacityValue.value=`${opacityInput.value}%`;});
+  groupOpacityInput.addEventListener('input',()=>{groupOpacityValue.value=`${groupOpacityInput.value}%`;});
   function restore(value=defaults) {
     const previous=state,next=validate(value);
     if(Object.keys(next).every(key=>next[key]===previous[key]))return;
     state=next;toggle.setAttribute('aria-checked',String(!state.enabled));
     try{localStorage.setItem(storageKey,JSON.stringify(state));}catch{}
-    if(next.enabled!==previous.enabled || next.font!==previous.font || next.enclaveNaming!==previous.enclaveNaming || !previous.opacity || !next.opacity)invalidate();
+    if(next.enabled!==previous.enabled || next.font!==previous.font || next.enclaveNaming!==previous.enclaveNaming ||
+      Boolean(next.opacity)!==Boolean(previous.opacity) || Boolean(next.groupOpacity)!==Boolean(previous.groupOpacity))invalidate();
     else scheduleDraw();
   }
   toggle.setAttribute('aria-checked',String(!state.enabled));
   toggle.addEventListener('click',()=>restore({...state,enabled:!state.enabled}));
   function clear(){ctx.clearRect(0,0,layer.width,layer.height);layer.dataset.labelCount='0';}
   function scheduleDraw(){if(!frame)frame=requestAnimationFrame(()=>{frame=0;draw();});}
-  function markBusy(value){busy=value;layer.dataset.rendered=String(!value);toggle.setAttribute('aria-busy',String(value));toggle.title=value?'正在排布国家名称…':'隐藏或显示国名';}
+  function markBusy(value){busy=value;layer.dataset.rendered=String(!value);toggle.setAttribute('aria-busy',String(value));toggle.title=value?'正在排布国名与集团名…':'隐藏或显示国名与集团名';}
   function invalidate(){
     ++revision;failure=null;placements=[];clear();clearTimeout(timer);if(worker)worker.postMessage({type:'cancel',revision});
-    if(!state.enabled || state.opacity===0){markBusy(false);scheduleDraw();return;}
+    if(!state.enabled || (!state.opacity && !state.groupOpacity)){markBusy(false);scheduleDraw();return;}
     markBusy(true);timer=setTimeout(()=>rebuild(revision),80);
   }
   async function geometry(){
@@ -169,27 +179,36 @@
       const countries=window.CountryStore.list().filter(country=>country.name.trim());
       const owners=window.MapPainting.capture().owners;
       const owned=new Set(Object.values(owners));
-      const named=countries.filter(country=>owned.has(country.id));
-      if(!named.length){accept(rev,[]);return;}
-      await document.fonts.load(`600 100px ${fonts[state.font]}`,named.map(window.CountryStore.fullName).join(''));
+      const named=state.opacity ? countries.filter(country=>owned.has(country.id)) : [];
+      const groups=state.groupOpacity ? window.GroupStore.list().filter(group=>group.memberIds.some(id=>owned.has(id))) : [];
+      if(!named.length&&!groups.length){accept(rev,[]);return;}
+      await document.fonts.load(`600 100px ${fonts[state.font]}`,[...named.map(window.CountryStore.fullName),...groups.map(group=>group.name)].join(''));
       const data=await geometry();if(rev!==revision)return;
-      const enclaves = state.enclaveNaming ? await prepareEnclaves(owners, named) : null;
+      const enclaves = state.enclaveNaming && named.length ? await prepareEnclaves(owners, named) : null;
       if(rev!==revision)return;
-      const request={owners,enclaves,countries:named.map(country=>({id:country.id,capital:country.capital,layouts:layoutsForName(window.CountryStore.fullName(country)),enclaveLayouts:country.enclaveLayouts}))};
+      const request={owners,enclaves,countries:named.map(country=>({id:country.id,capital:country.capital,layouts:layoutsForName(window.CountryStore.fullName(country)),enclaveLayouts:country.enclaveLayouts})),
+        groups:groups.map(group=>({id:group.id,color:group.color,memberIds:group.memberIds,layouts:layoutsForName(group.name)}))};
       lastJob={revision:rev,geometry:data,request};
       const agent=getWorker(data);
       if(agent)agent.postMessage({revision:rev,request});else await fallback(lastJob);
     }catch(error){fail(rev,error);}
   }
-  function renderLabels(target,scratch,{width,height,ratio=1,scale=1,offsetX=0,offsetY=0},settings,labels){
+  function renderLabels(target, scratch, view, settings, labels) {
+    if (!settings.enabled) return 0;
+    const countryCount = renderLabelLayer(target, scratch, view, settings, labels, false);
+    return countryCount + renderLabelLayer(target, scratch, view, settings, labels, true);
+  }
+  function renderLabelLayer(target,scratch,{width,height,ratio=1,scale=1,offsetX=0,offsetY=0},settings,labels,groups){
+    const opacity = groups ? settings.groupOpacity : settings.opacity;
+    if (!opacity || !labels.some(label => Boolean(label.group) === groups)) return 0;
     const pw=Math.max(1,Math.ceil(width*ratio)),ph=Math.max(1,Math.ceil(height*ratio));
     if(scratch.width!==pw)scratch.width=pw;if(scratch.height!==ph)scratch.height=ph;
     const ink=scratch.getContext('2d',{willReadFrequently:true});ink.setTransform(1,0,0,1,0,0);ink.clearRect(0,0,pw,ph);
-    if(!settings.enabled||settings.opacity===0)return 0;
     const rgb=[1,3,5].map(i=>parseInt(settings.color.slice(i,i+2),16));
     const halo=rgb[0]*.2126+rgb[1]*.7152+rgb[2]*.0722>140?'#172536':'#ffffff';
     let count=0;
     for(const label of labels){
+      if (Boolean(label.group) !== groups) continue;
       const size=label.fontSize*scale;if(size<6)continue;
       const x=offsetX+label.x*scale,y=offsetY+label.y*scale;
       const w=label.layout.width*size,h=label.layout.height*size,c=Math.cos(label.angle),s=Math.sin(label.angle);
@@ -199,14 +218,14 @@
         ink.save();ink.setTransform(ratio,0,0,ratio,0,0);ink.translate(cx,cy);ink.rotate(angle);
         ink.beginPath();ink.rect(-width/2,-height/2,width,height);ink.clip();
         ink.font=`600 ${size}px ${fonts[settings.font]}`;ink.textAlign='center';ink.textBaseline='alphabetic';ink.lineJoin='round';ink.miterLimit=2;
-        ink.strokeStyle=halo;ink.fillStyle=settings.color;ink.lineWidth=Math.max(.75,size*.05);
+        ink.strokeStyle=label.group?'#ffffff':halo;ink.fillStyle=label.group?label.color:settings.color;ink.lineWidth=Math.max(.75,size*.05);
         lines.forEach((line,index)=>{const at=(baseline+index*advance)*size;ink.strokeText(line,0,at);ink.fillText(line,0,at);});ink.restore();
       };
       if(label.glyphs)for(const glyph of label.glyphs)drawText(offsetX+glyph.x*scale,offsetY+glyph.y*scale,glyph.angle,glyph.width*size,glyph.height*size,[glyph.text],glyph.baseline,0);
       else drawText(x,y,label.angle,w,h,label.layout.lines,label.layout.baseline,label.layout.lineAdvance);
       count++;
     }
-    target.save();target.setTransform(1,0,0,1,0,0);target.globalAlpha=settings.opacity/100;target.drawImage(scratch,0,0);target.restore();
+    target.save();target.setTransform(1,0,0,1,0,0);target.globalAlpha=opacity/100;target.drawImage(scratch,0,0);target.restore();
     return count;
   }
   function draw(){
@@ -223,7 +242,7 @@
     const scratch=document.createElement('canvas'),settings={...state},labels=placements;
     return{draw:(target,view)=>renderLabels(target,scratch,view,settings,labels),dispose:()=>{scratch.width=scratch.height=1;}};
   }
-  for(const name of ['territories-changed','countries-changed'])window.addEventListener(name,invalidate);
+  for(const name of ['territories-changed','countries-changed','group-labels-changed'])window.addEventListener(name,invalidate);
   for(const name of ['map-view-change','hashchange'])window.addEventListener(name,scheduleDraw);
   document.getElementById('map-viewport').addEventListener('scroll',scheduleDraw);
   document.getElementById('basemap').addEventListener('load',scheduleDraw);

@@ -1,0 +1,20 @@
+appId: com.mapdesigner.desktop
+productName: MapDesigner
+electronDist: node_modules/electron/dist
+npmRebuild: false
+files:
+  - index.html
+  - electron/**/*
+  - src/**/*
+  - assets/**/*
+  - scripts/global-settings.cjs
+  - scripts/project-files.cjs
+  - scripts/template-files.cjs
+win:
+  signAndEditExecutable: false
+  target:
+    - target: portable
+      arch:
+        - x64
+portable:
+  artifactName: MapDesigner-${version}-windows-${arch}.exe

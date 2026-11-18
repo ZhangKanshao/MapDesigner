@@ -17,9 +17,11 @@
   <script src="src/map-template.js" defer></script>
   <script src="src/settings-defaults.js" defer></script>
   <script src="src/settings.js" defer></script>
+  <script src="src/reference-image-settings.js" defer></script>
   <script src="src/map-styles.js" defer></script>
   <script src="src/map-appearance.js" defer></script>
   <script src="src/app.js" defer></script>
+  <script src="src/map-overlay.js" defer></script>
   <script src="src/map-tools.js" defer></script>
   <script src="src/countries.js" defer></script>
   <script src="src/groups.js" defer></script>
@@ -53,6 +55,7 @@
         <button id="tab-operations" role="tab" aria-selected="true" aria-controls="settings-operations" tabindex="0">操作设置</button>
         <button id="tab-files" role="tab" aria-selected="false" aria-controls="settings-files" tabindex="-1">文件设置</button>
         <button id="tab-appearance" role="tab" aria-selected="false" aria-controls="settings-appearance" tabindex="-1">外观设置</button>
+        <button id="tab-reference-images" role="tab" aria-selected="false" aria-controls="settings-reference-images" tabindex="-1">参考图片</button>
         <button id="tab-ai" role="tab" aria-selected="false" aria-controls="settings-ai" tabindex="-1">AI 设置</button>
       </div>
       <form id="settings-form">
@@ -79,6 +82,16 @@
       </div>
         <div class="settings-footer"><div class="settings-footer-buttons"><button id="save-settings" class="primary" type="submit">保存设置</button><button id="reset-settings" class="map-tool-button" type="button">恢复默认设置</button></div><p id="settings-status" role="status"></p></div>
       </form>
+      <section id="settings-reference-images" class="settings-card" role="tabpanel" aria-labelledby="tab-reference-images" hidden>
+        <div class="reference-images-heading">
+          <h2>参考图片</h2>
+          <button id="import-reference-images" type="button" class="map-tool-button">导入图片</button>
+        </div>
+        <p id="reference-images-folder" class="settings-help" hidden></p>
+        <ul id="reference-images-list" aria-label="参考图片列表"></ul>
+        <p id="reference-images-empty" class="settings-help" hidden>还没有参考图片。</p>
+        <p id="reference-images-status" class="settings-help" role="status"></p>
+      </section>
       <section id="settings-ai" class="settings-card" role="tabpanel" aria-labelledby="tab-ai" hidden>
         <h2>AI 连接</h2>
         <p id="ai-settings-help" class="settings-help">填写兼容 Chat Completions 的 API 地址和模型。配置和密钥加密保存在本机。</p>
@@ -121,7 +134,7 @@
         <div class="toolbar-group settings-group" role="group" aria-label="地图外观">
           <span class="toolbar-group-label">外观</span>
           <label class="admin-control" for="toggle-boundaries">边界显示<select id="toggle-boundaries"><option value="plots">显示地块边界</option><option value="countries">显示政治边界</option><option value="hidden">隐藏边界</option></select></label>
-          <label class="setting-switch-label" for="toggle-country-labels"><span>隐藏国名</span><button id="toggle-country-labels" type="button" class="setting-switch" role="switch" aria-label="隐藏国名" aria-checked="false"><span class="switch-thumb"></span></button></label>
+          <label class="setting-switch-label" for="toggle-country-labels"><span>隐藏国名与集团名</span><button id="toggle-country-labels" type="button" class="setting-switch" role="switch" aria-label="隐藏国名与集团名" aria-checked="false"><span class="switch-thumb"></span></button></label>
           <label class="setting-switch-label" for="toggle-wasteland"><span>荒地着色</span><button id="toggle-wasteland" type="button" class="setting-switch" role="switch" aria-label="荒地着色" aria-checked="false"><span class="switch-thumb"></span></button></label>
         </div>
         <div class="toolbar-group operations-group" role="group" aria-label="地图操作">
@@ -130,6 +143,8 @@
           <button id="pick-country" type="button" class="map-tool-button icon-tool" aria-pressed="false" aria-label="选择国家" title="选择国家"><svg width="19" height="19" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="7" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M12 2v6m0 8v6M2 12h6m8 0h6" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><circle cx="12" cy="12" r="1" fill="currentColor"/></svg></button>
           <button id="erase-map" class="map-tool-button icon-tool" aria-pressed="false" aria-label="擦除" title="擦除"><svg width="19" height="19" viewBox="0 0 24 24" aria-hidden="true"><path d="m14 3 7 7-10 11H6l-4-4zM7 12l7 7M11 21h11" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
           <button id="undo-map" class="map-tool-button icon-tool" aria-label="撤销" title="撤销上一步" disabled><svg width="19" height="19" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 10a8 8 0 1 1 1 8M4 4v6h6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+          <button id="open-map-overlay" type="button" class="map-tool-button icon-tool" aria-label="打开参考图片" title="打开参考图片"><svg width="19" height="19" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 19V6a2 2 0 0 1 2-2h4l2 3h7a2 2 0 0 1 2 2v2M3 19l3-8h16l-3 8z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg></button>
+          <input id="map-overlay-file" type="file" accept=".png,.jpg,.jpeg,.webp,.bmp,.gif" hidden>
           <button id="save-map" class="map-tool-button icon-tool" aria-label="保存" title="保存 snapshot / PNG"><svg width="19" height="19" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 3h13l4 4v14H3V3zM7 3v6h10V3M7 21v-8h10v8M14 5v2" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
         </div>
         <span id="paint-status" role="status"></span>
@@ -171,7 +186,33 @@
         </div>
         <canvas id="paint-layer" aria-hidden="true"></canvas>
         <canvas id="country-name-layer" aria-hidden="true"></canvas>
+        <div id="map-overlay-layer" hidden aria-hidden="true"><img id="map-overlay-image" alt="" draggable="false"></div>
         <canvas id="capital-layer" aria-hidden="true"></canvas>
+        <div id="map-overlay-handles" hidden>
+          <div id="map-overlay-frame" role="group" aria-label="参考图片变换">
+            <button id="rotate-map-overlay" class="overlay-handle" type="button" aria-label="旋转参考图片" title="拖动以旋转"><svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 11a7 7 0 1 1 2 6M5 5v6h6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            <button class="overlay-handle" type="button" data-overlay-corner="nw" aria-label="从左上角缩放参考图片" title="拖动以等比缩放"></button>
+            <button class="overlay-handle" type="button" data-overlay-corner="ne" aria-label="从右上角缩放参考图片" title="拖动以等比缩放"></button>
+            <button class="overlay-handle" type="button" data-overlay-corner="sw" aria-label="从左下角缩放参考图片" title="拖动以等比缩放"></button>
+            <button class="overlay-handle" type="button" data-overlay-corner="se" aria-label="从右下角缩放参考图片" title="拖动以等比缩放"></button>
+            <button class="overlay-handle" type="button" data-overlay-edge="n" aria-label="从上边调整参考图片高度" title="拖动以调整高度"></button>
+            <button class="overlay-handle" type="button" data-overlay-edge="s" aria-label="从下边调整参考图片高度" title="拖动以调整高度"></button>
+            <button class="overlay-handle" type="button" data-overlay-edge="w" aria-label="从左边调整参考图片宽度" title="拖动以调整宽度"></button>
+            <button class="overlay-handle" type="button" data-overlay-edge="e" aria-label="从右边调整参考图片宽度" title="拖动以调整宽度"></button>
+          </div>
+        </div>
+        <div id="map-overlay-controls" role="group" aria-label="参考图片调整" hidden>
+          <button id="move-map-overlay" type="button" class="map-tool-button icon-tool" aria-label="拖动参考图片" title="拖动此处移动图片，也可用方向键"><svg width="17" height="17" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v18M3 12h18M9 6l3-3 3 3M9 18l3 3 3-3M6 9l-3 3 3 3m12-6 3 3-3 3" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+          <div class="overlay-adjustments" role="group" aria-label="参考图片微调">
+            <button type="button" class="map-tool-button icon-tool" data-overlay-rotate="-1" aria-label="左旋参考图片 1°" title="左旋 1°，按住连续旋转"><svg width="17" height="17" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 10a8 8 0 1 1 2 8M4 4v6h6" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            <button type="button" class="map-tool-button icon-tool" data-overlay-rotate="1" aria-label="右旋参考图片 1°" title="右旋 1°，按住连续旋转"><svg width="17" height="17" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10a8 8 0 1 0-2 8m2-14v6h-6" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            <button type="button" class="map-tool-button icon-tool" data-overlay-scale="1" aria-label="等比放大参考图片 1%" title="等比放大 1%，按住连续缩放"><svg width="17" height="17" viewBox="0 0 24 24" aria-hidden="true"><path d="m16 16 5 5M7 11h8m-4-4v8" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="1.7"/></svg></button>
+            <button type="button" class="map-tool-button icon-tool" data-overlay-scale="-1" aria-label="等比缩小参考图片 1%" title="等比缩小 1%，按住连续缩放"><svg width="17" height="17" viewBox="0 0 24 24" aria-hidden="true"><path d="m16 16 5 5M7 11h8" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="1.7"/></svg></button>
+          </div>
+          <label>透明度<input id="map-overlay-opacity" type="range" min="0" max="100" step="1" value="50"><output for="map-overlay-opacity">50%</output></label>
+          <button id="remove-map-overlay" type="button" class="map-tool-button icon-tool" aria-label="移除参考图片" title="移除参考图片">×</button>
+        </div>
+        <p id="map-overlay-status" role="status" hidden></p>
         <div id="map-message" class="map-message" role="status">正在加载完整底图…</div>
         <div id="name-tooltip" class="name-tooltip" role="status" hidden><span id="name-tooltip-level"></span><strong id="name-tooltip-label"></strong></div>
         <div class="zoom-control" aria-label="地图缩放">
@@ -224,6 +265,7 @@
       <div class="map-settings-body dialog-scroll">
       <div class="map-color-row"><label for="map-style">地图风格</label><select id="map-style"></select></div>
       <div id="map-color-fields"></div>
+      <div class="map-color-row"><label for="group-border-opacity">集团边界不透明度</label><div class="map-opacity-control"><input id="group-border-opacity" type="range" min="0" max="100" step="1" value="75"><output id="group-border-opacity-value" for="group-border-opacity">75%</output></div></div>
       <section class="map-settings-section" aria-labelledby="vassal-settings-title">
         <h3 id="vassal-settings-title">宗主-附庸</h3>
         <p class="settings-help">在国家列表把国名拖到另一国名上，即可设为对方的附庸。对方已有宗主时，直接归最上层宗主。把附庸拖出列表即可解除，拖到行间可排序。也可在「国家信息」中修改宗主国。</p>
@@ -235,8 +277,12 @@
         <div class="map-color-row"><label for="enclave-naming">飞地命名</label><button id="enclave-naming" type="button" class="setting-switch" role="switch" aria-label="飞地命名" aria-checked="true"><span class="switch-thumb"></span></button></div>
         <div class="map-color-row"><label for="country-label-font">字体</label><select id="country-label-font"></select></div>
         <div class="map-color-row"><label for="country-label-color">颜色</label><div class="map-color-controls"><input id="country-label-color" type="color" value="#263747" aria-label="选择国家名称颜色"><input id="country-label-color-hex" type="text" maxlength="7" value="#263747" aria-label="国家名称颜色十六进制值"></div></div>
-        <div class="map-color-row"><label for="country-label-opacity">不透明度</label><div class="country-label-opacity"><input id="country-label-opacity" type="range" min="0" max="100" step="1" value="75" aria-label="国家名称不透明度"><output id="country-label-opacity-value" for="country-label-opacity">75%</output></div></div>
+        <div class="map-color-row"><label for="country-label-opacity">不透明度</label><div class="map-opacity-control"><input id="country-label-opacity" type="range" min="0" max="100" step="1" value="75" aria-label="国家名称不透明度"><output id="country-label-opacity-value" for="country-label-opacity">75%</output></div></div>
         <p id="country-label-status" role="status"></p>
+      </section>
+      <section class="map-settings-section" aria-labelledby="group-label-settings-title">
+        <h3 id="group-label-settings-title">集团名称</h3>
+        <div class="map-color-row"><label for="group-label-opacity">不透明度</label><div class="map-opacity-control"><input id="group-label-opacity" type="range" min="0" max="100" step="1" value="50" aria-label="集团名称不透明度"><output id="group-label-opacity-value" for="group-label-opacity">50%</output></div></div>
       </section>
       <div class="settings-footer"><div class="settings-footer-buttons"><button id="save-map-settings" type="submit" class="primary">保存设置</button><button id="reset-map-settings" type="button" class="map-tool-button">恢复默认设置</button></div><p id="map-settings-status" role="status"></p></div>
       </div>

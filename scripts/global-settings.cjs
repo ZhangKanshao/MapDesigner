@@ -3,9 +3,10 @@ const fsp = require('node:fs/promises');
 const path = require('node:path');
 const crypto = require('node:crypto');
 const defaults = require('../src/settings-defaults.js');
-const root = path.resolve(__dirname, '..');
-const config = process.env.MAPDESIGNER_SETTINGS_FILE || path.join(root, 'saves', 'settings.json');
-function initial() { return { files: { snapshot: path.join(root, 'saves', 'snapshots'), png: path.join(root, 'saves', 'png') }, shortcuts: { ...defaults.shortcuts }, operations: { ...defaults.operations }, appearance: { ...defaults.appearance } }; }
+let savesDirectory = path.resolve(__dirname, '../saves');
+function setSavesDirectory(directory) { savesDirectory = directory; }
+function settingsFile() { return process.env.MAPDESIGNER_SETTINGS_FILE || path.join(savesDirectory, 'settings.json'); }
+function initial() { return { files: { snapshot: path.join(savesDirectory, 'snapshots'), png: path.join(savesDirectory, 'png') }, shortcuts: { ...defaults.shortcuts }, operations: { ...defaults.operations }, appearance: { ...defaults.appearance } }; }
 function validate(value) {
   const result = initial();
   if (!value || typeof value !== 'object') throw new Error('设置数据无效。');
@@ -31,11 +32,12 @@ function validate(value) {
   return result;
 }
 function read() {
-  try { return validate(JSON.parse(fs.readFileSync(config, 'utf8'))); }
+  try { return validate(JSON.parse(fs.readFileSync(settingsFile(), 'utf8'))); }
   catch (error) { if (error.code !== 'ENOENT') console.warn('无法读取设置，使用默认设置。'); return initial(); }
 }
 async function save(value) {
   const result = validate(value);
+  const config = settingsFile();
   // Create both destinations before committing, so an unusable path does not become the default.
   for (const folder of Object.values(result.files)) await fsp.mkdir(folder, { recursive: true });
   await fsp.mkdir(path.dirname(config), { recursive: true });
@@ -44,4 +46,4 @@ async function save(value) {
   finally { await fsp.unlink(temporary).catch(() => {}); }
   return result;
 }
-module.exports = { read, save, validate, initial };
+module.exports = { read, save, validate, initial, setSavesDirectory };

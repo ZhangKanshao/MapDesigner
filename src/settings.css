@@ -7,6 +7,12 @@ body :is(button,input,textarea,select,h1,h2,h3){font-family:inherit}
 .settings-tabs button[aria-selected="true"]{border-bottom-color:#42667f;color:#253f56}
 .settings-card{padding:28px 32px;background:#fff;border:1px solid #e0e5eb;border-radius:9px}
 .settings-card h2{font-size:16px;font-weight:550;margin:0 0 12px}
+.reference-images-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}
+.reference-images-heading h2{margin:0}
+#reference-images-list{padding:0;margin:0 0 12px;list-style:none}
+#reference-images-list li span,#reference-images-folder,#reference-images-status{overflow-wrap:anywhere}
+#reference-images-list button{flex:none}
+#reference-images-status:empty{display:none}
 .settings-help{color:#8b97a3;font-size:12px;line-height:1.9;margin:0 0 20px}
 .shortcut-row{display:flex;align-items:center;justify-content:space-between;gap:20px;width:100%;padding:10px 0;border-bottom:1px solid #edf0f3;font-size:13px;color:#53677a}
 .shortcut-row input{width:175px;cursor:default;text-align:center;padding:8px 12px;background:#f8fafc;color:#344f67;border:1px solid #dce2e8;border-radius:5px;font-size:12px}
@@ -73,9 +79,9 @@ body :is(button,input,textarea,select,h1,h2,h3){font-family:inherit}
 .map-settings-section{margin-top:25px}
 .map-settings-section h3{font-size:15px;font-weight:550;margin:0 0 12px}
 .map-color-row select{width:210px;max-width:60%;border:1px solid #dce2e8;border-radius:5px;padding:9px;background:#f8fafc;color:#344f67;font-size:12px}
-.country-label-opacity{display:flex;align-items:center;gap:12px}
-.country-label-opacity input{width:170px;accent-color:#42667f}
-.country-label-opacity output{font-size:12px;font-variant-numeric:tabular-nums;min-width:38px;text-align:right}
+.map-opacity-control{display:flex;align-items:center;gap:12px;max-width:60%;min-width:0}
+.map-opacity-control input{width:170px;min-width:0;accent-color:#42667f}
+.map-opacity-control output{font-size:12px;font-variant-numeric:tabular-nums;min-width:38px;text-align:right}
 #country-label-status{font-size:12px;line-height:1.7;color:#8b7351}
 [data-theme="dark"] :is(.map-color-row select,#country-suzerain){background:#2b3949;color:#d8e1ec;border-color:#4a5b6c}
 

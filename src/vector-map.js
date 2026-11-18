@@ -32,6 +32,7 @@
       const tile=box=>Math.floor((box[1]+box[3])/1024)*columns+Math.floor((box[0]+box[2])/1024);
       for(const location of data.locations)location.tile=tile(location.box);
       data.locations.sort((a,b)=>a.tile-b.tile);
+      data.locationsById = new Map(data.locations.map(location => [location.id, location]));
       const arcTiles=data.arcs.map(arc=>tile(arc[3]));
       data.arcOrder=arcTiles.map((_,index)=>index).sort((a,b)=>arcTiles[a]-arcTiles[b]);
       data.arcTiles=arcTiles;
@@ -133,9 +134,9 @@
     context.strokeStyle = countryMode ? colors.countryBorder : colors.coarseBorder;
     for (const { path } of coarse) context.stroke(path);
   }
-  function drawGroupOutlines(context, data, view, { owners, countries, groups }, kinds) {
+  function drawGroupOutlines(context, data, view, { owners, countries, groups }, kinds, opacity) {
     const memberships = new Map();
-    const outlines = groups.map(group => ({ color: group.color, batches: [] }));
+    const outlines = groups.map(group => ({ color: group.color, batches: [], inward: new Map() }));
     for (const [index, group] of groups.entries()) {
       for (const id of group.memberIds) {
         if (!memberships.has(id)) memberships.set(id, new Set());
@@ -145,7 +146,7 @@
     if (!memberships.size) return;
 
     const lineWidth = 9.6;
-    const margin = lineWidth / 2;
+    const margin = lineWidth;
     const bounds = [view[0] - margin, view[1] - margin, view[2] + margin, view[3] + margin];
     for (const index of data.arcOrder) {
       const [right, left, points, box] = data.arcs[index];
@@ -156,7 +157,10 @@
       if (rightGroups === leftGroups || !visible(box, bounds)) continue;
       if ((kinds[right] === 2 && !countries.has(owners[right])) ||
           (kinds[left] === 2 && !countries.has(owners[left]))) continue;
-      const addExterior = (inside, outside) => {
+      let borderCount = 0;
+      for (const groupIndex of rightGroups || []) if (!leftGroups?.has(groupIndex)) borderCount++;
+      for (const groupIndex of leftGroups || []) if (!rightGroups?.has(groupIndex)) borderCount++;
+      const addExterior = (inside, outside, locationId) => {
         if (!inside) return;
         for (const groupIndex of inside) {
           if (outside?.has(groupIndex)) continue;
@@ -165,21 +169,34 @@
             append(path, points);
             return path;
           });
-          batchAdd(outlines[groupIndex].batches, path, points.length / 2, data.arcTiles[index]);
+          const outline = outlines[groupIndex];
+          if (borderCount > 1) {
+            if (!outline.inward.has(locationId)) outline.inward.set(locationId, new Path2D());
+            outline.inward.get(locationId).addPath(path);
+          } else {
+            batchAdd(outline.batches, path, points.length / 2, data.arcTiles[index]);
+          }
         }
       };
-      addExterior(rightGroups, leftGroups);
-      addExterior(leftGroups, rightGroups);
+      addExterior(rightGroups, leftGroups, right);
+      addExterior(leftGroups, rightGroups, left);
     }
 
     context.save();
     context.lineJoin = 'round';
     context.lineCap = 'round';
-    context.lineWidth = lineWidth;
-    context.globalAlpha = .5;
-    for (const { color, batches } of outlines) {
+    context.globalAlpha = opacity / 100;
+    for (const { color, batches, inward } of outlines) {
       context.strokeStyle = color;
+      context.lineWidth = lineWidth;
       for (const { path } of batches) context.stroke(path);
+      // Clipping shared segments keeps only the inward half of the stroke.
+      for (const [locationId, path] of inward) {
+        context.save();
+        context.clip(locationPath(data.locationsById.get(locationId)));
+        context.stroke(path);
+        context.restore();
+      }
     }
     context.restore();
   }
@@ -238,8 +255,9 @@
     let visibleRivers;
     if (level === 'countries') visibleRivers = drawRiverLayer();
     if(level!=='none'){
-      if (level === 'countries' && frame.groups?.some(group => group.memberIds.length)) {
-        layer('group-outlines', [paintRevision, frame.groupRevision], target => drawGroupOutlines(target, data, view, frame, kinds));
+      const groupOpacity = colors.groupBorderOpacity ?? 75;
+      if (level === 'countries' && groupOpacity > 0 && frame.groups?.some(group => group.memberIds.length)) {
+        layer('group-outlines', [paintRevision, frame.groupRevision, groupOpacity], target => drawGroupOutlines(target, data, view, frame, kinds, groupOpacity));
       }
       const borderColors=level==='countries'?[paintRevision,colors.countryBorder]:[colors.fineBorder,colors.coarseBorder];
       layer('borders',[level,...borderColors],target=>drawBorders(target,data,view,frame,kinds,pixelScale));

@@ -1,5 +1,5 @@
 (() => {
-  const defaults = { water: '#b9dfee', wasteland: '#dedede', fineBorder: '#969696', coarseBorder: '#555555', countryBorder: '#000000', vassalColorMode: 'lighter', style: 'classic' };
+  const defaults = { water: '#b9dfee', wasteland: '#dedede', fineBorder: '#969696', coarseBorder: '#555555', countryBorder: '#000000', groupBorderOpacity: 75, vassalColorMode: 'lighter', style: 'classic' };
   const labels = { water: '水域颜色', wasteland: '荒地颜色', fineBorder: '细粒度边界颜色', coarseBorder: '粗粒度边界颜色', countryBorder: '国家边界颜色' };
   const storageKey = `mapdesigner.${window.MapTemplate.key}.appearance.v1`;
   const reserved = new Map();
@@ -13,6 +13,10 @@
       if (typeof value[key] !== 'string' || !/^#[0-9a-f]{6}$/i.test(value[key])) throw new Error(`${labels[key]}无效，请使用 #RRGGBB。`);
       result[key] = value[key].toLowerCase();
       if (countries.some(country => country?.color?.toLowerCase() === result[key])) throw new Error(`${labels[key]}不能与现有国家颜色相同。`);
+    }
+    result.groupBorderOpacity = value.groupBorderOpacity === undefined ? defaults.groupBorderOpacity : value.groupBorderOpacity;
+    if (!Number.isInteger(result.groupBorderOpacity) || result.groupBorderOpacity < 0 || result.groupBorderOpacity > 100) {
+      throw new Error('集团边界不透明度须为 0 到 100 的整数。');
     }
     result.vassalColorMode = value.vassalColorMode ?? defaults.vassalColorMode;
     if (!['free', 'same', 'lighter'].includes(result.vassalColorMode)) throw new Error('附庸着色设置无效。');
@@ -108,6 +112,10 @@
   const form = document.getElementById('map-settings-form');
   const status = document.getElementById('map-settings-status');
   const styleInput = document.getElementById('map-style');
+  const groupOpacityInput = document.getElementById('group-border-opacity');
+  const groupOpacityValue = document.getElementById('group-border-opacity-value');
+  function updateGroupOpacityValue() { groupOpacityValue.value = `${groupOpacityInput.value}%`; }
+  groupOpacityInput.addEventListener('input', updateGroupOpacityValue);
   styleInput.replaceChildren(...Object.entries(window.MapStyles.options()).map(([value, label]) => new Option(label, value)));
   let working = false;
   for (const [key, label] of Object.entries(labels)) {
@@ -122,6 +130,8 @@
   }
   function fill(value) {
     styleInput.value = value.style;
+    groupOpacityInput.value = value.groupBorderOpacity;
+    updateGroupOpacityValue();
     document.getElementById('vassal-color-mode').value = value.vassalColorMode;
     for (const key of Object.keys(labels)) {
       document.getElementById(`map-color-${key}`).value = value[key];
@@ -139,6 +149,7 @@
     working = true; for (const control of form.querySelectorAll('button,input,select')) control.disabled = true;
     try {
       const next = Object.fromEntries(Object.keys(labels).map(key => [key, document.getElementById(`map-color-hex-${key}`).value.trim()]));
+      next.groupBorderOpacity = Number(groupOpacityInput.value);
       next.vassalColorMode = document.getElementById('vassal-color-mode').value;
       next.style = styleInput.value;
       const validated = validate(next, window.CountryStore.list());

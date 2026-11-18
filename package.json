@@ -6,9 +6,11 @@
   "main": "electron/main.cjs",
   "scripts": {
     "start": "electron .",
-    "preview": "node scripts/preview.cjs"
+    "preview": "node scripts/preview.cjs",
+    "build:win": "node node_modules/electron/install.js && electron-builder --win portable --x64 --publish never"
   },
   "devDependencies": {
-    "electron": "^42.0.0"
+    "electron": "^42.0.0",
+    "electron-builder": "26.18.0"
   }
 }

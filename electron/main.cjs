@@ -31,6 +31,7 @@ function createWindow() {
 }
 
 app.whenReady().then(() => {
+  if (app.isPackaged) globalSettings.setSavesDirectory(path.join(app.getPath('userData'), 'saves'));
   if (process.argv.includes('--choose-map-directory')) {
     const defaultPath = process.argv[process.argv.indexOf('--choose-map-directory') + 1];
     dialog.showOpenDialog({ title: '选择保存文件夹', defaultPath, properties: ['openDirectory', 'createDirectory'] }).then(result => {
@@ -64,6 +65,7 @@ app.whenReady().then(() => {
     return result.canceled ? null : result.filePaths[0];
   });
   ipcMain.handle('map-files:save', (event, request) => projectFiles.saveFile(request));
+  require('./reference-images.cjs').register();
   ipcMain.handle('map-files:open', async event => {
     const result = await dialog.showOpenDialog(BrowserWindow.fromWebContents(event.sender), { title: '打开地图快照', properties: ['openFile'], filters: [{ name: 'MapDesigner 快照', extensions: ['mapdesign', 'json'] }] });
     if (result.canceled) return null;

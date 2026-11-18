@@ -113,7 +113,8 @@
           const w=Math.min(size,data.width-x);tile.width=w+pad*2;tile.height=h+pad*2;
           const frame={width:tile.width,height:tile.height,ratio:1,scale:1,offsetX:pad-x,offsetY:pad-y};
           await window.VectorMap.render(tileCtx,{...frame,owners:painting.owners,countries,countryRoots,groups,colors,level});
-          labels.draw(tileCtx,frame);window.CountryCapitals.renderTo(tileCtx,{...frame,capitals});
+          labels.draw(tileCtx,frame);
+          window.CountryCapitals.renderTo(tileCtx,{...frame,capitals});
           ctx.drawImage(tile,pad,pad,w,h,x,0,w,h);
           completed++;if(dialog.open&&type==='png')showStatus(`正在导出整张地图… ${Math.round(completed/total*100)}%`);
           await new Promise(resolve=>setTimeout(resolve,0));
@@ -261,13 +262,13 @@
     window.CountryLabels.restore(snapshot.countryLabels);
     window.CountryStore.restore(snapshot.countries);
     await window.MapPainting.restore(snapshot.painting);
+    window.GroupStore.restore(snapshot.groups);
     await window.MapView.restore(snapshot.view);
     await window.MapPainting.waitForRender();
     await window.CountryCapitals.waitForRender();
     await window.CountryLabels.waitForRender();
     window.AIChat.restore(snapshot.aiChat);
     window.AIPrompts.restore(snapshot.aiPromptId);
-    window.GroupStore.restore(snapshot.groups);
   }
   async function openText(text,{source=null}={}) {
     if (text.length > 16 * 1024 * 1024) throw new Error('快照文件过大。');
@@ -275,16 +276,18 @@
     const target=window.MapTemplates.forSnapshot(parsed.map);
     if(target.key!==window.MapTemplate.key){await window.MapTemplates.navigate(target.key,{text,source});return;}
     await window.MapPainting.whenIdle();
-    const backup = { mapAppearance: window.MapAppearance.capture(), countryLabels: window.CountryLabels.capture(), countries: window.CountryStore.list(), painting: window.MapPainting.capture(), view: image.naturalWidth && !document.getElementById('map').hidden ? window.MapView.capture() : null };
+    const backup = { mapAppearance: window.MapAppearance.capture(), countryLabels: window.CountryLabels.capture(), countries: window.CountryStore.list(), groups: window.GroupStore.list(), painting: window.MapPainting.capture(), view: image.naturalWidth && !document.getElementById('map').hidden ? window.MapView.capture() : null };
     const unlockChat = window.AIChat.lockProject();
     try { await applySnapshot(data); }
     catch (error) {
       window.MapAppearance.restore(backup.mapAppearance);
       window.CountryLabels.restore(backup.countryLabels);
       window.CountryStore.restore(backup.countries); await window.MapPainting.restore(backup.painting);
+      window.GroupStore.restore(backup.groups);
       if (backup.view) await window.MapView.restore(backup.view);
       throw error;
     } finally { unlockChat(); }
+    window.MapOverlay.clear();
     document.getElementById('paint-status').textContent = '快照已加载，可继续编辑';
     snapshotTitle = typeof parsed.name === 'string' ? parsed.name.trim().slice(0, 160) : '';
     setSnapshotSource(source);

@@ -145,8 +145,10 @@
       appearancePreview = null; applyAppearance(); fillCategory('appearance');
     }
     for (const item of tabs) { const active = item === tab; item.setAttribute('aria-selected', String(active)); item.tabIndex = active ? 0 : -1; document.getElementById(item.getAttribute('aria-controls')).hidden = !active; }
-    form.hidden = tab.id === 'tab-ai';
-    window.dispatchEvent(new Event(form.hidden ? 'ai-settings-open' : 'ai-settings-close'));
+    const panel = document.getElementById(tab.getAttribute('aria-controls'));
+    form.hidden = !form.contains(panel);
+    window.dispatchEvent(new Event(tab.id === 'tab-ai' ? 'ai-settings-open' : 'ai-settings-close'));
+    if (tab.id === 'tab-reference-images') window.dispatchEvent(new Event('reference-image-settings-open'));
   }
   for (const tab of tabs) {
     tab.addEventListener('click', () => activateTab(tab));

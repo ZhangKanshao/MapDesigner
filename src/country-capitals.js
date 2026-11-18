@@ -18,11 +18,13 @@
   function schedule(){if(!frame)frame=requestAnimationFrame(()=>{frame=0;draw();});}
   function renderTo(ctx,{width:w,height:h,ratio=1,scale=1,offsetX=0,offsetY=0,capitals=markers()}){
     let count=0;ctx.save();ctx.setTransform(ratio,0,0,ratio,0,0);ctx.lineJoin='round';
+    const markerScale=.7*1.15*scale;
+    const margin=9.5*markerScale;
     for(const capital of capitals){
       const x=offsetX+capital.x*scale,y=offsetY+capital.y*scale;
-      if(x<-10||x>w+10||y<-10||y>h+10)continue;
-      ctx.beginPath();for(let i=0;i<10;i++){const angle=-Math.PI/2+i*Math.PI/5,r=i%2?3.3:7.5,px=x+Math.cos(angle)*r,py=y+Math.sin(angle)*r;if(i)ctx.lineTo(px,py);else ctx.moveTo(px,py);}ctx.closePath();
-      ctx.strokeStyle='#ffffff';ctx.lineWidth=4;ctx.stroke();ctx.fillStyle='#f3bf50';ctx.fill();ctx.strokeStyle='#4a3a20';ctx.lineWidth=1.3;ctx.stroke();count++;
+      if(x<-margin||x>w+margin||y<-margin||y>h+margin)continue;
+      ctx.beginPath();for(let i=0;i<10;i++){const angle=-Math.PI/2+i*Math.PI/5,r=(i%2?3.3:7.5)*markerScale,px=x+Math.cos(angle)*r,py=y+Math.sin(angle)*r;if(i)ctx.lineTo(px,py);else ctx.moveTo(px,py);}ctx.closePath();
+      ctx.strokeStyle='#ffffff';ctx.lineWidth=4*markerScale;ctx.stroke();ctx.fillStyle='#f3bf50';ctx.fill();ctx.strokeStyle='#4a3a20';ctx.lineWidth=1.3*markerScale;ctx.stroke();count++;
     }
     ctx.restore();return count;
   }

@@ -2,22 +2,60 @@
 (function(scope) {
   const pause=()=>new Promise(resolve=>setTimeout(resolve,0));
   const policy={minOwn:.6,minLand:.65,maxForeign:.1,majorRatio:.3};
+  const maxGroupOverlap = .20;
   const qualifiesEnclave = (count, total) => count >= 8 && count >= total * .40;
   function labelBox(x,y,size,angle,width,height){
     const c=Math.cos(angle),s=Math.sin(angle),padding=size*.08+.3,hw=width*size/2+padding,hh=height*size/2+padding;
     return{x,y,c,s,hw,hh,ex:Math.abs(c)*hw+Math.abs(s)*hh,ey:Math.abs(s)*hw+Math.abs(c)*hh};
   }
   function collides(a,obstacles=[]){
-    return obstacles.some(b=>{
-      const dx=b.x-a.x,dy=b.y-a.y;
-      if(Math.abs(dx)>=a.ex+b.ex||Math.abs(dy)>=a.ey+b.ey)return false;
-      for(const[x,y]of [[a.c,a.s],[-a.s,a.c],[b.c,b.s],[-b.s,b.c]]){
-        const ra=a.hw*Math.abs(x*a.c+y*a.s)+a.hh*Math.abs(-x*a.s+y*a.c);
-        const rb=b.hw*Math.abs(x*b.c+y*b.s)+b.hh*Math.abs(-x*b.s+y*b.c);
-        if(Math.abs(dx*x+dy*y)>=ra+rb)return false;
+    return obstacles.some(b=>boxesIntersect(a,b));
+  }
+  function boxesIntersect(a,b) {
+    const dx=b.x-a.x,dy=b.y-a.y;
+    if(Math.abs(dx)>=a.ex+b.ex||Math.abs(dy)>=a.ey+b.ey)return false;
+    for(const[x,y]of [[a.c,a.s],[-a.s,a.c],[b.c,b.s],[-b.s,b.c]]){
+      const ra=a.hw*Math.abs(x*a.c+y*a.s)+a.hh*Math.abs(-x*a.s+y*a.c);
+      const rb=b.hw*Math.abs(x*b.c+y*b.s)+b.hh*Math.abs(-x*b.s+y*b.c);
+      if(Math.abs(dx*x+dy*y)>=ra+rb)return false;
+    }
+    return true;
+  }
+  function overlapArea(box, obstacle) {
+    // Clip the group rectangle in the candidate label's local axes.
+    const dx = obstacle.x - box.x, dy = obstacle.y - box.y;
+    const c = obstacle.c * box.c + obstacle.s * box.s;
+    const s = obstacle.s * box.c - obstacle.c * box.s;
+    const x = dx * box.c + dy * box.s, y = -dx * box.s + dy * box.c;
+    const { hw, hh } = obstacle;
+    let points = [[-hw,-hh],[hw,-hh],[hw,hh],[-hw,hh]].map(([u,v])=>[x+u*c-v*s,y+u*s+v*c]);
+    for (const [axis, sign, limit] of [[0,1,box.hw],[0,-1,box.hw],[1,1,box.hh],[1,-1,box.hh]]) {
+      const clipped = [];
+      for (let i=0;i<points.length;i++) {
+        const a=points[i],b=points[(i+1)%points.length];
+        const da=sign*a[axis]-limit,db=sign*b[axis]-limit;
+        if (da<=0) clipped.push(a);
+        if ((da<=0)!==(db<=0)) {
+          const t=da/(da-db);
+          clipped.push([a[0]+t*(b[0]-a[0]),a[1]+t*(b[1]-a[1])]);
+        }
       }
-      return true;
-    });
+      points=clipped;
+      if (points.length<3) return 0;
+    }
+    let area=0;
+    for(let i=0;i<points.length;i++){
+      const [x1,y1]=points[i],[x2,y2]=points[(i+1)%points.length];
+      area+=x1*y2-x2*y1;
+    }
+    return Math.abs(area)/2;
+  }
+  function groupOverlap(box, obstacles) {
+    let area=0;
+    for (const obstacle of obstacles) {
+      if (boxesIntersect(box, obstacle)) area+=overlapArea(box, obstacle);
+    }
+    return area/(4*box.hw*box.hh);
   }
   function placementQuality(metrics,frame){
     const land=.35*metrics.land+.65*(metrics.inkLand??metrics.land);
@@ -26,9 +64,24 @@
     const water=frame.pieces.length>1?.55+.45*land:.25+.75*land**3;
     const domestic=.3*metrics.own+.7*(metrics.inkOwn??metrics.own);
     const foreign=.3*metrics.foreign+.7*(metrics.inkForeign??metrics.foreign);
-    return (.25+.75*domestic**2)*(1-foreign*3)*water*(1-metrics.waste*.08);
+    return (.25+.75*domestic**2)*(1-foreign*3)*water*(1-metrics.waste*.08)*(1-(metrics.groupOverlap||0)*1.5);
   }
   async function compute(geometry,request,cancelled=()=>false) {
+    const groupLabels = [];
+    for (const group of request.groups || []) {
+      if (cancelled()) return [];
+      const members = new Set(group.memberIds);
+      const owners = Object.fromEntries(Object.entries(request.owners).map(([id, owner]) => [id, members.has(owner) ? group.id : '']));
+      const [placement] = await computeTerritoryLabels(geometry, { owners, countries: [group], obstacles: groupLabels }, cancelled);
+      if (placement) groupLabels.push({ ...placement, group: true, color: group.color });
+    }
+    if (cancelled()) return [];
+    const countryLabels = request.countries.length
+      ? await computeTerritoryLabels(geometry, { ...request, groupObstacles: groupLabels }, cancelled)
+      : [];
+    return cancelled() ? [] : [...countryLabels, ...groupLabels];
+  }
+  async function computeTerritoryLabels(geometry,request,cancelled) {
     const {width:W,height:H,step,patterns,grid}=geometry;
     // Unnamed countries must still count as foreign territory.
     const ownerIds=new Map([...new Set(Object.values(request.owners))].map((id,index)=>[id,index+1]));
@@ -48,7 +101,8 @@
     }
     const landAt=index=>geometry.land?geometry.land[index]/255:(patterns[grid[index]].length?1:0);
     const owners=new Uint32Array(grid.length),components=new Uint32Array(grid.length),queue=new Uint32Array(grid.length);
-    for(let i=0;i<grid.length;i++)if(landAt(i)>.2)owners[i]=primary[grid[i]];
+    const namedOwners = new Set(request.countries.map(country => ownerIds.get(country.id)).filter(Boolean));
+    for(let i=0;i<grid.length;i++)if(namedOwners.has(primary[grid[i]])&&landAt(i)>.2)owners[i]=primary[grid[i]];
     const byOwner=new Map();let component=0;
     for(let start=0;start<owners.length;start++) {
       const owner=owners[start];if(!owner||components[start])continue;
@@ -78,13 +132,20 @@
       const retained = request.enclaves && enclaveOwners.has(owner) ? 64 : 24;
       if(list.length>retained+8){list.sort((a,b)=>b.mass-a.mass);list.length=retained;}
     }
-    const environment={geometry,components,shares,totalOwned,landAt,obstacles:[]};
+    const environment={geometry,components,shares,totalOwned,landAt,obstacles:[],groupObstacles:[]};
+    for (const label of request.obstacles || request.groupObstacles || []) {
+      const size = label.fontSize / step;
+      const boxes = label.glyphs || [{ ...label, width: label.layout.width, height: label.layout.height }];
+      const obstacles = request.groupObstacles ? environment.groupObstacles : environment.obstacles;
+      for (const box of boxes) obstacles.push(labelBox(box.x / step, box.y / step, size, box.angle, box.width, box.height));
+    }
     await pause();if(cancelled())return [];
     const result=[];
     const enclaveJobs = [];
     function appendLabel(country, fitted, area, enclave = false) {
       const boxes=fitted.glyphs?fitted.glyphs.map(g=>labelBox(g.x,g.y,fitted.size,g.angle,g.width,g.height)):[labelBox(fitted.x,fitted.y,fitted.size,fitted.angle,fitted.layout.width,fitted.layout.height)];
-      if(boxes.some(box=>collides(box,environment.obstacles)))return false;
+      const overlapLimit = fitted.overlapLimit ?? maxGroupOverlap;
+      if(boxes.some(box=>collides(box,environment.obstacles)||groupOverlap(box,environment.groupObstacles)>overlapLimit))return false;
       environment.obstacles.push(...boxes);
       result.push({id:country.id,x:fitted.x*step,y:fitted.y*step,fontSize:fitted.size*step,angle:fitted.angle,layout:fitted.layout,area:area*step*step,coverage:fitted.coverage,unspacedFontSize:fitted.originalSize?fitted.originalSize*step:undefined,glyphs:fitted.glyphs?.map(glyph=>({...glyph,x:glyph.x*step,y:glyph.y*step})),components:fitted.pieces.map(p=>({area:p.mass*step*step,x:p.sx/p.mass*step,y:p.sy/p.mass*step})),...(enclave?{enclave:true}:{})});
       return true;
@@ -103,8 +164,8 @@
       if(hasCapital&&!capitalPiece){const nearby=nearCapitalPieces.get(owner);if(nearby?.capitalNear<=16)capitalPiece=nearby;}
       // A designated capital outranks overseas landmass size. If its tiny location cannot be fitted, hide the name instead of moving it to a colony.
       if(hasCapital&&!capitalPiece)continue;
-      const chosen=hasCapital?[capitalPiece]:groupPieces(pieces),main=fitGroup([hasCapital?capitalPiece:pieces[0]],country.layouts,environment);
-      const combined=!hasCapital&&chosen.length>1?fitGroup(chosen,country.layouts,environment):null;
+      const chosen=hasCapital?[capitalPiece]:groupPieces(pieces),main=fitCountryName([hasCapital?capitalPiece:pieces[0]],country.layouts,environment);
+      const combined=!hasCapital&&chosen.length>1?fitCountryName(chosen,country.layouts,environment):null;
       // Important nearby pieces get a joint title; a remote or impractical group falls back to its mainland.
       const combinedSize=combined?.originalSize||combined?.size,mainSize=main?.originalSize||main?.size;
       const fitted=combined&&(!main||combinedSize>=mainSize*.6)?combined:main;
@@ -127,7 +188,7 @@
           let best = null;
           for (const {piece, count} of anchors.slice(0, 3)) {
             if (!count) break;
-            const fitted = fitGroup([piece], country.enclaveLayouts[key], environment);
+            const fitted = fitCountryName([piece], country.enclaveLayouts[key], environment);
             if (fitted && fitted.size * step >= 10 && (!best || fitted.size > best.size)) best = fitted;
           }
           if (best && appendLabel(country, best, cluster.reduce((sum, piece) => sum + piece.mass, 0), true)) {
@@ -178,6 +239,18 @@
     }
     return selected;
   }
+  function fitCountryName(pieces, layouts, env) {
+    if (!env.groupObstacles.length) return fitGroup(pieces, layouts, env);
+    // A group title must not suppress a name that fits its country's territory.
+    const fallback = fitGroup(pieces, layouts, { ...env, groupObstacles: [] });
+    if (!fallback) return null;
+    const minimumSize = Math.max(10 / env.geometry.step, fallback.size * .3);
+    const clear = fitGroup(pieces, layouts, { ...env, groupOverlapLimit: 0 });
+    if (clear && clear.size >= minimumSize) return { ...clear, overlapLimit: 0 };
+    const partial = fitGroup(pieces, layouts, env);
+    if (partial && partial.size >= minimumSize) return partial;
+    return { ...fallback, overlapLimit: Infinity };
+  }
   function fitGroup(pieces,layouts,env) {
     const {geometry,components,shares,totalOwned,landAt}=env,W=geometry.width,H=geometry.height,owner=pieces[0].owner;
     const group={mass:0,sx:0,sy:0,sxx:0,syy:0,sxy:0,minX:W,minY:H,maxX:0,maxY:0};
@@ -201,14 +274,31 @@
     for(let y=1;y<=h;y++)for(let x=1;x<=w;x++){const i=y*ds+x;if(distance[i])distance[i]=Math.min(distance[i],distance[i-1]+1,distance[i-ds]+1,distance[i-ds-1]+Math.SQRT2,distance[i-ds+1]+Math.SQRT2);}
     for(let y=h;y>=1;y--)for(let x=w;x>=1;x--){const i=y*ds+x;if(distance[i])distance[i]=Math.min(distance[i],distance[i+1]+1,distance[i+ds]+1,distance[i+ds-1]+Math.SQRT2,distance[i+ds+1]+Math.SQRT2);}
     const meanX=group.sx/group.mass-originX,meanY=group.sy/group.mass-originY,tiles=new Map();let nearest=null;
+    const nearbyGroups = env.groupObstacles.filter(box =>
+      box.x + box.ex > originX && box.x - box.ex < originX + w &&
+      box.y + box.ey > originY && box.y - box.ey < originY + h);
+    const clearTiles = new Map();
     for(let y=0;y<h;y++)for(let x=0;x<w;x++) {
       const d=distance[(y+1)*ds+x+1];if(!d)continue;
       const point={x:x+.5,y:y+.5,d},key=Math.min(4,Math.floor(x*5/w))+5*Math.min(4,Math.floor(y*5/h));
       if(!tiles.has(key)||tiles.get(key).d<d)tiles.set(key,point);
       point.central=(point.x-meanX)**2+(point.y-meanY)**2;if(!nearest||point.central<nearest.central)nearest=point;
+      if (nearbyGroups.length) {
+        const column = Math.min(7, Math.floor(x * 8 / w)), row = Math.min(7, Math.floor(y * 8 / h));
+        const tile = row * 8 + column, saved = clearTiles.get(tile);
+        if ((!saved || d > saved.d || (d === saved.d && point.central < saved.central)) &&
+            !nearbyGroups.some(box => {
+              const dx = originX + point.x - box.x, dy = originY + point.y - box.y;
+              return Math.abs(dx * box.c + dy * box.s) < box.hw && Math.abs(-dx * box.s + dy * box.c) < box.hh;
+            })) clearTiles.set(tile, point);
+      }
     }
     const centers=[{x:meanX,y:meanY},...tiles.values()].sort((a,b)=>(b.d||1e7)-(a.d||1e7)).slice(0,11);
     if(nearest)centers.push(nearest);
+    const usedCenters = new Set(centers.map(point => point.y * w + point.x));
+    const extraCenters = [...clearTiles.values()].sort((a,b)=>b.d-a.d||a.central-b.central)
+      .filter(point => !usedCenters.has(point.y * w + point.x)).slice(0,24);
+    centers.push(...extraCenters);
     if(pieces.length>1){for(const piece of pieces)centers.push({x:piece.sx/piece.mass-originX,y:piece.sy/piece.mass-originY});for(let i=1;i<pieces.length;i++)centers.unshift({x:(pieces[0].sx/pieces[0].mass+pieces[i].sx/pieces[i].mass)/2-originX,y:(pieces[0].sy/pieces[0].mass+pieces[i].sy/pieces[i].mass)/2-originY});}
     const covariance=group.sxy/group.mass-(group.sx/group.mass)*(group.sy/group.mass),vx=group.sxx/group.mass-(group.sx/group.mass)**2,vy=group.syy/group.mass-(group.sy/group.mass)**2;
     // Text axes repeat every 180 degrees. Wrap rather than clamp, so a direction
@@ -222,7 +312,7 @@
     const candidates=elongated||pieces.length>1 ? [0,principal,-Math.PI/2,principal-Math.PI/12,principal+Math.PI/12,-Math.PI/4,Math.PI/4,-Math.PI/3,Math.PI/3,-Math.PI*5/12,Math.PI*5/12] : [0,moderate,-Math.PI/12,Math.PI/12,-Math.PI/6,Math.PI/6,-Math.PI/4,Math.PI/4];
     const angles=[...new Set(candidates.map(normalize))];
     const preferModerateTilt = elongated && !slender && pieces.length === 1;
-    const frame={prefix,w,h,pieces,group,originX,originY,obstacles:env.obstacles};let best=null,horizontal=null;
+    const frame={prefix,w,h,pieces,group,originX,originY,obstacles:env.obstacles,groupObstacles:nearbyGroups,overlapLimit:env.groupOverlapLimit??maxGroupOverlap};let best=null,horizontal=null;
     for(const layout of layouts)for(const angle of angles)for(const center of centers) {
       const c=Math.abs(Math.cos(angle)),s=Math.abs(Math.sin(angle));
       const hi=Math.min(w/(layout.width*c+layout.height*s),h/(layout.width*s+layout.height*c));
@@ -353,13 +443,16 @@
         const candidates=stripe.map(cell=>({cell,cost:cost(cell)})).sort((a,b)=>a.cost-b.cost).slice(0,36).map(item=>item.cell);
         const column=[];
         for(const cell of candidates) {
-          if(collides(labelBox(originX+cell.x,originY+cell.y,size,angle,unit.width,unit.height),frame.obstacles))continue;
+          const bounds=labelBox(originX+cell.x,originY+cell.y,size,angle,unit.width,unit.height);
+          if(collides(bounds,frame.obstacles))continue;
+          const overlap=groupOverlap(bounds,frame.groupObstacles);
+          if(overlap>frame.overlapLimit)continue;
           const metrics=coverage(cell.x,cell.y,unit.width*size/2,unit.height*size/2,angle,frame);
           if(!valid(metrics,frame,false))continue;
           const box=unit.inkBox,bx=(box.left+box.right)*size/2,by=(box.top+box.bottom)*size/2;
           const ink=coverage(cell.x+bx*c-by*s,cell.y+bx*s+by*c,(box.right-box.left)*size/2,(box.bottom-box.top)*size/2,angle,frame);
           if(!valid(ink,frame,false)||metrics.own<.85||ink.own<.88)continue;
-          const score=placementQuality({...metrics,inkOwn:ink.own,inkForeign:ink.foreign,inkLand:ink.land},frame)/(1+cost(cell)*.12);
+          const score=placementQuality({...metrics,inkOwn:ink.own,inkForeign:ink.foreign,inkLand:ink.land,groupOverlap:overlap},frame)/(1+cost(cell)*.12);
           column.push({cell,metrics,unit,score});
         }
         if(!column.length){failed=true;break;}columns.push(column);
@@ -408,7 +501,10 @@
     return true;
   }
   function evaluate(x,y,size,angle,layout,frame) {
-    if(collides(labelBox(x+frame.originX,y+frame.originY,size,angle,layout.width,layout.height),frame.obstacles))return null;
+    const bounds=labelBox(x+frame.originX,y+frame.originY,size,angle,layout.width,layout.height);
+    if(collides(bounds,frame.obstacles))return null;
+    const overlap=groupOverlap(bounds,frame.groupObstacles);
+    if(overlap>frame.overlapLimit)return null;
     const metrics=coverage(x,y,layout.width*size/2,layout.height*size/2,angle,frame);
     if(!valid(metrics,frame))return null;
     if(layout.inkBoxes?.length){
@@ -422,6 +518,7 @@
       if(!valid(sums,frame))return null;
       metrics.inkOwn=sums.own;metrics.inkForeign=sums.foreign;metrics.inkLand=sums.land;
     }
+    if(overlap)metrics.groupOverlap=overlap;
     return metrics;
   }
   function coverage(x,y,hw,hh,angle,{prefix,w,h,pieces}) {
