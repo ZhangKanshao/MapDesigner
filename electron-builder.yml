@@ -10,6 +10,13 @@ files:
   - scripts/global-settings.cjs
   - scripts/project-files.cjs
   - scripts/template-files.cjs
+extraResources:
+  - from: reference-images
+    to: reference-images
+    filter:
+      - Austria_Hungary.jpg
+      - Deutsches_Reich_1871-1918.png
+      - europe_1444.jpg
 win:
   signAndEditExecutable: false
   target:

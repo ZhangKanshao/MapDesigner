@@ -5,6 +5,7 @@ const path = require('node:path');
 
 const extensions = ['png', 'jpg', 'jpeg', 'webp', 'bmp', 'gif'];
 const filters = [{ name: '图片', extensions }];
+let packagedDirectory;
 
 function isImageName(name) {
   return typeof name === 'string' && !/[<>:"/\\|?*\x00-\x1f]/.test(name) &&
@@ -15,7 +16,35 @@ async function directory() {
   const root = app.isPackaged ? app.getPath('userData') : path.resolve(__dirname, '..');
   const folder = path.join(root, 'reference-images');
   await fs.mkdir(folder, { recursive: true });
+  if (app.isPackaged) {
+    packagedDirectory ??= installBundledImages(folder).catch(error => {
+      packagedDirectory = undefined;
+      throw error;
+    });
+    await packagedDirectory;
+  }
   return folder;
+}
+
+async function installBundledImages(folder) {
+  const marker = path.join(folder, '.bundled-images-installed');
+  try {
+    await fs.access(marker);
+    return;
+  } catch (error) {
+    if (error.code !== 'ENOENT') throw error;
+  }
+  const bundled = path.join(process.resourcesPath, 'reference-images');
+  const entries = await fs.readdir(bundled, { withFileTypes: true });
+  for (const entry of entries) {
+    if (!entry.isFile() || !isImageName(entry.name)) continue;
+    try {
+      await fs.copyFile(path.join(bundled, entry.name), path.join(folder, entry.name), constants.COPYFILE_EXCL);
+    } catch (error) {
+      if (error.code !== 'EEXIST') throw error;
+    }
+  }
+  await fs.writeFile(marker, '');
 }
 
 async function chooseImages(event, title, folder, multiple = false) {

@@ -1,6 +1,11 @@
 # MapDesigner
 
-## 启动方式
+## 下载
+
+- **Windows x64 免安装版**。在 [Releases](https://github.com/ZhangKanshao/MapDesigner/releases/latest) 下载 `MapDesigner-<版本>-windows-x64.exe`，双击运行。EXE 自带运行环境。
+- **源码**。在 [仓库首页](https://github.com/ZhangKanshao/MapDesigner) 选择 **Code → Download ZIP**，或使用 Git 克隆。每个 Release 也提供与 EXE 对应的 **Source code (zip)**。
+
+## 从源码启动
 
 在 Windows x64 或 ARM64 上下载并解压完整项目，然后任选一种方式启动：
 
