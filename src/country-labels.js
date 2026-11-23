@@ -127,9 +127,12 @@
       await Promise.all([loadLookupScript('meta.js'), loadLookupScript('paint-meta.js')]);
       const { meta, paintMeta } = window.MapDesignerData;
       const groups = [];
-      const groupKeys = meta.parentOrder.map((level, depth) => meta.groups[level].map(group => {
+      // Plot metadata stores parent indexes in source order, which varies by template.
+      // The map's level selector lists levels consistently from narrowest to broadest.
+      const broadestFirst = Object.keys(window.MapTemplate.levels).reverse();
+      const groupKeys = meta.parentOrder.map(level => meta.groups[level].map(group => {
         if (!group) return null;
-        return groups.push({ name: group[1], depth, total: 0 }) - 1;
+        return groups.push({ name: group[1], depth: broadestFirst.indexOf(level), total: 0 }) - 1;
       }));
       const plots = meta.locations.map((location, id) => {
         if (!location || paintMeta.kinds[id] !== 0) return null;
@@ -140,7 +143,7 @@
         });
       });
       const regionalLevel = meta.parentOrder.includes('region') ? 'region' : 'kingdom';
-      enclaveGeography = { groups, plots, regionalDepth: meta.parentOrder.indexOf(regionalLevel) };
+      enclaveGeography = { groups, plots, regionalDepth: broadestFirst.indexOf(regionalLevel) };
     }
 
     const { groups, plots } = enclaveGeography;
