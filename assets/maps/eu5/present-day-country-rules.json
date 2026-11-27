@@ -1,0 +1,348 @@
+{
+  "countries": {
+    "中国": {
+      "region": "east_china_region north_china_region",
+      "area": "guangdong_area haibei_hainan_area guangxi_area guizhou_area liaodong_area songnen_area songhua_area chuandong_area chuannan_area chuanxi_area shaanxi_area hexi_area longyou_area gansu_area amdo_area u_area changtang_area"
+    },
+    "瑞典": {
+      "area": "svealand_area gotaland_area skaneland_area",
+      "province": "bohus_province jamtland_province halsingland_province angermanland_province vasterbotten_province ume_lappmark_province pite_lappmark_province lule_lappmark_province",
+      "location": "stockholm umea lulea froso juckasjarvi"
+    },
+    "挪威": {
+      "province": "ostfold_province vestfold_province sogn_province bergenhus_province rogaland_province agder_province buskerud_province akershus_province hedmark_province oppland_province sor_trondelag_province nor_trondelag_province romsdalen_province nordland_province troms_province finnmark_province",
+      "location": "oslo nidaros molde hammerfest alta bodo kirkenes"
+    },
+    "芬兰": {
+      "province": "finland_province nyland_province satakunta_province tavastland_province sodra_osterbotten_province savolax_province norra_osterbotten_province kajanaland_province",
+      "location": "abo uleaborg rovaniemi kuopio nystad jyvaskyla"
+    },
+    "丹麦": {
+      "area": "greenland_area",
+      "province": "zealand_province funen_province norrejylland_province eastern_jutland_province vendsyssel_thy_province western_jutland_province",
+      "location": "kobenhavn roskilde odense aarhus viborg aalborg"
+    },
+    "英国": {
+      "area": "home_counties_area midlands_area northumbria_area east_anglia_area west_country_area scottish_highlands_area hebrides_area scottish_lowlands_area wales_area northern_isles_area bermuda_area pitcairn_area",
+      "location": "london belfast carrickfergus coleraine ballymena downpatrick newtownards malliouhana anegada"
+    },
+    "爱尔兰": {
+      "area": "leinster_area connaught_area munster_area",
+      "location": "donegal monaghan raphoe dundalk carrickmacross"
+    },
+    "法国": {
+      "area": "anjou_area auvergne_area brittany_area burgundy_area champagne_area gascony_area guyenne_area ile_de_france_area languedoc_area limousin_province lyonnais_area normandy_area orleanais_area poitou_area alsace_area tuhaa_pae_area te_henua_enana_area tuamotu_area raeffsky_area palliser_area totaiete_ma_area kanaky_area",
+      "province": "amienois_province ponthieu_province vermandois_province pumonte_province cismonte_province valentinois_province viennois_province",
+      "location": "paris marseille nice avignon perpignan annecy chambery grenoble futuna uvea_atoll iguanacaera kergelen crozet_islands saint_paul_island"
+    },
+    "德国": {
+      "area": "mecklenburg_area westphalia_area upper_saxony_area franconia_area hesse_area",
+      "location": "berlin flensburg slesvig eckernforde husum amrum_island_wasteland"
+    },
+    "波兰": {
+      "location": "warsaw santok soltyn gorzow chojna torzym"
+    },
+    "捷克": {
+      "province": "prague_province zatecko_province chrudimsko_province hradecko_province boleslavsko_province litomericko_province prachensko_province plzensko_province bechinsko_province",
+      "location": "prague"
+    },
+    "奥地利": {
+      "area": "upper_austria_area austria_area",
+      "province": "vorarlberg_province oberinntal_province unterinntal_province",
+      "location": "vienna"
+    },
+    "瑞士": {
+      "area": "central_switzerland_area",
+      "province": "ticino_province",
+      "location": "bern zurich"
+    },
+    "比利时": { "location": "brussels" },
+    "冰岛": { "area": "iceland_area" },
+    "荷兰": { "area": "holland_area", "location": "amsterdam" },
+    "葡萄牙": {
+      "area": "azores_area south_macaronesia_area north_portugal_area",
+      "province": "estremadura_province ribatejo_province algarve_province",
+      "location": "lisbon porto"
+    },
+    "西班牙": {
+      "area": "aragon_area valencia_area balearics_area castile_area leon_area toledo_area murcia_area granada_area canary_islands_area",
+      "location": "madrid barcelona girona lleida tarragona"
+    },
+    "安道尔": { "location": "andorra_la_vella" },
+    "意大利": {
+      "area": "sardinia_area basilicata_area abruzzo_area campania_area emilia_area tuscany_area sicily_area apulia_area piemonte_area lazio_area marche_area",
+      "province": "pavia_province milano_province monza_province valtellina_province bergamo_province cremona_province brescia_province mantua_province verona_province padua_province vicenza_province venice_province belluno_province friuli_province levante_province punente_province trentino_province",
+      "location": "milano pragelato florence naples cavalese bolzano silandro merano sterzing brixen villandro bruneck"
+    },
+    "希腊": { "location": "athens" },
+    "爱沙尼亚": { "location": "tallinn parnu viljandi karksi tartu vastseliina narva vasknarva suure_jaani vonnu saarde" },
+    "拉脱维亚": { "location": "limbazi valmiera aluksne grobina dobele bauska selpils rezekne kraslava rauna koknese jelgava daugavpils durbe saldus tukums straupe salaspils aizkraukle gulbene vilaka makonkalns" },
+    "俄罗斯": {
+      "area": "kola_area tambov_area moscow_area oka_area ryazan_area samara_area nizhny_novgorod_area suzdal_area yaroslavl_area vladimir_area tver_area beloozero_area totma_area pomorye_area arkhangelsk_area chukchee_area anadyr_area kamchatka_area kolyma_area amga_area yakutia_area middle_lena_area lower_lena_area laptev_coast_area kazan_area vyatka_area bolghar_area perm_area ust_sysola_area vorkuta_area surgut_area mangazeya_area kansk_area bratsk_area yenisei_area angara_area chuvan_area yandin_area indigirka_area okhotsk_coast_area upper_lena_area vitim_area onoid_area",
+      "province": "aunus_karelia_province inner_aunus_karelia_province inner_white_karelia_province white_karelia_province northern_sakhalin_province southern_sakhalin_province",
+      "location": "moscow vyborg valkeasaari beryozovskoye uruppu shimushiru shumushu paramushiru onnekotan shantar"
+    },
+    "土耳其": {
+      "area": "cappadocia_area central_anatolia_area west_anatolia_area",
+      "location": "ankara constantinople"
+    },
+    "塞浦路斯": { "province": "cyprus_province" },
+    "黎巴嫩": { "location": "sidon deir_qamar baalbek beirut" },
+    "伊拉克": { "location": "baghdad" },
+    "埃及": { "area": "lower_egypt_area upper_egypt_area sinai_area", "location": "cairo" },
+    "阿尔及利亚": { "location": "algiers" },
+    "马达加斯加": { "area": "north_madagascar_area east_madagascar_area malagasy_highlands_area west_madagascar_area" },
+    "利比亚": { "area": "cyrenaica_area" },
+    "莫桑比克": { "area": "mozambique_area" },
+    "南非": {
+      "area": "goringhaikona_area",
+      "province": "kai_karoo_province prieska_province nama_province trakamma_province siyathemba_province",
+      "location": "marion_island"
+    },
+    "佛得角": { "area": "cape_verde_area" },
+    "日本": {
+      "area": "hokurikudou_area kinai_area nankaidou_area saikaidou_area sanindou_area sanyoudou_area ou_area toukaidou_area tousandou_area ryuukyuu_area nanpo_area",
+      "province": "oshima_province shiribeshi_province iburi_province ishikari_province hidaka_province tokachi_province teshio_province kitami_province kushiro_province nemuro_province",
+      "location": "sapporo kushiro nemuro"
+    },
+    "韩国": {
+      "area": "honam_area yeongnam_area hoseo_area",
+      "location": "namgyeong suwon inje yanggu inju"
+    },
+    "朝鲜": { "area": "haeseo_area gwanbuk_area", "location": "kaesong" },
+    "越南": { "location": "thang_long" },
+    "印度尼西亚": {
+      "area": "java_area south_sumatra_area north_sumatra_area celebes_area south_borneo_area wanin_area",
+      "province": "biak_province waropen_province asmat_province ndom_province",
+      "location": "sunda_kelapa kupang"
+    },
+    "菲律宾": { "area": "mindanao_area luzon_area visayas_area" },
+    "印度": {
+      "region": "central_india_region",
+      "area": "bhojpur_area doab_area rokhilkhand_area awadh_area orissa_area jharkhand_area chota_nagpur_area gujarat_area saurashtra_area karnakassala_area andhra_area telingana_area maharashtra_area konkan_area tamil_land_area malabar_area",
+      "location": "delhi"
+    },
+    "巴基斯坦": { "location": "lahore" },
+    "马尔代夫": { "area": "maldives_area" },
+    "斯里兰卡": { "area": "sailan_area" },
+    "澳大利亚": { "region": "australia_region", "area": "norfolk_nz_area lord_howe_area", "location": "heard_island" },
+    "新西兰": { "area": "north_island_area south_island_area motu_maha_area rekohu_area", "location": "nukunonu_atoll atafu_atoll" },
+    "加拿大": {
+      "area": "quebec_area laurentian_area jamesie_area nunavik_area prince_edward_island_area eastern_ontario_area northern_ontario_area james_bay_lowlands_area lower_canada_area labrador_area newfoundland_area athabasca_area keewatin_n_area",
+      "province": "southern_vancouver_province northern_vancouver_province kwakwala_province river_dakelh_province lake_dakelh_province mountain_dakelh_province wetsuweten_province north_sekani_province south_sekani_province dunnneza_province pelly_river_province dehcho_province tlicho_province south_sahtu_province north_sahtu_province mackenzie_sahtu_province coppermine_province lower_mackenzie_province"
+    },
+    "美国": {
+      "area": "massachusetts_area southern_new_england_area new_hampshire_area new_jersey_area pennsylvania_area westsylvania_area maryland_area west_virginia_area virginia_area tennessee_area north_carolina_area georgia_us_area south_carolina_area florida_area alabama_area kentucky_area ohio_area indiana_area illinois_area mississippi_area louisiana_area arkansas_area missouri_area iowa_area alaxsxaq_area hawaii_area papahanaumokuakea_area western_arctic_area california_area great_basin_area rockies_area central_plains_area high_plains_area badlands_area",
+      "province": "guahan_province northern_islands_province boriken_province tutuila_province awatixa_province suktogeja_o_ipa_province ski_iyo_he_province aashise_province",
+      "location": "mona_island vieques_island howland palmyra_atoll kingman_reff"
+    },
+    "墨西哥": { "area": "tochtepec_area huaxyacac_area chilapan_area mexihko_area tlaxcala_area xilotepec_area michoacan_area xalisco_area" },
+    "巴西": { "area": "tocantins_area mearim_area parapitinga_area pindorama_area paranaiba_area jaguaribe_area" },
+    "古巴": { "province": "baracoa_province bayamo_province camaguey_province moron_province havana_province" },
+    "牙买加": { "province": "xaymaca_province" },
+    "巴哈马": { "province": "bahamas_province" },
+    "厄瓜多尔": { "area": "galapagos_area" },
+    "智利": { "area": "rapa_nui_area juan_fernandez_area" },
+    "图瓦卢": { "area": "tuvalu_area" },
+    "汤加": { "area": "tonga_area" },
+    "瓦努阿图": { "area": "vanuatu_area" },
+    "斐济": { "area": "fiji_area" },
+    "帕劳": { "area": "belau_area" },
+    "瑙鲁": { "area": "nauru_area" },
+    "巴布亚新几内亚": {
+      "area": "bismarck_area momase_area milne_area kerema_area",
+      "location": "buka rotokas bannoni naasioi tinputz rapoisi_jungle carteret_atoll nukumanu_atoll mallum_atoll bougainville_jungle"
+    },
+    "所罗门群岛": {
+      "area": "temotu_area mu_ngava_area",
+      "province": "choiseul_province cheke_holo_province roviana_province isatabu_province malaita_province makira_province",
+      "location": "mono luangiua_atoll tauu_atoll tehaolei_atoll"
+    },
+    "密克罗尼西亚联邦": { "area": "chuuk_area" },
+    "马绍尔群岛": {
+      "area": "ralik_area",
+      "location": "mili_atoll arno_atoll majuro_atoll aur_atoll maloelap_atoll erikub_atoll wotje_atoll ailuk_atoll taka_atoll bikar_atoll likiep_atoll taongi_atoll"
+    },
+    "基里巴斯": {
+      "area": "tungaru_area",
+      "location": "nikumaroro_atoll orona_atoll manra_atoll kanton_atoll kiritimati kiritimati_atoll tabuaeran teraina malden starbuck caroline"
+    },
+    "萨摩亚": { "province": "samoa_province" },
+    "库克群岛": { "area": "kuki_airani_area", "location": "manihiki rakahanga tongareva te_ulu_o_te_watu" },
+    "纽埃": { "area": "niue_area" },
+    "多米尼克": { "location": "waitu_kubuli" },
+    "圣卢西亚": { "location": "hewanorra" },
+    "圣文森特和格林纳丁斯": { "location": "youloumain" },
+    "巴巴多斯": { "location": "ichirouganaim" },
+    "安提瓜和巴布达": { "location": "wadadli" },
+    "圣基茨和尼维斯": { "location": "liamuiga" },
+    "多米尼加": {
+      "province": "magua_province higuey_province",
+      "location": "azua maguana jarabacoa cibao"
+    },
+    "阿根廷": { "province": "chadimapu_province tewelmapu_province mamullmapu_province" },
+    "格鲁吉亚": { "location": "tbilisi poti_caucasus batumi kutaisi gori mtskheta" },
+    "亚美尼亚": { "location": "yerevan" },
+    "乌兹别克斯坦": { "location": "samarkand termez andijan" },
+    "塔吉克斯坦": { "location": "khujand" },
+    "孟加拉国": { "location": "sonargaon sylhet" },
+    "泰国": { "location": "chiang_saen phayao nan khukhan" },
+    "老挝": { "location": "vientiane champasak thakhek" },
+    "柬埔寨": { "location": "battambang" },
+    "文莱": { "location": "berune" },
+    "东帝汶": { "location": "balibo tutuala lifau" },
+    "罗马尼亚": { "location": "suceava harsova tulcea cernavoda constanta babadag" },
+    "乌克兰": { "location": "cernauti hotin syvash_sand_bar" },
+    "西撒哈拉": { "location": "laayoune" },
+    "索马里": { "location": "zeila maydh" },
+    "摩尔多瓦": { "location": "soroca orhei chisinau" }
+  },
+  "crossBorder": {
+    "gorlitz": ["德国", "波兰"],
+    "valka": ["拉脱维亚", "爱沙尼亚"],
+    "walichi": ["法国", "荷兰"]
+  },
+  "official": {
+    "sharjah": ["阿拉伯联合酋长国"],
+    "gambia": ["冈比亚"],
+    "bintang": ["冈比亚"],
+    "bissagos": ["几内亚比绍"],
+    "cacheu": ["几内亚比绍"],
+    "banana_islands": ["塞拉利昂"],
+    "shenge": ["塞拉利昂"],
+    "sherbro_island": ["塞拉利昂"],
+    "bunce_island": ["塞拉利昂"],
+    "st_helena": ["英国"],
+    "reunion": ["法国"],
+    "rodrigues": ["毛里求斯"],
+    "curacaute": ["库拉索"],
+    "carucairi": ["法国"],
+    "ayay": ["美国"],
+    "limari": ["智利"],
+    "elki": ["智利"],
+    "huasco": ["智利"],
+    "millapel": ["智利"],
+    "perquilauquen": ["智利"],
+    "chillan": ["智利"],
+    "biobio": ["智利"],
+    "ancud": ["智利"],
+    "quellon": ["智利"],
+    "koy_aike": ["智利"],
+    "tandil": ["阿根廷"],
+    "tapalquen": ["阿根廷"],
+    "bonanza": ["加拿大"],
+    "karas": ["纳米比亚"],
+    "uukwambi": ["纳米比亚"],
+    "shee_t_ika": ["美国"],
+    "xunaa": ["美国"],
+    "xutsnoowu": ["美国"],
+    "yakataga": ["美国"],
+    "galyax": ["美国"],
+    "gunaaxoo": ["美国"],
+    "taant_a": ["美国"],
+    "keex": ["美国"],
+    "hinyaa": ["美国"],
+    "saanya": ["美国"],
+    "aikhal": ["俄罗斯"],
+    "yunyung_khaya": ["俄罗斯"],
+    "zhilinda": ["俄罗斯"],
+    "anabar": ["俄罗斯"],
+    "east_falkland": ["阿根廷"],
+    "west_falkland": ["阿根廷"],
+    "gaza": ["巴勒斯坦"],
+    "jerusalem": ["巴勒斯坦"],
+    "nablus": ["巴勒斯坦"],
+    "hebron": ["巴勒斯坦"],
+    "beersheba": ["以色列"],
+    "acre": ["以色列"],
+    "majdal": ["以色列"],
+    "safed": ["以色列"],
+    "jaffa": ["以色列"],
+    "tighina": ["摩尔多瓦"],
+    "tuzara": ["摩尔多瓦"],
+    "tawau": ["马来西亚"],
+    "maore": ["科摩罗"],
+    "ceuta": ["西班牙", "摩洛哥"],
+    "melilla": ["西班牙", "摩洛哥"],
+    "xisha": ["中国"],
+    "huangyan": ["中国"],
+    "tzoite": ["伯利兹"],
+    "campin": ["伯利兹"],
+    "paliac": ["伯利兹"],
+    "pusilha": ["危地马拉"],
+    "xunantunich": ["伯利兹"],
+    "nito": ["危地马拉"],
+    "elvas": ["葡萄牙"],
+    "vila_vicosa": ["葡萄牙"],
+    "barcarrota": ["西班牙"],
+    "badajoz": ["西班牙"],
+    "villanueva_del_fresno": ["西班牙"],
+    "deraheib": ["埃及", "苏丹"],
+    "aydhab": ["埃及", "苏丹"],
+    "shakka": ["苏丹", "南苏丹"],
+    "nuba_sud": ["苏丹", "南苏丹"],
+    "wau": ["苏丹", "南苏丹"],
+    "kangen": ["南苏丹", "肯尼亚"],
+    "badrinath": ["印度"],
+    "uttarkashi": ["印度"],
+    "askot": ["印度"],
+    "guayana": ["圭亚那"],
+    "waini": ["圭亚那"],
+    "tumatumari": ["圭亚那"],
+    "essequibo": ["圭亚那"],
+    "ingariko": ["巴西", "圭亚那"],
+    "takutu": ["巴西", "圭亚那"],
+    "kumarakapay": ["巴西", "圭亚那"],
+    "bacs": ["克罗地亚", "塞尔维亚"],
+    "omo": ["埃塞俄比亚"],
+    "daasanach": ["埃塞俄比亚", "肯尼亚"],
+    "ngikwatela": ["南苏丹", "肯尼亚"],
+    "ngiyepakuno": ["肯尼亚"],
+    "paro": ["不丹"],
+    "phari": ["中国"],
+    "rovinj": ["克罗地亚", "斯洛文尼亚"],
+    "ilok": ["克罗地亚", "塞尔维亚"],
+    "makna": ["沙特阿拉伯"],
+    "ralung": ["中国"],
+    "toling": ["中国"],
+    "tsaparang": ["中国"],
+    "nako": ["印度"],
+    "tsorub": ["印度"],
+    "gibraltar": ["英国"],
+    "kunashiri": ["日本"],
+    "etorofu": ["日本"],
+    "furubetsu": ["日本"],
+    "shana": ["日本"],
+    "shibetoro": ["日本"],
+    "cacequi": ["巴西", "乌拉圭"],
+    "ita_cuara": ["乌拉圭"],
+    "yapeyu": ["阿根廷"]
+  },
+  "regionalEstimates": {
+    "智利": "liwen inapiremapu pebuenmapu lafkenmapu wenteche lelbunmapu uthan_uthatun rangkawe qillu_uta kuruko puchacay meli_pillan mawlen waykuche pikumche kolchawwe cauquen aconca_hue quiquilhue piren pikunwijimapu caurakawin chain_chaitun achen paine enoo horsh_aiken ilalumaala inalumaala wakimaala utumaala yeskumaala",
+    "智利/阿根廷": "futra_lhewfu",
+    "阿根廷": "kehek_aike coyle juni_aiken ciaike patagonia chalten chuainisin kla_rome_ko calfuleufu tubicha_mini tuvicha_mini ombu",
+    "乌拉圭": "charrua araicuahita yi ituzaingo",
+    "巴西": "carijo",
+    "墨西哥": "cadegomo mti_pa yenecamu monqui nakipa cochimi koleeu akwaala",
+    "美国": "nuciiq shtax_heen",
+    "加拿大/美国": "upper_yukon",
+    "俄罗斯": "ulakhan_vava tangkhay udya uele",
+    "纳米比亚": "ezorongondo otjozondjii aonin ovaherero tjimba aakhoe",
+    "纳米比亚/南非": "xam hawoben",
+    "纳米比亚/安哥拉": "owambo",
+    "安哥拉": "lower_pinda",
+    "塞拉利昂": "galinhas",
+    "利比里亚": "cape_mount saint_paul_river cess",
+    "几内亚/塞拉利昂": "scarcies",
+    "利比里亚/塞拉利昂": "mano",
+    "秘鲁": "nariguala",
+    "秘鲁/厄瓜多尔": "chira",
+    "莱索托/南非": "sinqu",
+    "美国/墨西哥": "huhuhla",
+    "芬兰": "kasivarren"
+  },
+  "unresolved": {
+    "location": "jersey zittau rothenburg_oberlausitz cottian_alps2 cottian_alps3 graian_alps2 pennine_alps2 lechtal_alps1 lechtal_alps2 otztal_alps2"
+  }
+}

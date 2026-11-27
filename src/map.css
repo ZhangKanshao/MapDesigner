@@ -18,9 +18,6 @@
 .map-tool-button{font:inherit;font-size:12px;border:1px solid #dce2e8;border-radius:5px;padding:8px 13px;background:#f8fafc;color:#435367;cursor:pointer}
 .map-tool-button:hover{background:#eef2f6}
 .map-tool-button[aria-pressed="true"]{background:#e7eef5;border-color:#a8bdcf;color:#233f59}
-.name-tool-icon{font-family:Georgia,serif;font-weight:bold;margin-right:7px}
-#name-mode-hint{font-size:11px;color:#8993a0}
-.map-viewport.name-mode,.map-viewport.name-mode .map-surface{cursor:url('name-cursor.svg') 5 5,crosshair}
 .name-tooltip{position:absolute;z-index:3;pointer-events:none;max-width:290px;background:#fffffffa;border:1px solid #cad5df;box-shadow:0 4px 18px #17253620;border-radius:6px;padding:9px 13px;color:#253b50}
 .name-tooltip>span{display:block;font-size:10px;color:#8a97a4;margin-bottom:3px}
 .name-tooltip strong{display:block;font-size:13px;font-weight:550;overflow-wrap:anywhere}

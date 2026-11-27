@@ -130,7 +130,7 @@
     <section id="map" class="map-page" hidden>
       <div class="map-toolbar"><div><button class="text-button" id="back-templates">← 选择底图</button><span class="toolbar-divider"></span><strong>Europa Universalis V</strong><span class="subtle">地图编辑</span></div><div class="map-toolbar-actions"><button id="open-ai-chat" type="button" class="map-tool-button icon-tool" aria-label="AI 对话" title="AI 对话"><svg width="19" height="19" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h14a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-9l-5 3v-3a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2zM7 9h10M7 13h7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button><button id="open-map-settings" class="map-tool-button icon-tool" aria-label="当前地图设置" title="当前地图设置"><svg width="19" height="19" viewBox="0 0 24 24" aria-hidden="true"><polygon points="18.837,9.168 19.288,10.715 21.651,10.298 21.651,13.702 19.288,13.285 18.837,14.832 18.062,16.244 20.028,17.621 17.621,20.028 16.244,18.062 14.832,18.837 13.285,19.288 13.702,21.651 10.298,21.651 10.715,19.288 9.168,18.837 7.756,18.062 6.379,20.028 3.972,17.621 5.938,16.244 5.163,14.832 4.712,13.285 2.349,13.702 2.349,10.298 4.712,10.715 5.163,9.168 5.938,7.756 3.972,6.379 6.379,3.972 7.756,5.938 9.168,5.163 10.715,4.712 10.298,2.349 13.702,2.349 13.285,4.712 14.832,5.163 16.244,5.938 17.621,3.972 20.028,6.379 18.062,7.756" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="12" cy="12" r="3.2" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></button></div></div>
       <div class="map-tools" role="toolbar" aria-label="地图显示工具">
-        <div class="toolbar-group granularity-controls" role="group" aria-label="地图粒度"><span class="toolbar-group-label">粒度</span><label class="admin-control" for="admin-level">区划<select id="admin-level"><option value="location">地块</option><option value="province">省份</option><option value="area">区域</option><option value="region">地区</option><option value="subcontinent">次大陆</option><option value="continent">大洲</option></select></label><label class="admin-control" for="paint-level">着色<select id="paint-level"><option value="location">地块</option><option value="province">省份</option><option value="area">区域</option><option value="region">地区</option><option value="subcontinent">次大陆</option><option value="continent">大洲</option></select></label></div>
+        <div class="toolbar-group granularity-controls"><label class="admin-control" for="admin-level">粒度<select id="admin-level"><option value="location">地块</option><option value="province">省份</option><option value="area">区域</option><option value="region">地区</option><option value="subcontinent">次大陆</option><option value="continent">大洲</option></select></label></div>
         <div class="toolbar-group settings-group" role="group" aria-label="地图外观">
           <span class="toolbar-group-label">外观</span>
           <label class="admin-control" for="toggle-boundaries">边界显示<select id="toggle-boundaries"><option value="plots">显示地块边界</option><option value="countries">显示政治边界</option><option value="hidden">隐藏边界</option></select></label>
@@ -139,7 +139,6 @@
         </div>
         <div class="toolbar-group operations-group" role="group" aria-label="地图操作">
           <span class="toolbar-group-label">操作</span>
-          <button id="toggle-names" class="map-tool-button icon-tool" aria-label="显示名称" title="显示名称" aria-pressed="false"><span class="name-tool-icon" aria-hidden="true">A</span></button>
           <button id="pick-country" type="button" class="map-tool-button icon-tool" aria-pressed="false" aria-label="选择国家" title="选择国家"><svg width="19" height="19" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="7" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M12 2v6m0 8v6M2 12h6m8 0h6" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><circle cx="12" cy="12" r="1" fill="currentColor"/></svg></button>
           <button id="erase-map" class="map-tool-button icon-tool" aria-pressed="false" aria-label="擦除" title="擦除"><svg width="19" height="19" viewBox="0 0 24 24" aria-hidden="true"><path d="m14 3 7 7-10 11H6l-4-4zM7 12l7 7M11 21h11" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
           <button id="undo-map" class="map-tool-button icon-tool" aria-label="撤销" title="撤销上一步" disabled><svg width="19" height="19" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 10a8 8 0 1 1 1 8M4 4v6h6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
@@ -148,7 +147,6 @@
           <button id="save-map" class="map-tool-button icon-tool" aria-label="保存" title="保存 snapshot / PNG"><svg width="19" height="19" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 3h13l4 4v14H3V3zM7 3v6h10V3M7 21v-8h10v8M14 5v2" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
         </div>
         <span id="paint-status" role="status"></span>
-        <span id="name-mode-hint" role="status" hidden>移动鼠标查看当前等级的名称</span>
       </div>
       <div class="map-stage" id="map-stage">
         <div class="map-lists">
@@ -214,7 +212,7 @@
         </div>
         <p id="map-overlay-status" role="status" hidden></p>
         <div id="map-message" class="map-message" role="status">正在加载完整底图…</div>
-        <div id="name-tooltip" class="name-tooltip" role="status" hidden><span id="name-tooltip-level"></span><strong id="name-tooltip-label"></strong></div>
+        <div id="name-tooltip" class="name-tooltip" role="tooltip" hidden><span id="name-tooltip-level"></span><strong id="name-tooltip-label"></strong></div>
         <div class="zoom-control" aria-label="地图缩放">
           <button id="zoom-out" aria-label="缩小 5%" title="缩小 5%">−</button>
           <input id="map-zoom" type="range" min="100" max="2000" step="5" value="100" aria-label="地图缩放比例" aria-valuetext="100%">

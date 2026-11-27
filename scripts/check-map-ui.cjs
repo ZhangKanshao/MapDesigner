@@ -45,6 +45,7 @@ const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'playwright');
       assert.equal(await page.locator('#zoom-value').textContent(), '100%');
       await page.locator('#back-templates').click();
       await page.locator('#choose-eu5').click();
+      await page.waitForFunction(() => location.hash === '#map' && !restoringMapView && !mapLoading);
       await page.setViewportSize({ width: 1000, height: 700 });
       await page.waitForTimeout(150);
       assert.equal(await page.evaluate(() => document.body.scrollWidth > innerWidth), false);
@@ -52,13 +53,12 @@ const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'playwright');
       await page.setViewportSize({ width: 1440, height: 920 });
       await page.locator('#map-zoom').fill('300');
       for (const level of ['province', 'area', 'region', 'subcontinent', 'continent', 'location']) {
-        const expected = level === 'location' ? 'basemap.png' : `basemap-${level}.png`;
         const before = await page.locator('#map-viewport').evaluate(el => [el.scrollLeft, el.scrollTop]);
         await page.locator('#admin-level').selectOption(level);
-        await page.waitForFunction(filename => {
+        await page.waitForFunction(level => {
           const image = document.querySelector('#basemap');
-          return new URL(image.src).pathname.endsWith(filename) && image.complete && image.naturalWidth === 16384 && document.querySelector('#map-message').hidden;
-        }, expected);
+          return loadedAdminLevel === level && !mapLoading && image.complete && image.naturalWidth === 16384;
+        }, level);
         assert.equal(await page.locator('#zoom-value').textContent(), '300%');
         const after = await page.locator('#map-viewport').evaluate(el => [el.scrollLeft, el.scrollTop]);
         assert.ok(after.every((value, i) => Math.abs(value - before[i]) < 3), `view moved at ${level}`);
@@ -72,7 +72,7 @@ const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'playwright');
           select.dispatchEvent(new Event('change'));
         }
       });
-      await page.waitForFunction(() => new URL(document.querySelector('#basemap').src).pathname.endsWith('basemap-area.png') && document.querySelector('#map-message').hidden);
+      await page.waitForFunction(() => !mapLoading && loadedAdminLevel === 'area');
       await page.locator('#map-zoom').fill('500');
       await page.locator('#map-viewport').evaluate(el => {
         const image = document.querySelector('#basemap');
@@ -84,7 +84,7 @@ const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'playwright');
       await page.waitForFunction(() => document.querySelector('#basemap').src.endsWith('/basemap.png') && document.querySelector('#map-message').hidden);
       await page.locator('#map-zoom').fill('100');
       // Border visibility is independent of the selected naming granularity.
-      await page.locator('#toggle-boundaries').click();
+      await page.locator('#toggle-boundaries').selectOption('hidden');
       await page.waitForFunction(() => new URL(document.querySelector('#basemap').src).pathname.endsWith('basemap-no-borders.png') && document.querySelector('#map-message').hidden);
       assert.equal(await page.locator('#location-legend').isVisible(), false);
       await page.locator('#map-zoom').fill('1000');
@@ -94,27 +94,25 @@ const { chromium } = require(process.env.PLAYWRIGHT_MODULE || 'playwright');
         el.scrollLeft = map.width * (sample.x + .5) / 16384 - el.clientWidth / 2;
         el.scrollTop = map.height * (sample.y + .5) / 8192 - el.clientHeight / 2;
       }, sample);
-      await page.locator('#toggle-names').click();
+      assert.equal(await page.locator('#toggle-names').count(), 0);
       const samplePoint = await page.locator('#basemap').evaluate((el, sample) => {
         const rect = el.getBoundingClientRect();
         return { x: rect.left + rect.width * (sample.x + .5) / 16384, y: rect.top + rect.height * (sample.y + .5) / 8192 };
       }, sample);
       await page.mouse.move(samplePoint.x, samplePoint.y);
-      const expectedNames = { location: '斯德哥尔摩', province: '乌普兰', area: '斯韦阿兰', region: '斯堪的纳维亚', subcontinent: '西欧', continent: '欧洲' };
+      const expectedNames = { location: '斯德哥尔摩（今属：瑞典）', province: '乌普兰', area: '斯韦阿兰', region: '斯堪的纳维亚', subcontinent: '西欧', continent: '欧洲' };
       for (const [level, name] of Object.entries(expectedNames)) {
         await page.locator('#admin-level').selectOption(level);
         await page.waitForFunction(() => document.querySelector('#map-message').hidden);
         await page.mouse.move(samplePoint.x + 1, samplePoint.y);
         await page.mouse.move(samplePoint.x, samplePoint.y);
         await page.waitForFunction(expected => !document.querySelector('#name-tooltip').hidden && document.querySelector('#name-tooltip-label').textContent === expected, name);
-        assert.equal(await page.locator('#map-viewport').evaluate(el => el.classList.contains('name-mode')), true);
       }
-      await page.screenshot({ path: 'output/map-name-mode.png' });
-      await page.locator('#toggle-boundaries').click();
-      await page.waitForFunction(() => new URL(document.querySelector('#basemap').src).pathname.endsWith('basemap-continent.png') && document.querySelector('#map-message').hidden);
-      await page.locator('#toggle-names').click();
+      await page.screenshot({ path: 'output/map-hover-name.png' });
+      await page.locator('#toggle-boundaries').selectOption('plots');
+      await page.waitForFunction(() => !mapLoading && loadedAdminLevel === 'continent' && loadedBoundaryDisplay === 'plots');
+      await page.locator('#save-map').hover();
       assert.equal(await page.locator('#name-tooltip').isVisible(), false);
-      assert.equal(await page.locator('#map-viewport').evaluate(el => el.classList.contains('name-mode')), false);
       await page.locator('#admin-level').selectOption('location');
       await page.waitForFunction(() => new URL(document.querySelector('#basemap').src).pathname.endsWith('/basemap.png') && document.querySelector('#map-message').hidden);
       await page.locator('#map-zoom').fill('100');

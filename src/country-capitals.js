@@ -7,7 +7,7 @@
   function begin(id){
     if(picking===id){cancel(true);return;}
     const country=window.CountryStore.list().find(country=>country.id===id);if(!country)return;
-    stopMapDrag();window.CountryStore.select(null);if(namesEnabled)nameButton.click();
+    stopMapDrag();window.CountryStore.select(null);
     picking=id;sequence++;announce();
     status.textContent=`点击${window.CountryStore.fullName(country)||'该国家'}的本国${window.MapTemplate.levels[window.MapTemplate.baseLevel]}指定首都；可拖动平移，Esc 取消。`;
   }
@@ -37,7 +37,7 @@
     layer.dataset.markerCount=String(count);
   }
   window.addEventListener('map-click',async event=>{
-    if(!picking)return;
+    if(!picking || mapLoading || restoringMapView)return;
     const id=picking,revision=sequence;pending++;
     try{
       const point=await window.MapPainting.locationAtPoint(event.detail);
@@ -52,7 +52,7 @@
     finally{pending--;}
   });
   window.addEventListener('keydown',event=>{if(event.key==='Escape'&&picking){event.preventDefault();cancel(true);}});
-  window.addEventListener('country-selection',()=>cancel());window.addEventListener('name-mode-enabled',()=>cancel());
+  window.addEventListener('country-selection',()=>cancel());
   for(const id of ['erase-map','create-country','save-map','open-map-settings'])document.getElementById(id).addEventListener('click',()=>cancel());
   document.getElementById('country-list').addEventListener('click',event=>{if(event.target.closest('.country-select'))cancel();});
   window.addEventListener('hashchange',()=>{cancel();schedule();});

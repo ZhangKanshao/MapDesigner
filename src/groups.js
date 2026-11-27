@@ -54,7 +54,6 @@
     }
     stopMapDrag();
     window.CountryStore.select(null);
-    if (namesEnabled) nameButton.click();
     memberPick = { groupId: group.id, action };
     const operation = action === 'add' ? '加入' : '移除';
     updateMemberPick(`点击已着色地块，${operation}成员。Esc 退出。`);
@@ -306,7 +305,7 @@
     document.getElementById(id).addEventListener('click', () => dialog.close());
   }
   window.addEventListener('hashchange', () => { if (dialog.open) dialog.close(); });
-  for (const event of ['hashchange', 'country-selection', 'name-mode-enabled']) {
+  for (const event of ['hashchange', 'country-selection']) {
     window.addEventListener(event, cancelMemberPick);
   }
   for (const id of ['pick-country', 'toggle-group-list']) {

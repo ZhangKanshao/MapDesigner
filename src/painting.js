@@ -2,7 +2,6 @@
   const STORAGE_KEY = `mapdesigner.${window.MapTemplate.key}.paint.v1`;
   const layer = document.getElementById('paint-layer');
   const context = layer.getContext('2d');
-  const grain = document.getElementById('paint-level');
   const pickButton = document.getElementById('pick-country');
   const eraseButton = document.getElementById('erase-map');
   const wasteButton = document.getElementById('toggle-wasteland');
@@ -148,6 +147,7 @@
     }
   }
   window.addEventListener('map-click', event => {
+    if (mapLoading || restoringMapView) return;
     if (window.CountryCapitals?.selected()) return;
     if (window.GroupStore.pickingMember()) {
       window.GroupStore.pickMember(event.detail);
@@ -160,7 +160,7 @@
       pickCountry(pixel);
       return;
     }
-    const operation = { pixel, mode, level: grain.value, country: window.CountryStore.selected() };
+    const operation = { pixel, mode, level: loadedAdminLevel, country: window.CountryStore.selected() };
     enqueue(async () => {
       const metadata = await ready();
       const id = await locationAt(operation.pixel, metadata);
@@ -189,19 +189,16 @@
   });
   window.addEventListener('country-selection', event => {
     mode = event.detail.id ? 'paint' : 'pan';
-    if (event.detail.id && namesEnabled) nameButton.click();
     const selected = window.CountryStore.list().find(country => country.id === event.detail.id);
     status.textContent = selected ? `着色：${window.CountryStore.fullName(selected) || '未命名国家'}` : '';
     updateTools();
   });
-  window.addEventListener('name-mode-enabled', () => { window.CountryStore.select(null); mode = 'pan'; updateTools(); });
   pickButton.addEventListener('click', () => {
     if (mode === 'pick-country') {
       stopCountryPick();
       return;
     }
     window.CountryStore.select(null);
-    if (namesEnabled) nameButton.click();
     countryPickRequest++;
     mode = 'pick-country';
     status.textContent = '点击已着色的地块查看国家信息。';
@@ -217,7 +214,6 @@
   eraseButton.addEventListener('click', () => {
     const enable = mode !== 'erase';
     window.CountryStore.select(null);
-    if (namesEnabled) nameButton.click();
     mode = enable ? 'erase' : 'pan';
     status.textContent = enable ? '擦除：单击还原所选粒度的地块' : '';
     updateTools();
@@ -393,7 +389,6 @@
     restore: async state => {
       await operationQueue;
       await ready();
-      if (namesEnabled) nameButton.click();
       owners = { ...state.owners };
       allowWasteland = state.wastelandEnabled;
       history.length = 0; historyChanges = 0;

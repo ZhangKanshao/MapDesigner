@@ -1,0 +1,348 @@
+{
+  "sourceFingerprint": "95eaac731e7c092a5088bfdc1b59bfdd43ba8f50ab3cff77687b2f14e8e9c4a5",
+  "boundarySha256": "16e7589083527d01208b9f645fc8643c767170258e9d13b59d37bc5a1f6a8758",
+  "calibration": {
+    "degree": 1,
+    "anchorCount": 38,
+    "meanHoldoutPx": 7.6,
+    "checkPx": {
+      "asti": 6.8,
+      "ventimiglia": 3.7,
+      "pinerolo": 7.3,
+      "susa": 19.5,
+      "moutiers": 2.4,
+      "lucca": 4.7,
+      "corte": 2.3
+    },
+    "marginPx": 22
+  },
+  "locations": {
+    "bern": [
+      "瑞士"
+    ],
+    "thun": [
+      "瑞士"
+    ],
+    "lucerne": [
+      "瑞士"
+    ],
+    "sarnen": [
+      "瑞士"
+    ],
+    "frutigen": [
+      "瑞士"
+    ],
+    "wolhusen": [
+      "瑞士"
+    ],
+    "dole": [
+      "法国"
+    ],
+    "besancon": [
+      "法国"
+    ],
+    "arles": [
+      "法国"
+    ],
+    "aix_en_provence": [
+      "法国"
+    ],
+    "toulon": [
+      "法国"
+    ],
+    "frejus": [
+      "法国"
+    ],
+    "marseille": [
+      "法国"
+    ],
+    "digne": [
+      "法国"
+    ],
+    "forcalquier": [
+      "法国"
+    ],
+    "orange": [
+      "法国"
+    ],
+    "avignon": [
+      "法国"
+    ],
+    "uzes": [
+      "法国"
+    ],
+    "sisteron": [
+      "法国"
+    ],
+    "grenoble": [
+      "法国"
+    ],
+    "valence": [
+      "法国"
+    ],
+    "die": [
+      "法国"
+    ],
+    "gap": [
+      "法国"
+    ],
+    "vienne": [
+      "法国"
+    ],
+    "saint_marceilin": [
+      "法国"
+    ],
+    "bourg_en_bresse": [
+      "法国"
+    ],
+    "trevoux": [
+      "法国"
+    ],
+    "chambery": [
+      "法国"
+    ],
+    "bage": [
+      "法国"
+    ],
+    "villars": [
+      "法国"
+    ],
+    "la_tour_du_pin": [
+      "法国"
+    ],
+    "romans": [
+      "法国"
+    ],
+    "la_mure": [
+      "法国"
+    ],
+    "condorcet": [
+      "法国"
+    ],
+    "mevouillon": [
+      "法国"
+    ],
+    "apt": [
+      "法国"
+    ],
+    "tarascon": [
+      "法国"
+    ],
+    "brignoles": [
+      "法国"
+    ],
+    "barjols": [
+      "法国"
+    ],
+    "draguignan": [
+      "法国"
+    ],
+    "castellane": [
+      "法国"
+    ],
+    "vercors_massif": [
+      "法国"
+    ],
+    "bastia": [
+      "法国"
+    ],
+    "corte": [
+      "法国"
+    ],
+    "aleria": [
+      "法国"
+    ],
+    "vico": [
+      "法国"
+    ],
+    "ajaccio": [
+      "法国"
+    ],
+    "poggibonsi": [
+      "意大利"
+    ],
+    "volterra": [
+      "意大利"
+    ],
+    "livorno": [
+      "意大利"
+    ],
+    "pontedera": [
+      "意大利"
+    ],
+    "pisa": [
+      "意大利"
+    ],
+    "pescia": [
+      "意大利"
+    ],
+    "prato": [
+      "意大利"
+    ],
+    "pistoia": [
+      "意大利"
+    ],
+    "lucca": [
+      "意大利"
+    ],
+    "massa": [
+      "意大利"
+    ],
+    "fosdinovo": [
+      "意大利"
+    ],
+    "vergato": [
+      "意大利"
+    ],
+    "frassinoro": [
+      "意大利"
+    ],
+    "modena": [
+      "意大利"
+    ],
+    "guastalla": [
+      "意大利"
+    ],
+    "reggioem": [
+      "意大利"
+    ],
+    "canossa": [
+      "意大利"
+    ],
+    "parma": [
+      "意大利"
+    ],
+    "berceto": [
+      "意大利"
+    ],
+    "sandonnino": [
+      "意大利"
+    ],
+    "fiorenzuola": [
+      "意大利"
+    ],
+    "bardi": [
+      "意大利"
+    ],
+    "rovegno": [
+      "意大利"
+    ],
+    "bobbio": [
+      "意大利"
+    ],
+    "piacenza": [
+      "意大利"
+    ],
+    "sarzana": [
+      "意大利"
+    ],
+    "lavagna": [
+      "意大利"
+    ],
+    "genoa": [
+      "意大利"
+    ],
+    "finalborgo": [
+      "意大利"
+    ],
+    "carmagnola": [
+      "意大利"
+    ],
+    "alba": [
+      "意大利"
+    ],
+    "cairo_montenotte": [
+      "意大利"
+    ],
+    "alessandria": [
+      "意大利"
+    ],
+    "tortona": [
+      "意大利"
+    ],
+    "novi": [
+      "意大利"
+    ],
+    "acqui": [
+      "意大利"
+    ],
+    "asti": [
+      "意大利"
+    ],
+    "turin": [
+      "意大利"
+    ],
+    "chieri": [
+      "意大利"
+    ],
+    "casale": [
+      "意大利"
+    ],
+    "vercelli": [
+      "意大利"
+    ],
+    "voghera": [
+      "意大利"
+    ],
+    "lomello": [
+      "意大利"
+    ],
+    "pavia": [
+      "意大利"
+    ],
+    "milano": [
+      "意大利"
+    ],
+    "treviglio": [
+      "意大利"
+    ],
+    "bergamo": [
+      "意大利"
+    ],
+    "cortenuova": [
+      "意大利"
+    ],
+    "lodi": [
+      "意大利"
+    ],
+    "soncino": [
+      "意大利"
+    ],
+    "cremona": [
+      "意大利"
+    ],
+    "casalmaggiore": [
+      "意大利"
+    ],
+    "palazzolo": [
+      "意大利"
+    ],
+    "nozza": [
+      "意大利"
+    ],
+    "brescia": [
+      "意大利"
+    ],
+    "asola": [
+      "意大利"
+    ],
+    "goito": [
+      "意大利"
+    ],
+    "mantova": [
+      "意大利"
+    ],
+    "biella": [
+      "意大利"
+    ],
+    "savona": [
+      "意大利"
+    ],
+    "north_apennines": [
+      "意大利"
+    ],
+    "corsican_mountains": [
+      "法国"
+    ]
+  }
+}

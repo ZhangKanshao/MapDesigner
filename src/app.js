@@ -66,7 +66,10 @@ async function loadAdminMap(level) {
     message.textContent = `${adminNames[level]}底图加载失败，请刷新后重试。`;
     return false;
   } finally {
-    if (sequence === mapLoadSequence) mapLoading = false;
+    if (sequence === mapLoadSequence) {
+      mapLoading = false;
+      window.dispatchEvent(new Event('map-view-change'));
+    }
   }
 }
 adminLevel.addEventListener('change', () => loadAdminMap(adminLevel.value));
@@ -231,8 +234,8 @@ window.MapView = {
   capture: () => {
     const bounds = image.getBoundingClientRect(), view = viewport.getBoundingClientRect();
     return {
-      zoom: zoomPercent, adminLevel: loadedAdminLevel, paintLevel: document.getElementById('paint-level').value,
-      boundariesHidden: loadedBoundariesHidden, boundaryDisplay: loadedBoundaryDisplay, namesEnabled,
+      zoom: zoomPercent, adminLevel: loadedAdminLevel,
+      boundariesHidden: loadedBoundariesHidden, boundaryDisplay: loadedBoundaryDisplay,
       center: { x: Math.max(0, Math.min(1, (view.left + viewport.clientWidth / 2 - bounds.left) / bounds.width)),
         y: Math.max(0, Math.min(1, (view.top + viewport.clientHeight / 2 - bounds.top) / bounds.height)) }
     };
@@ -248,12 +251,10 @@ window.MapView = {
       location.hash = 'map'; renderRoute();
       if (!await mapLoad) throw new Error('快照所需底图加载失败。');
       if (!image.complete) await new Promise((resolve, reject) => { image.addEventListener('load', resolve, { once: true }); image.addEventListener('error', reject, { once: true }); });
-      document.getElementById('paint-level').value = settings.paintLevel;
       setZoom(settings.zoom);
       await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
       viewport.scrollLeft = Math.max(0, (viewport.clientWidth - imageWidth) / 2) + settings.center.x * imageWidth - viewport.clientWidth / 2;
       viewport.scrollTop = Math.max(0, (viewport.clientHeight - imageHeight) / 2) + settings.center.y * imageHeight - viewport.clientHeight / 2;
-      if (namesEnabled !== settings.namesEnabled) nameButton.click();
     } finally {
       restoringMapView = false;
       window.dispatchEvent(new Event('map-view-change'));

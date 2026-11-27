@@ -235,8 +235,10 @@
     const roots = new Set(countries.filter(country => country.suzerainId === undefined).map(country => country.id));
     if (countries.some(country => country.suzerainId !== undefined && !roots.has(country.suzerainId))) throw new Error('快照中的宗主国不存在或也是附庸。');
     const view = data.view;
+    // Preserve the click-to-paint scope when an older snapshot has two different levels.
+    const level = view?.paintLevel ?? view?.adminLevel;
     if (view?.boundaryDisplay !== undefined && !['plots','countries','hidden'].includes(view.boundaryDisplay)) throw new Error('快照的边界显示设置无效。');
-    if (!view || !allowedLevels.includes(view.adminLevel) || !allowedLevels.includes(view.paintLevel) || !Number.isInteger(view.zoom) || view.zoom < 100 || view.zoom > 2000 || view.zoom % 5 || typeof view.boundariesHidden !== 'boolean' || typeof view.namesEnabled !== 'boolean' || !view.center || ![view.center.x, view.center.y].every(value => Number.isFinite(value) && value >= 0 && value <= 1)) throw new Error('快照的视图设置无效。');
+    if (!view || !allowedLevels.includes(level) || !Number.isInteger(view.zoom) || view.zoom < 100 || view.zoom > 2000 || view.zoom % 5 || typeof view.boundariesHidden !== 'boolean' || !view.center || ![view.center.x, view.center.y].every(value => Number.isFinite(value) && value >= 0 && value <= 1)) throw new Error('快照的视图设置无效。');
     const painting = data.painting;
     if (!painting || typeof painting.wastelandEnabled !== 'boolean' || !['paint', 'pan', 'erase'].includes(painting.mode) || !painting.owners || typeof painting.owners !== 'object' || Array.isArray(painting.owners) || (painting.selectedCountry !== null && !ids.has(painting.selectedCountry))) throw new Error('快照的领土设置无效。');
     const metadata=await lookup('meta.js'),kinds=(await lookup('paint-meta.js')).kinds;
@@ -254,7 +256,8 @@
       if (row[low * 2 + 1] !== capital.locationId) throw new Error('首都标记不在指定地块内。');
     }
     const boundaryDisplay=view.boundaryDisplay || (view.boundariesHidden ? 'hidden' : 'plots');
-    return { mapAppearance, countryLabels, countries, groups, aiChat, aiPromptId, painting: { ...painting, owners }, view: { ...view, boundaryDisplay, boundariesHidden:boundaryDisplay!=='plots', center: { ...view.center } } };
+    return { mapAppearance, countryLabels, countries, groups, aiChat, aiPromptId, painting: { ...painting, owners },
+      view: { zoom: view.zoom, adminLevel: level, boundaryDisplay, boundariesHidden: boundaryDisplay !== 'plots', center: { ...view.center } } };
   }
   async function applySnapshot(snapshot) {
     window.CountryCapitals.cancel();
@@ -478,7 +481,7 @@
   async function createBlank() {
     await openText(JSON.stringify({ format: 'MapDesignerSnapshot', formatVersion: 1, map: { ...window.EU5ProjectMeta }, mapAppearance: window.MapAppearance.defaults(), countryLabels: window.CountryLabels.defaults(), countries: [],
       painting: { owners: {}, wastelandEnabled: false, mode: 'pan', selectedCountry: null },
-      view: { zoom: 100, adminLevel: window.MapTemplate.baseLevel, paintLevel: window.MapTemplate.baseLevel, boundariesHidden: false, namesEnabled: false, center: { x: .5, y: .5 } } }));
+      view: { zoom: 100, adminLevel: window.MapTemplate.baseLevel, boundariesHidden: false, center: { x: .5, y: .5 } } }));
     document.getElementById('paint-status').textContent = '';
   }
   window.addEventListener('settings-changed', event => {

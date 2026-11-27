@@ -15,18 +15,13 @@ async function check(page, environment, electron) {
   page.on('requestfailed', request => console.log(`${environment} resource: ${request.url()} ${request.failure()?.errorText}`));
   await page.waitForFunction(() => document.querySelector('#basemap').naturalWidth === 16384);
   assert.equal(await page.locator('.operations-group').locator('button').last().getAttribute('id'), 'save-map');
-  const first = await page.locator('#admin-level').boundingBox(), second = await page.locator('#paint-level').boundingBox();
-  assert.ok(Math.abs(first.y - second.y) < 2);
+  assert.equal(await page.getByRole('combobox', { name: '粒度', exact: true }).count(), 1);
+  assert.equal(await page.locator('.granularity-controls select').count(), 1);
   const groups = await page.locator('.map-tools .toolbar-group').evaluateAll(items => items.map(item => item.getBoundingClientRect().y));
   assert.equal(groups.length, 3);
   assert.ok(Math.max(...groups) - Math.min(...groups) < 2);
-  assert.equal((await page.locator('#toggle-names').textContent()).trim(), 'A');
-  await page.locator('#toggle-names').click();
-  assert.equal((await page.locator('#toggle-names').textContent()).trim(), 'A');
-  await page.locator('#toggle-names').click();
   await page.locator('#create-country').click(); await page.locator('#country-name').fill('快照测试国');
   await page.locator('#confirm-country').click();
-  await page.locator('.country-brush').click();
   await page.locator('#map-zoom').fill('1000');
   await page.evaluate(sample => {
     const v = document.querySelector('#map-viewport'), im = document.querySelector('#basemap');
@@ -37,8 +32,9 @@ async function check(page, environment, electron) {
     const r = im.getBoundingClientRect(); return { x: r.left + r.width * (sample.x + .5) / 16384, y: r.top + r.height * (sample.y + .5) / 8192 };
   }, samples.stockholm);
   await page.mouse.click(p.x, p.y);
-  await page.locator('#admin-level').selectOption('province');
-  await page.locator('#paint-level').selectOption('area');
+  await page.locator('#admin-level').selectOption('area');
+  await page.waitForFunction(() => !mapLoading && loadedAdminLevel === 'area');
+  await page.evaluate(() => MapPainting.whenIdle());
   let original;
   try { original = await page.evaluate(() => window.MapProject.capture()); }
   catch (error) {
@@ -69,7 +65,8 @@ async function check(page, environment, electron) {
   const saved = JSON.parse(await fs.readFile(snapshotPath, 'utf8'));
   assert.deepEqual(saved.countries, original.countries);
   assert.deepEqual(saved.painting.owners, original.painting.owners);
-  assert.equal(saved.view.adminLevel, 'province'); assert.equal(saved.view.paintLevel, 'area');
+  assert.equal(saved.view.adminLevel, 'area');
+  assert.ok(!Object.hasOwn(saved.view, 'paintLevel') && !Object.hasOwn(saved.view, 'namesEnabled'));
   const initialText = await fs.readFile(snapshotPath, 'utf8');
   await page.locator('#confirm-save').click();
   await page.waitForFunction(() => document.querySelector('#confirm-save').textContent === '覆盖保存');
@@ -87,7 +84,7 @@ async function check(page, environment, electron) {
   const exported=await fs.readFile(path.join(pngDirectory,'visible.png'));
   assert.equal(exported.subarray(0,8).toString('hex'),'89504e470d0a1a0a');assert.equal(exported.readUInt32BE(16),16384);assert.equal(exported.readUInt32BE(20),8192);
   const visibleHash=crypto.createHash('sha256').update(exported).digest('hex');
-  await page.locator('#toggle-boundaries').click();
+  await page.locator('#toggle-boundaries').selectOption('hidden');
   await page.waitForFunction(() => document.querySelector('#map-message').hidden);
   await page.locator('#save-map').click(); await page.waitForFunction(() => !document.querySelector('#save-name').disabled);
   await page.locator('[name="save-type"][value="png"]').check();
@@ -103,7 +100,7 @@ async function check(page, environment, electron) {
   await page.waitForFunction(() => document.querySelector('#paint-status').textContent.includes('快照已加载'));
   const restored = await page.evaluate(() => window.MapProject.capture());
   assert.deepEqual(restored.countries, saved.countries); assert.deepEqual(restored.painting, saved.painting);
-  for (const key of ['zoom', 'adminLevel', 'paintLevel', 'boundariesHidden']) assert.equal(restored.view[key], saved.view[key]);
+  for (const key of ['zoom', 'adminLevel', 'boundariesHidden']) assert.equal(restored.view[key], saved.view[key]);
   assert.ok(Math.abs(restored.view.center.x - saved.view.center.x) < .002);
   assert.ok(Math.abs(restored.view.center.y - saved.view.center.y) < .002);
   assert.equal(await page.locator('#undo-map').isDisabled(), true);
@@ -112,7 +109,8 @@ async function check(page, environment, electron) {
   assert.equal(rejected, true);
   assert.deepEqual((await page.evaluate(() => window.MapProject.capture())).painting.owners, saved.painting.owners);
   // The reopened snapshot remains editable.
-  await page.locator('#paint-level').selectOption('location');
+  await page.locator('#admin-level').selectOption('location');
+  await page.waitForFunction(() => !mapLoading && loadedAdminLevel === 'location');
   await page.locator('#erase-map').click();
   await page.mouse.click(p.x, p.y); await page.waitForTimeout(50);
   await page.evaluate(() => window.MapPainting.whenIdle());

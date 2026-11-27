@@ -11,8 +11,8 @@ async function check(page, kind, app) {
   await page.emulateMedia({ colorScheme: 'light' });
   await page.evaluate(() => window.AppSettings.ready);
   await page.locator('#open-settings').click(); await page.locator('#settings').waitFor({ state: 'visible' });
-  assert.equal(await page.locator('[data-edit-shortcut]').count(), 12);
-  assert.equal(await page.locator('[data-delete-shortcut]').count(), 12);
+  assert.equal(await page.locator('[data-edit-shortcut]').count(), 11);
+  assert.equal(await page.locator('[data-delete-shortcut]').count(), 11);
   async function edit(action, key) {
     await page.locator(`[data-edit-shortcut="${action}"]`).click();
     assert.equal(await page.locator('#shortcut-prompt').textContent(), '请输入新快捷键或组合键');
@@ -26,15 +26,15 @@ async function check(page, kind, app) {
     await page.locator('#reset-settings').click();
     await page.waitForFunction(() => document.querySelector('#settings-status').textContent === '当前分类已恢复默认设置并保存。' && !document.querySelector('#reset-settings').disabled);
   }
-  await edit('erase', 'a');
+  await edit('erase', 'c');
   assert.ok((await page.locator('#shortcut-record-error').textContent()).includes('不能重复'));
   assert.equal(await page.locator('#shortcut-erase').inputValue(), 'E');
   await page.keyboard.press('r'); await page.locator('#shortcut-dialog').waitFor({ state: 'hidden' });
-  await page.locator('[data-delete-shortcut="names"]').click();
+  assert.equal(await page.locator('[data-delete-shortcut="names"]').count(), 0);
   await page.locator('[data-delete-shortcut="boundaries"]').click();
   await save();
   const operations = await page.evaluate(() => window.AppSettings.get());
-  assert.equal(operations.shortcuts.erase, 'KeyR'); assert.equal(operations.shortcuts.names, ''); assert.equal(operations.shortcuts.boundaries, '');
+  assert.equal(operations.shortcuts.erase, 'KeyR'); assert.equal(operations.shortcuts.names, undefined); assert.equal(operations.shortcuts.boundaries, '');
   assert.equal(operations.shortcuts.scrollUp, 'ArrowUp'); assert.equal(operations.operations.wheelMode, 'zoom');
   assert.equal(await page.locator('.settings-card #save-settings').count(), 0);
   const saveBox = await page.locator('#save-settings').boundingBox(), resetBox = await page.locator('#reset-settings').boundingBox();
@@ -54,7 +54,7 @@ async function check(page, kind, app) {
   assert.equal(await page.evaluate(() => window.AppSettings.get().appearance.theme), 'system');
   const fontBox = await page.locator('#settings-font').boundingBox(), previewBox = await page.locator('.settings-preview').boundingBox();
   assert.ok(previewBox.y > fontBox.y + fontBox.height);
-  const card = await page.locator('.settings-card').boundingBox();
+  const card = await page.locator('.settings-card:visible').boundingBox();
   assert.ok(Math.abs(fontBox.x + fontBox.width - (card.x + card.width - 33)) < 3);
   assert.equal(await page.locator('.settings-preview').evaluate(e => getComputedStyle(e).textAlign), 'center');
   await page.locator('#nav-home').click(); await page.waitForFunction(() => document.documentElement.dataset.theme === 'light');
@@ -74,7 +74,7 @@ async function check(page, kind, app) {
   await page.screenshot({ path: path.join(root, `output/settings-${kind}-dark.png`) });
   await page.reload(); await page.evaluate(() => window.AppSettings.ready);
   assert.equal(await page.locator('html').getAttribute('data-theme'), 'dark');
-  assert.equal(await page.evaluate(() => window.AppSettings.get().shortcuts.names), '');
+  assert.equal(await page.evaluate(() => window.AppSettings.get().shortcuts.names), undefined);
   assert.equal(await page.evaluate(() => window.AppSettings.get().files.snapshot), snapshots);
   await page.locator('#tab-appearance').click(); await reset();
   assert.equal(await page.locator('#settings-theme').inputValue(), 'system');
@@ -96,7 +96,7 @@ async function check(page, kind, app) {
   await page.waitForFunction(() => location.hash === '#map' && !document.querySelector('#choose-eu5').disabled);
   await page.keyboard.press('e'); assert.equal(await page.locator('#erase-map').getAttribute('aria-pressed'), 'false');
   await page.keyboard.press('r'); assert.equal(await page.locator('#erase-map').getAttribute('aria-pressed'), 'true');
-  await page.keyboard.press('a'); assert.equal(await page.locator('#toggle-names').getAttribute('aria-pressed'), 'false');
+  await page.keyboard.press('a'); assert.equal(await page.locator('#erase-map').getAttribute('aria-pressed'), 'true');
   await page.keyboard.press('r');
   await page.locator('#map-zoom').fill('1000'); await page.locator('#map-viewport').focus();
   await page.evaluate(async () => { await window.MapPainting.waitForRender(); await new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r))); });
@@ -148,7 +148,7 @@ async function check(page, kind, app) {
   for (const key of ['scrollUp', 'scrollDown', 'scrollLeft', 'scrollRight']) delete legacy.shortcuts[key];
   legacy.shortcuts.names = 'ArrowUp'; legacy.shortcuts.erase = '';
   const upgraded = backend.validate(legacy);
-  assert.equal(upgraded.shortcuts.names, 'ArrowUp'); assert.equal(upgraded.shortcuts.scrollUp, '');
+  assert.equal(upgraded.shortcuts.names, undefined); assert.equal(upgraded.shortcuts.scrollUp, 'ArrowUp');
   assert.equal(upgraded.shortcuts.erase, ''); assert.equal(upgraded.operations.wheelMode, 'zoom');
   await fs.mkdir(testRoot, { recursive: true });
   const server = spawn(process.execPath, ['scripts/preview.cjs'], { cwd: root, windowsHide: true, env: { ...process.env, MAPDESIGNER_PREVIEW_PORT: '4181', MAPDESIGNER_SETTINGS_FILE: path.join(testRoot, 'browser-settings.json') }, stdio: 'pipe' });

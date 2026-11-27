@@ -31,20 +31,28 @@ function publicConfig(config) {
   };
 }
 
+async function readConnections(file) {
+  let encrypted;
+  try { encrypted = await fs.readFile(file); }
+  catch (error) {
+    if (error.code === 'ENOENT') return { activeId: null, profiles: [] };
+    throw new Error('无法读取本机 AI 配置。');
+  }
+  try { return JSON.parse(safeStorage.decryptString(encrypted)); }
+  catch { throw new Error('无法解密本机 AI 配置。请使用原来的系统账户。'); }
+}
+
+async function readActiveProfile(file) {
+  const { activeId, profiles } = await readConnections(file);
+  const profile = profiles.find(item => item.id === activeId);
+  if (!profile) throw new Error('请先在 AI 设置中选择要使用的配置。');
+  return { ...profile, endpoint: endpointFor(profile.endpoint) };
+}
+
 function register() {
   const file = path.join(app.getPath('userData'), 'ai-connections.bin');
   let changes = Promise.resolve();
-
-  async function read() {
-    let encrypted;
-    try { encrypted = await fs.readFile(file); }
-    catch (error) {
-      if (error.code === 'ENOENT') return { activeId: null, profiles: [] };
-      throw new Error('无法读取本机 AI 配置。');
-    }
-    try { return JSON.parse(safeStorage.decryptString(encrypted)); }
-    catch { throw new Error('无法解密本机 AI 配置。请使用原来的系统账户。'); }
-  }
+  const read = () => readConnections(file);
 
   async function write(config) {
     if (!config.profiles.length) {
@@ -128,6 +136,11 @@ function register() {
 }
 
 async function sendChat(profile, outgoing, messages) {
+  const content = await requestChat(profile, outgoing);
+  return validateMessages([...messages, { role: 'assistant', content }]).at(-1).content;
+}
+
+async function requestChat(profile, outgoing, options = {}) {
   const headers = { 'Content-Type': 'application/json', Accept: 'application/json' };
   if (profile.key) headers.Authorization = `Bearer ${profile.key}`;
   const signal = AbortSignal.timeout(90000);
@@ -135,7 +148,7 @@ async function sendChat(profile, outgoing, messages) {
   try {
     response = await fetch(profile.endpoint, {
       method: 'POST', headers, signal, redirect: 'error',
-      body: JSON.stringify({ model: profile.model, messages: outgoing, stream: false })
+      body: JSON.stringify({ ...options, model: profile.model, messages: outgoing, stream: false })
     });
   } catch {
     throw new Error(signal.aborted ? 'AI 请求超时。' : '无法连接 AI 接口，请检查地址和网络。');
@@ -166,7 +179,7 @@ async function sendChat(profile, outgoing, messages) {
   try { content = JSON.parse(Buffer.concat(chunks).toString('utf8')).choices?.[0]?.message?.content; }
   catch { throw new Error('AI 接口未返回有效的 Chat Completions 响应。'); }
   if (typeof content !== 'string' || !content.trim()) throw new Error('AI 接口未返回文本回复。');
-  return validateMessages([...messages, { role: 'assistant', content }]).at(-1).content;
+  return content;
 }
 
-module.exports = { register };
+module.exports = { register, readActiveProfile, requestChat };

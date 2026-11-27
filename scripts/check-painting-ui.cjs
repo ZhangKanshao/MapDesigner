@@ -61,7 +61,7 @@ const samples = require('../assets/maps/eu5/lookup/paint-report.json').samples;
       assert.ok(plus.x + plus.width >= pencil.x + pencil.width);
       await page.locator('.country-brush').first().click();
       await page.locator('#map-zoom').fill('2000');
-      await page.locator('#toggle-boundaries').click();
+      await page.locator('#toggle-boundaries').selectOption('hidden');
       await page.waitForFunction(() => new URL(document.querySelector('#basemap').src).pathname.endsWith('basemap-no-borders.png'));
       await clickSample(samples.stockholm);
       assert.equal((await owners())[samples.stockholm.id], countries[0].id);
@@ -77,11 +77,14 @@ const samples = require('../assets/maps/eu5/lookup/paint-report.json').samples;
       await page.mouse.move(point.x - 50, point.y - 30, { steps: 5 }); await page.mouse.up();
       await settle();
       assert.equal((await owners())[samples.uppsala.id], undefined);
-      // Province fill includes other locations; erasing uses the independent fill grain.
-      await page.locator('#paint-level').selectOption('province');
+      // Province hover, fill and erase use the same granularity.
+      await page.locator('#admin-level').selectOption('province');
+      await page.waitForFunction(() => !mapLoading && loadedAdminLevel === 'province');
+      point = await center(samples.stockholm);
+      await page.mouse.move(point.x, point.y);
+      await page.waitForFunction(() => !document.querySelector('#name-tooltip').hidden && document.querySelector('#name-tooltip-label').textContent === '乌普兰');
       await clickSample(samples.stockholm);
       assert.equal((await owners())[samples.uppsala.id], countries[0].id);
-      assert.equal(await page.locator('#admin-level').inputValue(), 'location');
       await page.locator('#erase-map').click();
       await clickSample(samples.stockholm);
       assert.equal((await owners())[samples.stockholm.id], undefined);
@@ -89,7 +92,8 @@ const samples = require('../assets/maps/eu5/lookup/paint-report.json').samples;
       // All five parent grains fill precisely the chosen membership, excluding water/wasteland.
       await page.locator('.country-brush').first().click();
       for (const level of ['area', 'region', 'subcontinent', 'continent']) {
-        await page.locator('#paint-level').selectOption(level);
+        await page.locator('#admin-level').selectOption(level);
+        await page.waitForFunction(expected => !mapLoading && loadedAdminLevel === expected, level);
         await clickSample(samples.stockholm);
         const valid = await page.evaluate(({ id, level, country }) => {
           const data = window.MapDesignerData;
@@ -104,7 +108,8 @@ const samples = require('../assets/maps/eu5/lookup/paint-report.json').samples;
         await page.locator('.country-brush').first().click();
       }
       // Wasteland is opt-in; switching off permanently removes only wasteland ownership.
-      await page.locator('#paint-level').selectOption('location');
+      await page.locator('#admin-level').selectOption('location');
+      await page.waitForFunction(() => !mapLoading && loadedAdminLevel === 'location');
       await clickSample(samples.stockholm);
       await clickSample(samples.skanderna);
       assert.equal((await owners())[samples.skanderna.id], undefined);

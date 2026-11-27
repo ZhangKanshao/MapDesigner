@@ -6,7 +6,7 @@
   const form = document.getElementById('settings-form');
   const status = document.getElementById('settings-status');
   const fonts = defaults.fonts;
-  const actions = { undo: ['撤销', 'undo-map'], save: ['保存地图', 'save-map'], erase: ['擦除', 'erase-map'], names: ['显示名称', 'toggle-names'], boundaries: ['切换边界显示', 'toggle-boundaries'], country: ['创建国家', 'create-country'], zoomIn: ['放大 5%', 'zoom-in'], zoomOut: ['缩小 5%', 'zoom-out'], scrollUp: ['向上滚动'], scrollDown: ['向下滚动'], scrollLeft: ['向左滚动'], scrollRight: ['向右滚动'] };
+  const actions = { undo: ['撤销', 'undo-map'], save: ['保存地图', 'save-map'], erase: ['擦除', 'erase-map'], boundaries: ['切换边界显示', 'toggle-boundaries'], country: ['创建国家', 'create-country'], zoomIn: ['放大 5%', 'zoom-in'], zoomOut: ['缩小 5%', 'zoom-out'], scrollUp: ['向上滚动'], scrollDown: ['向下滚动'], scrollLeft: ['向左滚动'], scrollRight: ['向右滚动'] };
   function localPaths() {
     if (location.protocol !== 'file:') return { snapshot: '', png: '' };
     const folder = relative => {

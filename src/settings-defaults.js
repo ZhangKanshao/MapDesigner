@@ -1,6 +1,6 @@
 (function (scope) {
   const value = {
-    shortcuts: { undo: 'Ctrl+KeyZ', save: 'Ctrl+KeyS', erase: 'KeyE', names: 'KeyA', boundaries: 'KeyB', country: 'KeyC', zoomIn: 'Equal', zoomOut: 'Minus', scrollUp: 'ArrowUp', scrollDown: 'ArrowDown', scrollLeft: 'ArrowLeft', scrollRight: 'ArrowRight' },
+    shortcuts: { undo: 'Ctrl+KeyZ', save: 'Ctrl+KeyS', erase: 'KeyE', boundaries: 'KeyB', country: 'KeyC', zoomIn: 'Equal', zoomOut: 'Minus', scrollUp: 'ArrowUp', scrollDown: 'ArrowDown', scrollLeft: 'ArrowLeft', scrollRight: 'ArrowRight' },
     operations: { wheelMode: 'zoom' },
     fonts: {
       system: '"Segoe UI", "Microsoft YaHei", sans-serif', yahei: '"Microsoft YaHei", sans-serif',
@@ -12,6 +12,7 @@
   };
   value.upgrade = settings => {
     const next = { ...settings, shortcuts: { ...settings.shortcuts }, operations: { ...value.operations, ...settings.operations } };
+    delete next.shortcuts.names;
     const used = new Set(Object.values(next.shortcuts).filter(Boolean));
     for (const [key, binding] of Object.entries(value.shortcuts)) {
       if (!Object.hasOwn(next.shortcuts, key)) { next.shortcuts[key] = used.has(binding) ? '' : binding; if (next.shortcuts[key]) used.add(binding); }

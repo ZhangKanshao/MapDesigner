@@ -92,4 +92,4 @@
 #country-capital-name{color:#7d8b99}
 .country-capital-actions{justify-content:flex-start}
 #country-capital-settings p{font-size:11px;color:#7d8b99;margin-bottom:0}
-#paint-status,#name-mode-hint{display:none}
+#paint-status{display:none}

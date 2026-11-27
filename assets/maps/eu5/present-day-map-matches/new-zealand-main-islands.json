@@ -1,0 +1,84 @@
+{
+  "sourceFingerprint": "95eaac731e7c092a5088bfdc1b59bfdd43ba8f50ab3cff77687b2f14e8e9c4a5",
+  "boundarySha256": "16e7589083527d01208b9f645fc8643c767170258e9d13b59d37bc5a1f6a8758",
+  "calibration": {
+    "degree": 1,
+    "anchorCount": 20,
+    "meanHoldoutPx": 19.5,
+    "checkPx": {
+      "motupohue": 19.1,
+      "kaitangata": 26.7,
+      "mahitahi": 18.2,
+      "manawatu": 20.4
+    },
+    "marginPx": 43
+  },
+  "locations": {
+    "tauihu": [
+      "新西兰"
+    ],
+    "ahurei": [
+      "新西兰"
+    ],
+    "whanganui": [
+      "新西兰"
+    ],
+    "timaru": [
+      "新西兰"
+    ],
+    "puari": [
+      "新西兰"
+    ],
+    "rakaia": [
+      "新西兰"
+    ],
+    "kaiapoi": [
+      "新西兰"
+    ],
+    "kahurangi": [
+      "新西兰"
+    ],
+    "taramakau": [
+      "新西兰"
+    ],
+    "wellington": [
+      "新西兰"
+    ],
+    "manawatu": [
+      "新西兰"
+    ],
+    "ruapehu": [
+      "新西兰"
+    ],
+    "tauranga": [
+      "新西兰"
+    ],
+    "mawhera": [
+      "新西兰"
+    ],
+    "whakatu": [
+      "新西兰"
+    ],
+    "kaikoura": [
+      "新西兰"
+    ],
+    "ngamotu": [
+      "新西兰"
+    ],
+    "patea": [
+      "新西兰"
+    ],
+    "manukau": [
+      "新西兰"
+    ],
+    "urewera": [
+      "新西兰"
+    ],
+    "te_tai_aorere": [
+      "新西兰"
+    ],
+    "hurunui": [
+      "新西兰"
+    ]
+  }
+}

@@ -44,7 +44,9 @@
     const text=await response.text();return JSON.parse(text.slice(text.indexOf('=')+1).trim().replace(/;$/,''));
   }
   window.MapTemplates={catalog,forSnapshot,navigate,consumePending,readLookup};
-  for(const id of ['admin-level','paint-level']){const select=document.getElementById(id);select.replaceChildren(...Object.entries(active.levels).map(([key,label])=>{const option=document.createElement('option');option.value=key;option.textContent=label;return option;}));}
+  document.getElementById('admin-level').replaceChildren(
+    ...Object.entries(active.levels).map(([key,label])=>new Option(label,key))
+  );
   const legend=document.getElementById('location-legend');legend.lastChild.textContent=`${active.levels[active.baseLevel]}分界`;
   document.querySelector('#map .map-toolbar strong').textContent=active.name;
   document.querySelector('#map .map-toolbar .subtle').textContent=active.game==='ck3'?`${active.project.scenario.split('.')[0]} 年法理`:'地图编辑';

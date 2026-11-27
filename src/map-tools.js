@@ -1,15 +1,23 @@
 // Row-run lookup keeps original-resolution hit testing independent of visible borders.
 // Load local scripts instead of canvas/fetch so the same feature works on file://.
 window.MapDesignerData = { meta: null, bands: {} };
-const nameButton = document.getElementById('toggle-names');
-const nameHint = document.getElementById('name-mode-hint');
 const tooltip = document.getElementById('name-tooltip');
 const stage = document.getElementById('map-stage');
 const lookupRequests = new Map();
-let namesEnabled = false;
 let hoverPoint = null;
 let hoverSequence = 0;
 let hoverFrame = 0;
+let presentDayCountriesRequest;
+
+function loadPresentDayCountries() {
+  presentDayCountriesRequest ??= loadLookupScript('present-day-countries.js')
+    .then(() => {
+      const data = window.MapDesignerData.presentDayCountries;
+      return data?.sourceFingerprint === window.EU5ProjectMeta.sourceFingerprint ? data : null;
+    })
+    .catch(() => null);
+  return presentDayCountriesRequest;
+}
 
 function loadLookupScript(filename) {
   if (lookupRequests.has(filename)) return lookupRequests.get(filename);
@@ -52,15 +60,13 @@ function showName(point, level, label, key = '') {
 async function inspectMapPoint() {
   const point = hoverPoint;
   const sequence = ++hoverSequence;
-  const level = window.CountryCapitals?.selected() ? window.MapTemplate.baseLevel : adminLevel.value;
-  if (!(namesEnabled || window.CountryCapitals?.selected()) || !point || mapDrag) { tooltip.hidden = true; return; }
+  if (!point || mapDrag || mapLoading || restoringMapView || !image.naturalWidth) return;
+  const level = window.CountryCapitals?.selected() ? window.MapTemplate.baseLevel : loadedAdminLevel;
   const view = viewport.getBoundingClientRect();
   const bounds = image.getBoundingClientRect();
   if (point.x < view.left || point.x >= view.left + viewport.clientWidth || point.y < view.top || point.y >= view.top + viewport.clientHeight ||
-      point.x < bounds.left || point.y < bounds.top || point.x >= bounds.right || point.y >= bounds.bottom) {
-    tooltip.hidden = true;
-    return;
-  }
+      point.x < bounds.left || point.y < bounds.top || point.x >= bounds.right || point.y >= bounds.bottom ||
+      !surface.contains(document.elementFromPoint(point.x, point.y))) return;
   const x = Math.floor((point.x - bounds.left) * window.MapTemplate.width / bounds.width);
   const y = Math.floor((point.y - bounds.top) * window.MapTemplate.height / bounds.height);
   try {
@@ -68,7 +74,7 @@ async function inspectMapPoint() {
     const metadata = window.MapDesignerData.meta;
     const band = Math.floor(y / metadata.bandHeight);
     if (!window.MapDesignerData.bands[band]) await loadLookupScript(`band-${band}.js`);
-    if (sequence !== hoverSequence || !(namesEnabled || window.CountryCapitals?.selected())) return;
+    if (sequence !== hoverSequence) return;
     const row = window.MapDesignerData.bands[band][y % metadata.bandHeight];
     let low = 0;
     let high = row.length / 2;
@@ -77,16 +83,27 @@ async function inspectMapPoint() {
       if (x < row[mid * 2]) high = mid;
       else low = mid + 1;
     }
-    const location = metadata.locations[row[low * 2 + 1]];
+    const id = row[low * 2 + 1];
+    const location = metadata.locations[id];
     let item = location;
     if (level !== window.MapTemplate.baseLevel) {
       const parent = location?.[2]?.[metadata.parentOrder.indexOf(level)];
       item = parent ? metadata.groups[level][parent] : null;
     }
-    showName(point, level, item ? item[1] : '未定义归属', item ? item[0] : '');
+    let label = item ? item[1] : '未定义归属';
+    if (location && level === window.MapTemplate.baseLevel && window.MapTemplate.game === 'eu5') {
+      const data = await loadPresentDayCountries();
+      if (sequence !== hoverSequence) return;
+      const countries = data?.locations[id]?.map(index => data.names[index]);
+      if (countries?.length) {
+        const caption = data.estimated?.includes(id) ? '今属推定' : '今属';
+        label += `（${caption}：${countries.join('/')}）`;
+      }
+    }
+    showName(point, level, label, item ? item[0] : '');
   } catch {
-    if (sequence !== hoverSequence || !(namesEnabled || window.CountryCapitals?.selected())) return;
-    showName(point, level, '名称加载失败，请关闭后重试');
+    if (sequence !== hoverSequence) return;
+    showName(point, level, '名称加载失败，请重新悬停');
   }
 }
 
@@ -95,28 +112,19 @@ function scheduleNameLookup() {
   if (!hoverFrame) hoverFrame = requestAnimationFrame(() => { hoverFrame = 0; inspectMapPoint(); });
 }
 
-nameButton.addEventListener('click', () => {
-  namesEnabled = !namesEnabled;
-  nameButton.setAttribute('aria-pressed', String(namesEnabled));
-  nameButton.setAttribute('aria-label', namesEnabled ? '隐藏名称' : '显示名称');
-  nameButton.title = namesEnabled ? '隐藏名称' : '显示名称';
-  viewport.classList.toggle('name-mode', namesEnabled);
-  nameHint.hidden = !(namesEnabled || window.CountryCapitals?.selected());
-  if (namesEnabled) window.dispatchEvent(new Event('name-mode-enabled'));
-  clearNameTooltip();
-});
-viewport.addEventListener('pointermove', event => {
+function trackMapHover(event) {
+  if (event.pointerType === 'touch') return;
   hoverPoint = { x: event.clientX, y: event.clientY };
-  if (namesEnabled || window.CountryCapitals?.selected()) scheduleNameLookup();
-});
-viewport.addEventListener('pointerleave', () => { hoverPoint = null; clearNameTooltip(); });
+  scheduleNameLookup();
+}
+function endMapHover() {
+  hoverPoint = null;
+  clearNameTooltip();
+}
+for (const event of ['pointerenter', 'pointermove', 'pointerup']) viewport.addEventListener(event, trackMapHover);
+for (const event of ['pointerleave', 'pointercancel']) viewport.addEventListener(event, endMapHover);
 viewport.addEventListener('pointerdown', clearNameTooltip);
-viewport.addEventListener('pointerup', () => { if (namesEnabled || window.CountryCapitals?.selected()) scheduleNameLookup(); });
-viewport.addEventListener('scroll', () => { if (namesEnabled || window.CountryCapitals?.selected()) scheduleNameLookup(); });
-adminLevel.addEventListener('change', scheduleNameLookup);
-image.addEventListener('load', scheduleNameLookup);
-zoom.addEventListener('input', scheduleNameLookup);
-window.addEventListener('blur', () => { hoverPoint = null; clearNameTooltip(); });
-window.addEventListener('hashchange', () => { hoverPoint = null; clearNameTooltip(); });
-
-window.addEventListener('capital-mode-change', scheduleNameLookup);
+viewport.addEventListener('scroll', scheduleNameLookup);
+adminLevel.addEventListener('change', clearNameTooltip);
+for (const event of ['map-view-change', 'capital-mode-change']) window.addEventListener(event, scheduleNameLookup);
+for (const event of ['blur', 'hashchange']) window.addEventListener(event, endMapHover);
